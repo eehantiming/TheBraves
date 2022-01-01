@@ -7,9 +7,10 @@ public class Grid : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color grass1, grass2;
     [SerializeField] private GameObject highlight;
-    [SerializeField] private BaseUnit warriorPrefab;
     public BaseUnit unitOnGrid = null;
-    
+    public bool isEnemySpawnGrid = false;
+    public bool isHeroSpawnGrid = false;
+
     /// <summary>
     /// Set color to produce a checkboard pattern
     /// </summary>
@@ -26,11 +27,5 @@ public class Grid : MonoBehaviour
     {
         highlight.SetActive(false);
     }
-    //private void OnMouseDown()
-    //{
-    //    if(GameManager.Instance.currentState == GameManager.GameState.SetupHeroes)
-    //    {
-    //        UnitManager.Instance.SpawnSwordsman(this);
-    //    }
-    //}
+
 }

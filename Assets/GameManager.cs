@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.GenerateGrid:
                 Debug.Log("State: GenerateGrid");
-                GridManager.Instance.GenerateGrid();
+                GridManager.Instance.SetUpGridmap();
                 break;
             case GameState.SetupEnemies:
                 Debug.Log("State: SetupEnemies");

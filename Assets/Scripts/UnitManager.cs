@@ -16,7 +16,6 @@ public class UnitManager : MonoBehaviour
         
     }
 
-
     /// <summary>
     /// Spawns unit on Grid.
     /// </summary>

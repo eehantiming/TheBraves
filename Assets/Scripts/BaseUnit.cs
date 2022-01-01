@@ -22,6 +22,9 @@ public class BaseUnit : MonoBehaviour
 
     public void Move(Vector2 newposition)
     {
+        // set currnet grid to none
         rb.MovePosition(newposition);
+        // set new grid to this unit
     }
+    
 }
