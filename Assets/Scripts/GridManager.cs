@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
+        //create a global reference
         Instance = this;
         //enemyGridsPositions.Add(new Vector2(0, 5));
         //enemyGridsPositions.Add(new Vector2(1, 5));

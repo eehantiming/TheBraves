@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class BaseUnit : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public bool isUnitSelected = false;
+    public Vector2 currPosition;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (isUnitSelected)
         {
-            Move(new Vector2(2, 2));
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, 1), 5 * Time.deltaTime);
         }
     }
 
-    public void Move(Vector2 newposition)
+    private void OnMouseDown () 
     {
-        // set currnet grid to none
-        rb.MovePosition(newposition);
-        // set new grid to this unit
+        Debug.Log(transform.position + "unit");
+        if(!isUnitSelected)
+        {
+            isUnitSelected = true;
+        }
+
     }
     
 }

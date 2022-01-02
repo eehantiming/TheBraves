@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState
+    {
+        //Generate the
+        GenerateGrid = 0,
+        SetupEnemies = 1,          
+        SetupHeroes = 2,
+        HeroPhase = 3,
+        EnemyPhase = 4,
+        CalamityPhase = 5,
+    }
     public static GameManager Instance;
     public GameState currentState;
     private void Awake()
     {
+        //create a global reference
         Instance = this;
     }
     // Start is called before the first frame update
@@ -44,13 +55,5 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public enum GameState
-{
-    GenerateGrid = 0,
-    SetupEnemies = 1,
-    SetupHeroes = 2,
-    HeroPhase = 3,
-    EnemyPhase = 4,
-    CalamityPhase = 5,
-}
+
 }
