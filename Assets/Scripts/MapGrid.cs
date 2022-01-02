@@ -10,6 +10,8 @@ public class MapGrid : MonoBehaviour
     public BaseUnit unitOnGrid = null;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
+    public bool isGridSelected = false;
+
 
     /// <summary>
     /// Set color to produce a checkboard pattern
@@ -19,6 +21,8 @@ public class MapGrid : MonoBehaviour
     {
         spriteRenderer.color = isOffset ? grass1 : grass2;
     }
+
+    //Highlight when hover over MapGrid
     private void OnMouseEnter()
     {
         highlight.SetActive(true);
@@ -26,6 +30,21 @@ public class MapGrid : MonoBehaviour
     private void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    //Make MapGrid clickable - first click to select then followed by confirmation to move on second click
+    private void OnMouseDown () 
+    {
+        Debug.Log(transform.position);
+        if(!isGridSelected)
+        {
+            isGridSelected = true;
+        }
+        else
+        {
+            Debug.Log("moving");
+            isGridSelected = false;
+        }
     }
 
 }
