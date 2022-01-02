@@ -22,6 +22,11 @@ public class MapGrid : MonoBehaviour
         spriteRenderer.color = isOffset ? grass1 : grass2;
     }
 
+    public void Highlight()
+    {
+        spriteRenderer.color = grass1;
+    }
+
     //Highlight when hover over MapGrid
     private void OnMouseEnter()
     {
@@ -33,7 +38,7 @@ public class MapGrid : MonoBehaviour
     }
 
     //Make MapGrid clickable - first click to select then followed by confirmation to move on second click
-    private void OnMouseDown () 
+    private void OnMouseDown() 
     {
         Debug.Log(transform.position);
         if(!isGridSelected)
@@ -44,6 +49,11 @@ public class MapGrid : MonoBehaviour
         {
             Debug.Log("moving");
             isGridSelected = false;
+        }
+        if(GameManager.Instance.currentState == GameManager.GameState.SetupHeroes) // TODO: move this to GridManager, use raycast to get grid
+        {
+            UnitManager.Instance.SpawnSwordsman(this);
+            GameManager.Instance.ChangeState(GameManager.GameState.HeroPhase);
         }
     }
 

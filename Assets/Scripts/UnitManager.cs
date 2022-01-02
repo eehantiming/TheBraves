@@ -5,6 +5,8 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
     [SerializeField] private BaseUnit dragonPrefab;
     [SerializeField] private BaseUnit swordsmanPrefab;
+
+    public Swordsman swordsman = null;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -21,22 +23,24 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     /// <param name="prefab">Unit prefab to spawn</param>
     /// <param name="grid">Grid to spawn in</param>
-    void SpawnUnit(BaseUnit prefab, MapGrid grid)
+    BaseUnit SpawnUnit(BaseUnit prefab, MapGrid grid)
     {
         BaseUnit spawnedUnit = Instantiate(prefab, grid.transform.position, Quaternion.identity);
         grid.unitOnGrid = spawnedUnit;
+        spawnedUnit.currentGrid = grid;
+        return spawnedUnit;
     }
 
     public void SpawnSmallEnemy()
     {
         Debug.Log("Spawning Small Enemy!");
-        SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid());
+        SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemy data structure and add this
     }
 
-    void SpawnSwordsman(MapGrid spawnGrid)
+    public void SpawnSwordsman(MapGrid spawnGrid)
     {
         Debug.Log("Spawning Warrior!");
-        SpawnUnit(swordsmanPrefab, spawnGrid);
+        swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, spawnGrid);
     }
 
     private void Update()

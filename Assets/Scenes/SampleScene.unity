@@ -1662,8 +1662,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b904ac9124c37438f546896b7bc8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragonPrefab: {fileID: -7116112313904490969, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
-  swordsmanPrefab: {fileID: 1208007320643913048, guid: 08f8d7fe623d89847bcfa0414baa772b, type: 3}
+  dragonPrefab: {fileID: -1031467874372238042, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
+  swordsmanPrefab: {fileID: 7116737212726343688, guid: 08f8d7fe623d89847bcfa0414baa772b, type: 3}
+  swordsman: {fileID: 0}
 --- !u!4 &1344430242
 Transform:
   m_ObjectHideFlags: 0

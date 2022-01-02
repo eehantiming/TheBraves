@@ -7,10 +7,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private MapGrid gridPrefab;
     [SerializeField] private List<MapGrid> grids;
     
-    //[SerializeField] private int width, height;
-    //[SerializeField] private Camera maincam;
-    
-    private List<Vector2> enemyGridsPositions = new List<Vector2>();
     private int countlimit = 20;
     private int counter;
     public Dictionary<Vector2, MapGrid> GridsDict = new Dictionary<Vector2, MapGrid>();
@@ -19,22 +15,16 @@ public class GridManager : MonoBehaviour
     {
         //create a global reference
         Instance = this;
-        //enemyGridsPositions.Add(new Vector2(0, 5));
-        //enemyGridsPositions.Add(new Vector2(1, 5));
-        //enemyGridsPositions.Add(new Vector2(2, 5));
-        //enemyGridsPositions.Add(new Vector2(3, 5));
-        //enemyGridsPositions.Add(new Vector2(0, 4));
-        //enemyGridsPositions.Add(new Vector2(3, 4));
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //maincam.transform.position = new Vector3(width / 2, height / 2, -10);
+
     }
 
     /// <summary>
-    /// Function to generate the gameboard, which consists of grids
+    /// Function to generate the gameboard, which consists of MapGrids
     /// </summary>
     public void SetUpGridmap()
     {
@@ -57,35 +47,25 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Function that randomly picks an unoccupied enemy Grid.
+    /// Function that randomly picks an unoccupied enemy MapGrid.
     /// </summary>
-    /// <returns>Grid object. Use grid.transform.position to get position.</returns>
-    //public Grid GetEnemySpawnGrid()
-    //{
-    //    Vector2 enemyGridPosition = enemyGridsPositions[Random.Range(0, enemyGridsPositions.Count)];
-    //    //Debug.Log(enemyGridPosition);
-    //    while (GridsDict[enemyGridPosition].unitOnGrid != null && counter < countlimit)
-    //    {
-    //        enemyGridPosition = enemyGridsPositions[Random.Range(0, enemyGridsPositions.Count)];
-    //        //Debug.Log(enemyGridPosition);
-    //        counter++; //prevents infinite loop
-    //    }
-    //    counter = 0; //not sure if required
-    //    return GridsDict[enemyGridPosition];
-    //}
+    /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
         int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-        Debug.Log(roll);
+        // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
+        Debug.Log("Roll: " + roll);
         MapGrid spawnGrid = grids[roll+17];
         counter = 0;
         while (spawnGrid.unitOnGrid != null && counter < countlimit)
         {
             roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-            Debug.Log(roll);
+            // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
+            Debug.Log("Roll: " + roll);
             spawnGrid = grids[roll + 17];
             counter++; //prevents infinite loop
         }
         return spawnGrid;
     }
+
 }

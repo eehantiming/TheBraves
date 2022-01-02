@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 979498782896039698}
   - component: {fileID: 8364419143955246876}
-  - component: {fileID: -7116112313904490969}
   - component: {fileID: -3273625363304054258}
+  - component: {fileID: -1031467874372238042}
   m_Layer: 0
   m_Name: dragon
   m_TagString: Untagged
@@ -84,19 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-7116112313904490969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021976838702968166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc47f4c1a4aa04478193ec730a362e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnitSelected: 0
 --- !u!61 &-3273625363304054258
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,3 +110,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-1031467874372238042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021976838702968166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07af03d95e594784f9b27da2897ab6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnitSelected: 0
+  currPosition: {x: 0, y: 0}

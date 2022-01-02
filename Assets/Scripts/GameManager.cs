@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
                 Debug.Log("State: SetupHeroes");
                 break;
             case GameState.HeroPhase:
+                Debug.Log("State: HeroPhase");
+                UnitManager.Instance.swordsman.Move(GridManager.Instance.GridsDict[new Vector2(0,0)]);
                 break;
             case GameState.EnemyPhase:
                 break;
