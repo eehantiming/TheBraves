@@ -21,7 +21,7 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     /// <param name="prefab">Unit prefab to spawn</param>
     /// <param name="grid">Grid to spawn in</param>
-    void SpawnUnit(BaseUnit prefab, Grid grid)
+    void SpawnUnit(BaseUnit prefab, MapGrid grid)
     {
         BaseUnit spawnedUnit = Instantiate(prefab, grid.transform.position, Quaternion.identity);
         grid.unitOnGrid = spawnedUnit;
@@ -33,7 +33,7 @@ public class UnitManager : MonoBehaviour
         SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid());
     }
 
-    void SpawnSwordsman(Grid spawnGrid)
+    void SpawnSwordsman(MapGrid spawnGrid)
     {
         Debug.Log("Spawning Warrior!");
         SpawnUnit(swordsmanPrefab, spawnGrid);

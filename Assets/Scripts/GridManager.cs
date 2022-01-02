@@ -4,8 +4,8 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-    [SerializeField] private Grid gridPrefab;
-    [SerializeField] private List<Grid> grids;
+    [SerializeField] private MapGrid gridPrefab;
+    [SerializeField] private List<MapGrid> grids;
     
     //[SerializeField] private int width, height;
     //[SerializeField] private Camera maincam;
@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     private List<Vector2> enemyGridsPositions = new List<Vector2>();
     private int countlimit = 20;
     private int counter;
-    public Dictionary<Vector2, Grid> GridsDict = new Dictionary<Vector2, Grid>();
+    public Dictionary<Vector2, MapGrid> GridsDict = new Dictionary<Vector2, MapGrid>();
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class GridManager : MonoBehaviour
         //        GridsDict.Add(new Vector2(x, y), thisGrid);
         //    }
         //}
-        foreach (Grid grid in grids)
+        foreach (MapGrid grid in grids)
         {
             GridsDict.Add(new Vector2(grid.transform.localPosition.x, grid.transform.localPosition.y), grid);
         }
@@ -72,11 +72,11 @@ public class GridManager : MonoBehaviour
     //    counter = 0; //not sure if required
     //    return GridsDict[enemyGridPosition];
     //}
-    public Grid GetEnemySpawnGrid()
+    public MapGrid GetEnemySpawnGrid()
     {
         int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
         Debug.Log(roll);
-        Grid spawnGrid = grids[roll+17];
+        MapGrid spawnGrid = grids[roll+17];
         counter = 0;
         while (spawnGrid.unitOnGrid != null && counter < countlimit)
         {
