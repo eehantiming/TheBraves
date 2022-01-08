@@ -7,15 +7,11 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private BaseUnit swordsmanPrefab;
 
     public Swordsman swordsman = null;
+    public BaseUnit activeUnit = null;
     // Start is called before the first frame update
     private void Awake()
     {
         Instance = this;
-    }
-
-    private void Start()
-    {
-        
     }
 
     /// <summary>
@@ -31,23 +27,40 @@ public class UnitManager : MonoBehaviour
         return spawnedUnit;
     }
 
+    /// <summary>
+    /// Spawns a small enemy on an unoccupied enemy spawn grid and add it to the small enemies data structure.
+    /// </summary>
     public void SpawnSmallEnemy()
     {
         Debug.Log("Spawning Small Enemy!");
-        SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemy data structure and add this
+        SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemies data structure and add this
     }
 
+    /// <summary>
+    /// Spawns Swordsman at specified grid.
+    /// </summary>
+    /// <param name="spawnGrid">MapGrid to spawn in</param>
     public void SpawnSwordsman(MapGrid spawnGrid)
     {
-        Debug.Log("Spawning Warrior!");
+        Debug.Log("Spawning Swordsman!");
         swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, spawnGrid);
     }
 
-    private void Update()
+    /// <summary>
+    /// Sets current active unit. Displays this info
+    /// </summary>
+    /// <param name="unit">BaseUnit to set</param>
+    public void SetActiveUnit(BaseUnit unit)
     {
-        if (GameManager.Instance.currentState == GameManager.GameState.SetupHeroes && Input.GetMouseButtonDown(0))
+        activeUnit = unit;
+        if(activeUnit == null)
         {
-            Debug.Log("clicked!");
+            UIManager.Instance.ShowActiveUnitText(null);
+        }
+        else
+        {
+            UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
     }
+
 }

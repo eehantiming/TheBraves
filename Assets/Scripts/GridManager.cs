@@ -28,17 +28,6 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void SetUpGridmap()
     {
-        //for (int x = 0; x < width; x++)
-        //{
-        //    for (int y = 0; y < height; y++)
-        //    {
-        //        Grid thisGrid = Instantiate(gridPrefab, new Vector2(x, y), Quaternion.identity);
-        //        bool isOffset = (x + y) % 2 == 1;
-        //        thisGrid.Init(isOffset);
-
-        //        GridsDict.Add(new Vector2(x, y), thisGrid);
-        //    }
-        //}
         foreach (MapGrid grid in grids)
         {
             GridsDict.Add(new Vector2(grid.transform.localPosition.x, grid.transform.localPosition.y), grid);

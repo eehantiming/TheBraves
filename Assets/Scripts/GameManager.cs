@@ -6,16 +6,20 @@ public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
-        //Generate the
-        GenerateGrid = 0,
+        SetUpGridmap = 0,
         SetupEnemies = 1,          
-        SetupHeroes = 2,
-        HeroPhase = 3,
-        EnemyPhase = 4,
-        CalamityPhase = 5,
+        SetupSwordsman = 2,
+        SetupTrapper = 3,
+        SetupMagician = 4,
+        SwordsmanPhase = 5,
+        TrapperPhase = 6,
+        MagicianPhase = 7,
+        EnemyPhase = 8,
+        CalamityPhase = 9,
     }
     public static GameManager Instance;
     public GameState currentState;
+
     private void Awake()
     {
         //create a global reference
@@ -24,28 +28,47 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ChangeState(GameState.GenerateGrid);
+        ChangeState(GameState.SetUpGridmap);
     }
+    /// <summary>
+    /// Main function to control turn and events.
+    /// </summary>
+    /// <param name="newState">The GameState to change to.</param>
     public void ChangeState(GameState newState)
     {
         currentState = newState;
         switch (newState)
         {
-            case GameState.GenerateGrid:
-                Debug.Log("State: GenerateGrid");
+            case GameState.SetUpGridmap:
+                Debug.Log("State: SetUpGridmap");
                 GridManager.Instance.SetUpGridmap();
                 break;
             case GameState.SetupEnemies:
                 Debug.Log("State: SetupEnemies");
                 UnitManager.Instance.SpawnSmallEnemy();
-                ChangeState(GameState.SetupHeroes);
+                ChangeState(GameState.SetupSwordsman);
                 break;
-            case GameState.SetupHeroes:
-                Debug.Log("State: SetupHeroes");
+            case GameState.SetupSwordsman:
+                Debug.Log("State: SetupSwordsman");
+                // TODO: display spawnable grids during this phase
                 break;
-            case GameState.HeroPhase:
-                Debug.Log("State: HeroPhase");
-                UnitManager.Instance.swordsman.Move(GridManager.Instance.GridsDict[new Vector2(0,0)]);
+            case GameState.SetupTrapper:
+                break;
+            case GameState.SetupMagician:
+                break;
+            case GameState.SwordsmanPhase:
+                Debug.Log("State: SwordsmanPhase");
+                if (!UnitManager.Instance.swordsman.isConscious)
+                {
+                    Debug.Log("Skipping Swordsman!");
+                    ChangeState(GameState.TrapperPhase);
+                }
+                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.swordsman);
+                //UnitManager.Instance.swordsman.Move(GridManager.Instance.GridsDict[new Vector2(0, 0)]);
+                break;
+            case GameState.TrapperPhase:
+                break;
+            case GameState.MagicianPhase:
                 break;
             case GameState.EnemyPhase:
                 break;

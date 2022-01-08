@@ -7,17 +7,14 @@ public class BaseUnit : MonoBehaviour
     public MapGrid currentGrid = null;
     public bool isUnitSelected = false;
     public Vector2 currPosition;
+    public string unitName;
 
     private bool isMoving = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
+        isMoving = transform.position != currentGrid.transform.position;
         if (isUnitSelected || isMoving)
         {
             //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, 1), 5 * Time.deltaTime);
@@ -32,7 +29,6 @@ public class BaseUnit : MonoBehaviour
         {
             isUnitSelected = true;
         }
-
     }
 
     /// <summary>
@@ -42,9 +38,8 @@ public class BaseUnit : MonoBehaviour
     public void Move(MapGrid grid)
     {
         currentGrid.unitOnGrid = null;
-        grid.unitOnGrid = this;
+        grid.unitOnGrid = this; // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
         currentGrid = grid;
-        isMoving = true;
     }
     
 }
