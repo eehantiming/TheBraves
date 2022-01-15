@@ -5,7 +5,8 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-    public Dictionary<Vector2, MapGrid> GridsDict = new Dictionary<Vector2, MapGrid>();
+    //public Dictionary<MapGrid, Vector2> GridsDict = new Dictionary<MapGrid, Vector2>();
+    public Dictionary<MapGrid, int> GridsDict = new Dictionary<MapGrid, int>();
     public MapGrid selectedGrid = null;
     public MapGrid confirmSelectedGrid = null;
 
@@ -29,11 +30,15 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Function to generate the gameboard, which consists of MapGrids
     /// </summary>
-    public void SetUpGridmap()
+    public IEnumerator SetUpGridmap()
     {
+        UIManager.Instance.ShowGameMessageText("Setting up Gridmap!");
+        yield return new WaitForSeconds(2);
+        int gridNumber = 0;
         foreach (MapGrid grid in grids)
         {
-            GridsDict.Add(new Vector2(grid.transform.localPosition.x, grid.transform.localPosition.y), grid);
+            GridsDict.Add(grid, gridNumber);
+            gridNumber++;
         }
         GameManager.Instance.ChangeState(GameManager.GameState.SetupEnemies);
     }

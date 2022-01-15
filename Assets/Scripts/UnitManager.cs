@@ -32,10 +32,12 @@ public class UnitManager : MonoBehaviour
     /// <summary>
     /// Spawns a small enemy on an unoccupied enemy spawn grid and add it to the small enemies data structure.
     /// </summary>
-    public void SpawnSmallEnemy()
+    public IEnumerator SpawnSmallEnemy()
     {
-        Debug.Log("Spawning Small Enemy!");
+        UIManager.Instance.ShowGameMessageText("Spawning Small Enemy");
+        yield return new WaitForSeconds(2);
         SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemies data structure and add this
+        GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
 
     /// <summary>
@@ -44,15 +46,17 @@ public class UnitManager : MonoBehaviour
     /// <returns>Changes game state once done.</returns>
     public IEnumerator SpawnSwordsman()
     {
-        Debug.Log("Spawning Swordsman!");
+        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Swordsman");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
         {
-            Debug.Log("Choose a valid grid!");
+            Debug.Log("Invalid grid");
+            UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
         swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid);
+        UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
 
@@ -85,6 +89,7 @@ public class UnitManager : MonoBehaviour
     public IEnumerator PlayerMove()
     {
         // TODO: display valid move grids
+        UIManager.Instance.ShowGameMessageText("Select Grid to move Swordsman");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // TOOD: check if grid is valid
         activeUnit.Move(GridManager.Instance.confirmSelectedGrid);

@@ -8,10 +8,16 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     [SerializeField] private TextMeshProUGUI mouseSelectionText;
     [SerializeField] private TextMeshProUGUI activeUnitText;
+    [SerializeField] private TextMeshProUGUI gameMessageText;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        
     }
 
     /// <summary>
@@ -36,6 +42,19 @@ public class UIManager : MonoBehaviour
         {
             activeUnitText.text = "Active: " + inputText;
             activeUnitText.gameObject.SetActive(true);
+        }
+    }
+
+    public void ShowGameMessageText(string inputText)
+    {
+        if (inputText == null)
+        {
+            gameMessageText.gameObject.SetActive(false);
+        }
+        else
+        {
+            gameMessageText.text = inputText;
+            gameMessageText.gameObject.SetActive(true);
         }
     }
 }

@@ -41,12 +41,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.SetUpGridmap:
                 Debug.Log("State: SetUpGridmap");
-                GridManager.Instance.SetUpGridmap();
+                StartCoroutine(GridManager.Instance.SetUpGridmap());
                 break;
             case GameState.SetupEnemies:
                 Debug.Log("State: SetupEnemies");
-                UnitManager.Instance.SpawnSmallEnemy();
-                ChangeState(GameState.SetupSwordsman);
+                StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("State: SetupSwordsman");
