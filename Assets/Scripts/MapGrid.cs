@@ -47,36 +47,39 @@ public class MapGrid : MonoBehaviour
     {
         // TODO: Double click logic to move.
         //Debug.Log(transform.position);
-        if(!isGridSelected)
-        {
-            isGridSelected = true;
-        }
-        else
-        {
-            Debug.Log("moving");
-            isGridSelected = false;
-        }
+        //if(!isGridSelected)
+        //{
+        //    isGridSelected = true;
+        //}
+        //else
+        //{
+        //    Debug.Log("moving");
+        //    isGridSelected = false;
+        //}
         // Click to spawn Swordsman
-        if(GameManager.Instance.currentState == GameManager.GameState.SetupSwordsman) 
+        //if(GameManager.Instance.currentState == GameManager.GameState.SetupSwordsman) 
+        //{
+        //    if (isHeroSpawnGrid)
+        //    {
+        //        UnitManager.Instance.SpawnSwordsman(this);
+        //        GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Click on hero spawn grids!");
+        //    }
+        //}
+
+        // Second consecutive click on grid
+        if(GridManager.Instance.selectedGrid == this)
         {
-            if (isHeroSpawnGrid)
-            {
-                UnitManager.Instance.SpawnSwordsman(this);
-                GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
-            }
-            else
-            {
-                Debug.Log("Click on hero spawn grids!");
-            }
+            GridManager.Instance.confirmSelectedGrid = this;
         }
-        // Show info of selected unit
-        if(unitOnGrid != null)
-        {
-            UIManager.Instance.ShowMouseSelectionText(unitOnGrid.unitName);
-        }
+        // Clicked on a different tile
         else
         {
-            UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");
+            GridManager.Instance.SetSelectedGrid(this);
+            GridManager.Instance.confirmSelectedGrid = null;
         }
     }
 

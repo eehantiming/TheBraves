@@ -1,15 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
+    public Dictionary<Vector2, MapGrid> GridsDict = new Dictionary<Vector2, MapGrid>();
+    public MapGrid selectedGrid = null;
+    public MapGrid confirmSelectedGrid = null;
+
     [SerializeField] private MapGrid gridPrefab;
-    [SerializeField] private List<MapGrid> grids;
-    
+    [SerializeField] private List<MapGrid> grids;    
     private int countlimit = 20;
     private int counter;
-    public Dictionary<Vector2, MapGrid> GridsDict = new Dictionary<Vector2, MapGrid>();
 
     private void Awake()
     {
@@ -57,4 +60,34 @@ public class GridManager : MonoBehaviour
         return spawnGrid;
     }
 
+    /// <summary>
+    /// Updates the current selectedGrid. Displays the unit info on grid.
+    /// </summary>
+    /// <param name="grid">MapGrid to set as the selectedGrid</param>
+    public void SetSelectedGrid(MapGrid grid)
+    {
+        selectedGrid = grid;
+        if(grid.unitOnGrid == null)
+        {
+            UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");
+        }
+        else
+        {
+            UIManager.Instance.ShowMouseSelectionText(grid.unitOnGrid.unitName);
+        }
+    }
+
+    /// <summary>
+    /// Coroutine. Prompt user to select grid by clicking twice consecutively. Updates confirmSelectedGrid.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator WaitForGridSelection()
+    {
+        Debug.Log("Select tile! Click again to confirm!");
+        confirmSelectedGrid = null;
+        while (confirmSelectedGrid == null)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 }

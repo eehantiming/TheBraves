@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
@@ -37,13 +39,21 @@ public class UnitManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns Swordsman at specified grid.
+    /// Coroutine. Prompts user to select grid, then spawn Swordsman there.
     /// </summary>
-    /// <param name="spawnGrid">MapGrid to spawn in</param>
-    public void SpawnSwordsman(MapGrid spawnGrid)
+    /// <returns>Changes game state once done.</returns>
+    public IEnumerator SpawnSwordsman()
     {
         Debug.Log("Spawning Swordsman!");
-        swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, spawnGrid);
+        // TODO: display the valid grids selection
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        {
+            Debug.Log("Choose a valid grid!");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        }
+        swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid);
+        GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
 
     /// <summary>
@@ -61,6 +71,23 @@ public class UnitManager : MonoBehaviour
         {
             UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
+    }
+    // Wrapper for PlayerMove Coroutine so that button can access it
+    public void ButtonPlayerMove()
+    {
+        StartCoroutine(PlayerMove());
+    }
+
+    /// <summary>
+    /// Coroutine. Prompt user to select grid, then moves active unit to that grid.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator PlayerMove()
+    {
+        // TODO: display valid move grids
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        // TOOD: check if grid is valid
+        activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
     }
 
 }

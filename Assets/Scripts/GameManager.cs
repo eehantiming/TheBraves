@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("State: SetupSwordsman");
+                StartCoroutine(UnitManager.Instance.SpawnSwordsman());
                 // TODO: display spawnable grids during this phase
                 break;
             case GameState.SetupTrapper:
