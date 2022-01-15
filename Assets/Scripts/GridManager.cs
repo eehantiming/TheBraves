@@ -21,14 +21,8 @@ public class GridManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     /// <summary>
-    /// Function to generate the gameboard, which consists of MapGrids
+    /// Function to set up references to MapGrids
     /// </summary>
     public IEnumerator SetUpGridmap()
     {
@@ -44,24 +38,38 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the Coordinates of the Grid. e.g. grid 19 => (3,4). TODO: may not be required
+    /// </summary>
+    /// <param name="index">Index of the Grid, given by the value in GridsDict</param>
+    /// <returns>Vector2 of the coordinates of the Grid.</returns>
+    private Vector2 IndexToVect(int index)
+    {
+        int x = index % 4;
+        int y = index / 4 ;
+        return new Vector2(x, y);
+    }
+
+    /// <summary>
     /// Function that randomly picks an unoccupied enemy MapGrid.
     /// </summary>
     /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
         int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-        // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
+        // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
         Debug.Log("Roll: " + roll);
-        MapGrid spawnGrid = grids[roll+17];
+        int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
+        MapGrid spawnGrid = grids[enemySpawnGrids[roll-1]];
         counter = 0;
         while (spawnGrid.unitOnGrid != null && counter < countlimit)
         {
             roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
             // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
             Debug.Log("Roll: " + roll);
-            spawnGrid = grids[roll + 17];
+            spawnGrid = grids[enemySpawnGrids[roll-1]];
             counter++; //prevents infinite loop
         }
+        UIManager.Instance.ShowGameMessageText($"Spawning Enemy on {roll}");
         return spawnGrid;
     }
 

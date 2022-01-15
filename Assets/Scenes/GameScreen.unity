@@ -368,7 +368,7 @@ Transform:
   - {fileID: 1452952330}
   - {fileID: 1890971542}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &164116945
 GameObject:
@@ -524,7 +524,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &266258222 stripped
 MonoBehaviour:
@@ -1175,7 +1175,7 @@ Transform:
   - {fileID: 808687259}
   - {fileID: 360731902}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &831210553
 PrefabInstance:
@@ -1359,7 +1359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &871163459
 PrefabInstance:
@@ -1807,7 +1807,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1135162037 stripped
 Transform:
@@ -1911,9 +1911,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b904ac9124c37438f546896b7bc8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragonPrefab: {fileID: -1031467874372238042, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
+  smallEnemyPrefab: {fileID: -1031467874372238042, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
   swordsmanPrefab: {fileID: 7116737212726343688, guid: 08f8d7fe623d89847bcfa0414baa772b, type: 3}
+  trapperPrefab: {fileID: 3292709896312144020, guid: 5a8275c122265604c8fcb631ffebd4f2, type: 3}
+  magicianPrefab: {fileID: 8292782678496675093, guid: 10a27f1f2509a4c478144f5fcf1974d7, type: 3}
   swordsman: {fileID: 0}
+  trapper: {fileID: 0}
+  magician: {fileID: 0}
   activeUnit: {fileID: 0}
 --- !u!4 &1289642956
 Transform:
@@ -2168,7 +2172,7 @@ RectTransform:
   - {fileID: 2009160151}
   - {fileID: 1906306300}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2393,7 +2397,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1687254960 stripped
 Transform:
@@ -2504,8 +2508,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2948,8 +2952,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3332,8 +3336,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

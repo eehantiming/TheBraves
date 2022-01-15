@@ -5,10 +5,13 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-    [SerializeField] private BaseUnit dragonPrefab;
-    [SerializeField] private BaseUnit swordsmanPrefab;
+    [SerializeField] private BaseUnit smallEnemyPrefab;
+    [SerializeField] private BaseUnit swordsmanPrefab, trapperPrefab, magicianPrefab;
 
     public Swordsman swordsman = null;
+    public Trapper trapper = null;
+    public Magician magician = null;
+
     public BaseUnit activeUnit = null;
     // Start is called before the first frame update
     private void Awake()
@@ -36,12 +39,12 @@ public class UnitManager : MonoBehaviour
     {
         UIManager.Instance.ShowGameMessageText("Spawning Small Enemy");
         yield return new WaitForSeconds(2);
-        SpawnUnit(dragonPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemies data structure and add this
+        SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemies data structure and add this
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
 
     /// <summary>
-    /// Coroutine. Prompts user to select grid, then spawn Swordsman there.
+    /// Coroutine. Prompts user to select grid, then spawn Swordsman there. TODO: combine into SpawnHeroes(heroType)
     /// </summary>
     /// <returns>Changes game state once done.</returns>
     public IEnumerator SpawnSwordsman()
@@ -56,6 +59,46 @@ public class UnitManager : MonoBehaviour
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
         swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid);
+        UIManager.Instance.ShowGameMessageText(null);
+        GameManager.Instance.ChangeState(GameManager.GameState.SetupTrapper);
+    }
+
+    /// <summary>
+    /// Coroutine. Prompts user to select grid, then spawn Trapper there.
+    /// </summary>
+    /// <returns>Changes game state once done.</returns>
+    public IEnumerator SpawnTrapper()
+    {
+        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Trapper");
+        // TODO: display the valid grids selection
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        {
+            Debug.Log("Invalid grid");
+            UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        }
+        trapper = (Trapper)SpawnUnit(trapperPrefab, GridManager.Instance.confirmSelectedGrid);
+        UIManager.Instance.ShowGameMessageText(null);
+        GameManager.Instance.ChangeState(GameManager.GameState.SetupMagician);
+    }
+
+    /// <summary>
+    /// Coroutine. Prompts user to select grid, then spawn Magician there.
+    /// </summary>
+    /// <returns>Changes game state once done.</returns>
+    public IEnumerator SpawnMagician()
+    {
+        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Magician");
+        // TODO: display the valid grids selection
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        {
+            Debug.Log("Invalid grid");
+            UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
+        }
+        magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid);
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
