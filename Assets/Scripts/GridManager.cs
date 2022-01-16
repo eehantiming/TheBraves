@@ -5,12 +5,11 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-    //public Dictionary<MapGrid, Vector2> GridsDict = new Dictionary<MapGrid, Vector2>();
-    public Dictionary<MapGrid, int> GridsDict = new Dictionary<MapGrid, int>();
+    //public Dictionary<MapGrid, Vector2> GridToPosition = new Dictionary<MapGrid, Vector2>();
+    public Dictionary<int, MapGrid> IndexToGrid = new Dictionary<int, MapGrid>();
     public MapGrid selectedGrid = null;
     public MapGrid confirmSelectedGrid = null;
 
-    [SerializeField] private MapGrid gridPrefab;
     [SerializeField] private List<MapGrid> grids;    
     private int countlimit = 20;
     private int counter;
@@ -27,26 +26,15 @@ public class GridManager : MonoBehaviour
     public IEnumerator SetUpGridmap()
     {
         UIManager.Instance.ShowGameMessageText("Setting up Gridmap!");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         int gridNumber = 0;
         foreach (MapGrid grid in grids)
         {
-            GridsDict.Add(grid, gridNumber);
+            grid.index = gridNumber;
+            IndexToGrid.Add(gridNumber, grid);
             gridNumber++;
         }
         GameManager.Instance.ChangeState(GameManager.GameState.SetupEnemies);
-    }
-
-    /// <summary>
-    /// Returns the Coordinates of the Grid. e.g. grid 19 => (3,4). TODO: may not be required
-    /// </summary>
-    /// <param name="index">Index of the Grid, given by the value in GridsDict</param>
-    /// <returns>Vector2 of the coordinates of the Grid.</returns>
-    private Vector2 IndexToVect(int index)
-    {
-        int x = index % 4;
-        int y = index / 4 ;
-        return new Vector2(x, y);
     }
 
     /// <summary>
@@ -71,6 +59,35 @@ public class GridManager : MonoBehaviour
         }
         UIManager.Instance.ShowGameMessageText($"Spawning Enemy on {roll}");
         return spawnGrid;
+    }
+
+    /// <summary>
+    /// Function to get the available adjacent grids (up to 4) to the input MapGrid.
+    /// </summary>
+    /// <param name="centerGrid">The input MapGrid</param>
+    /// <param name="acceptHero">Whether adjacent grid can contain a Hero</param>
+    /// <param name="acceptEnemy">Whether adjacent grid can contain an Enemy</param>
+    /// <returns></returns>
+    public List<MapGrid> GetAdjacentGrids(MapGrid centerGrid, bool acceptHero=false, bool acceptEnemy=false)
+    {
+        //int gridIndex = GridToIndex[centerGrid];
+        int gridIndex = centerGrid.index;
+        List<MapGrid> adjacentGrids = new List<MapGrid>();
+        // Add the 4 adjacent grids
+        if (gridIndex > 3) adjacentGrids.Add(IndexToGrid[gridIndex - 4]); // Not on bottom row
+        if (gridIndex % 4 != 0) adjacentGrids.Add(IndexToGrid[gridIndex - 1]); // Not on left edge
+        if ((gridIndex + 1) % 4 != 0) adjacentGrids.Add(IndexToGrid[gridIndex + 1]); // Not on right edge
+        if (gridIndex < 20) adjacentGrids.Add(IndexToGrid[gridIndex + 4]); // Not on top row
+        // Remove occupied grids
+        foreach (MapGrid adjacentGrid in adjacentGrids)
+        {
+            if (adjacentGrid.unitOnGrid != null)
+            {
+                if (!acceptHero && adjacentGrid.unitOnGrid.faction == Faction.Hero) adjacentGrids.Remove(adjacentGrid);
+                if (!acceptEnemy && adjacentGrid.unitOnGrid.faction == Faction.Enemy) adjacentGrids.Remove(adjacentGrid);
+            }
+        }
+        return adjacentGrids;
     }
 
     /// <summary>

@@ -67,13 +67,20 @@ public class GameManager : MonoBehaviour
                     ChangeState(GameState.TrapperPhase);
                 }
                 UnitManager.Instance.SetActiveUnit(UnitManager.Instance.swordsman);
-                //UnitManager.Instance.swordsman.Move(GridManager.Instance.GridsDict[new Vector2(0, 0)]);
+                //UnitManager.Instance.swordsman.Move(GridManager.Instance.GridToIndex[new Vector2(0, 0)]);
                 break;
             case GameState.TrapperPhase:
                 break;
             case GameState.MagicianPhase:
                 break;
             case GameState.EnemyPhase:
+                if(UnitManager.Instance.smallEnemies.Count == 0)
+                {
+                    Debug.Log("No small enemies!");
+                    // TODO: change state
+                }
+                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.smallEnemies[0]);
+                UnitManager.Instance.smallEnemies[0].DecideMovement();
                 break;
             case GameState.CalamityPhase:
                 break;

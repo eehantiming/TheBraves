@@ -5,10 +5,10 @@ using UnityEngine;
 public class BaseUnit : MonoBehaviour
 {
     public MapGrid currentGrid = null;
-    public bool isUnitSelected = false;
-    public Vector2 currPosition;
     public string unitName;
+    public Faction faction;
 
+    private bool isUnitSelected = false;
     private bool isMoving = false;
 
     // Update is called once per frame
@@ -43,4 +43,10 @@ public class BaseUnit : MonoBehaviour
         currentGrid = grid;
     }
 
+}
+
+public enum Faction
+{
+    Hero = 1,
+    Enemy = 2,
 }

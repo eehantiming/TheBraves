@@ -1769,7 +1769,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedGrid: {fileID: 0}
   confirmSelectedGrid: {fileID: 0}
-  gridPrefab: {fileID: 5271494204168817726, guid: c59facc95e1439c4c83e2a17708e3bec, type: 3}
   grids:
   - {fileID: 1472564595}
   - {fileID: 1636416785}
@@ -1911,13 +1910,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b904ac9124c37438f546896b7bc8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallEnemyPrefab: {fileID: -1031467874372238042, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
+  smallEnemyPrefab: {fileID: -5886974794846121717, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
   swordsmanPrefab: {fileID: 7116737212726343688, guid: 08f8d7fe623d89847bcfa0414baa772b, type: 3}
   trapperPrefab: {fileID: 3292709896312144020, guid: 5a8275c122265604c8fcb631ffebd4f2, type: 3}
   magicianPrefab: {fileID: 8292782678496675093, guid: 10a27f1f2509a4c478144f5fcf1974d7, type: 3}
   swordsman: {fileID: 0}
   trapper: {fileID: 0}
   magician: {fileID: 0}
+  smallEnemies: []
   activeUnit: {fileID: 0}
 --- !u!4 &1289642956
 Transform:

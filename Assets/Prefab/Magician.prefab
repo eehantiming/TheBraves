@@ -123,7 +123,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGrid: {fileID: 0}
-  isUnitSelected: 0
-  currPosition: {x: 0, y: 0}
   unitName: Magician
+  faction: 1
   isConscious: 1

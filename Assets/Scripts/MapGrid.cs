@@ -8,6 +8,7 @@ public class MapGrid : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color grass1, grass2;
     [SerializeField] private GameObject highlight;
+    public int index;
     public BaseUnit unitOnGrid = null;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
@@ -83,4 +84,15 @@ public class MapGrid : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the Coordinates of the Grid. e.g. grid 19 => (3,4). TODO: may not be required
+    /// </summary>
+    /// <param name="index">Index of the Grid, given by the value in grid to index</param>
+    /// <returns>Vector2 of the coordinates of the Grid.</returns>
+    private Vector2 IndexToVect(int index)
+    {
+        int x = index % 4;
+        int y = index / 4;
+        return new Vector2(x, y);
+    }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class UnitManager : MonoBehaviour
     public Swordsman swordsman = null;
     public Trapper trapper = null;
     public Magician magician = null;
+    public List<SmallEnemy> smallEnemies;
 
     public BaseUnit activeUnit = null;
     // Start is called before the first frame update
@@ -38,8 +40,9 @@ public class UnitManager : MonoBehaviour
     public IEnumerator SpawnSmallEnemy()
     {
         UIManager.Instance.ShowGameMessageText("Spawning Small Enemy");
-        yield return new WaitForSeconds(2);
-        SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add smallenemies data structure and add this
+        yield return new WaitForSeconds(1);
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()));
+        //smallEnemies.Add(smallEnemy);
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
 
@@ -100,7 +103,7 @@ public class UnitManager : MonoBehaviour
         }
         magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid);
         UIManager.Instance.ShowGameMessageText(null);
-        GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
+        GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase);
     }
 
     /// <summary>
