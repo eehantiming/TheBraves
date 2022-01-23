@@ -43,7 +43,8 @@ public class GridManager : MonoBehaviour
     /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
-        int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+        //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+        int roll = 6;
         // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
         Debug.Log("Roll: " + roll);
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
@@ -67,26 +68,38 @@ public class GridManager : MonoBehaviour
     /// <param name="centerGrid">The input MapGrid</param>
     /// <param name="acceptHero">Whether adjacent grid can contain a Hero</param>
     /// <param name="acceptEnemy">Whether adjacent grid can contain an Enemy</param>
-    /// <returns></returns>
-    public List<MapGrid> GetAdjacentGrids(MapGrid centerGrid, bool acceptHero=false, bool acceptEnemy=false)
+    /// <param name="acceptNorth">Whether to include North grid</param>
+    /// <param name="acceptSouth">Whether to include South grid</param>
+    /// <returns>List of valid adjacent grids</returns>
+    public List<MapGrid> GetAdjacentGrids(MapGrid centerGrid, bool acceptHero=false, bool acceptEnemy=false, bool acceptNorth=true, bool acceptSouth=true)
     {
-        //int gridIndex = GridToIndex[centerGrid];
         int gridIndex = centerGrid.index;
         List<MapGrid> adjacentGrids = new List<MapGrid>();
         // Add the 4 adjacent grids
-        if (gridIndex > 3) adjacentGrids.Add(IndexToGrid[gridIndex - 4]); // Not on bottom row
+        if (acceptSouth && gridIndex > 3) adjacentGrids.Add(IndexToGrid[gridIndex - 4]); // Not on bottom row
         if (gridIndex % 4 != 0) adjacentGrids.Add(IndexToGrid[gridIndex - 1]); // Not on left edge
         if ((gridIndex + 1) % 4 != 0) adjacentGrids.Add(IndexToGrid[gridIndex + 1]); // Not on right edge
-        if (gridIndex < 20) adjacentGrids.Add(IndexToGrid[gridIndex + 4]); // Not on top row
+        if (acceptNorth && gridIndex < 20) adjacentGrids.Add(IndexToGrid[gridIndex + 4]); // Not on top row
         // Remove occupied grids
-        foreach (MapGrid adjacentGrid in adjacentGrids)
+        for (int i = 0; i < adjacentGrids.Count; i++)
         {
-            if (adjacentGrid.unitOnGrid != null)
+            if (adjacentGrids[i].unitOnGrid != null)
             {
-                if (!acceptHero && adjacentGrid.unitOnGrid.faction == Faction.Hero) adjacentGrids.Remove(adjacentGrid);
-                if (!acceptEnemy && adjacentGrid.unitOnGrid.faction == Faction.Enemy) adjacentGrids.Remove(adjacentGrid);
+                if (!acceptHero && adjacentGrids[i].unitOnGrid.faction == Faction.Hero || !acceptEnemy && adjacentGrids[i].unitOnGrid.faction == Faction.Enemy) // && resolves before ||
+                {
+                    adjacentGrids.RemoveAt(i);
+                    i--; // recheck at index which is a new grid since earlier grid was removed
+                }
             }
         }
+        //foreach (MapGrid adjacentGrid in adjacentGrids)
+        //{
+        //    if (adjacentGrid.unitOnGrid != null)
+        //    {
+        //        if (!acceptHero && adjacentGrid.unitOnGrid.faction == Faction.Hero) adjacentGrids.Remove(adjacentGrid);
+        //        if (!acceptEnemy && adjacentGrid.unitOnGrid.faction == Faction.Enemy) adjacentGrids.Remove(adjacentGrid);
+        //    }
+        //}
         return adjacentGrids;
     }
 

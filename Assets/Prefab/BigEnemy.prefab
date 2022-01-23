@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 979498782896039698}
   - component: {fileID: 8364419143955246876}
   - component: {fileID: -3273625363304054258}
-  - component: {fileID: -5886974794846121717}
+  - component: {fileID: 5304881075150015858}
   m_Layer: 0
-  m_Name: SmallEnemy
+  m_Name: BigEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -1441745723
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c570f2c89da05e14ca365d44c0e44b10, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fe16f081cd5907e40a38d8212b5c8aa6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +100,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.4}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.0880327, y: 1.4238281}
     newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5886974794846121717
+--- !u!114 &5304881075150015858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,11 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2021976838702968166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8bc49591e5248b418928781c594185c, type: 3}
+  m_Script: {fileID: 11500000, guid: b8d7ac67036bc884cbbe70ddd4e666ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentGrid: {fileID: 0}
-  unitName: Small Monster
+  unitName: Big Monster
   faction: 2
   isStunned: 0
   isAlive: 1

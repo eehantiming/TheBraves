@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // A singleton that manages the game state
     public enum GameState
     {
         SetUpGridmap = 0,
@@ -14,8 +15,10 @@ public class GameManager : MonoBehaviour
         SwordsmanPhase = 5,
         TrapperPhase = 6,
         MagicianPhase = 7,
-        EnemyPhase = 8,
-        CalamityPhase = 9,
+        SmallEnemyPhase = 8,
+        BigEnemyPhase = 9,
+        GiantEnemyPhase = 10,
+        CalamityPhase = 11,
     }
     public static GameManager Instance;
     public GameState currentState;
@@ -25,11 +28,13 @@ public class GameManager : MonoBehaviour
         //create a global reference
         Instance = this;
     }
+
     // Start is called before the first frame update
     void Start()
     {
         ChangeState(GameState.SetUpGridmap);
     }
+
     /// <summary>
     /// Main function to control turn and events.
     /// </summary>
@@ -63,26 +68,60 @@ public class GameManager : MonoBehaviour
                 Debug.Log("State: SwordsmanPhase");
                 if (!UnitManager.Instance.swordsman.isConscious)
                 {
+                    UIManager.Instance.ShowGameMessageText("Swordsman is Unconscious!");
                     Debug.Log("Skipping Swordsman!");
                     ChangeState(GameState.TrapperPhase);
                 }
                 UnitManager.Instance.SetActiveUnit(UnitManager.Instance.swordsman);
-                //UnitManager.Instance.swordsman.Move(GridManager.Instance.GridToIndex[new Vector2(0, 0)]);
                 break;
             case GameState.TrapperPhase:
                 break;
             case GameState.MagicianPhase:
                 break;
-            case GameState.EnemyPhase:
-                if(UnitManager.Instance.smallEnemies.Count == 0)
+            case GameState.SmallEnemyPhase:
+                // Check if there are small enemies alive. If so, each takes one action.
+                if (UnitManager.Instance.smallEnemies.Count == 0)
                 {
                     Debug.Log("No small enemies!");
-                    // TODO: change state
+                    ChangeState(GameState.BigEnemyPhase);
                 }
-                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.smallEnemies[0]);
-                UnitManager.Instance.smallEnemies[0].DecideMovement();
+                foreach(SmallEnemy smallEnemy in UnitManager.Instance.smallEnemies)
+                {
+                    if (smallEnemy.isAlive && !smallEnemy.isStunned)
+                    {
+                        UnitManager.Instance.SetActiveUnit(smallEnemy);
+                        smallEnemy.DecideMovement();
+                    }
+                    else
+                    {
+                        if(smallEnemy.isStunned) UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
+                        if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
+                    }
+                }
+                ChangeState(GameState.BigEnemyPhase);
+                break;
+            case GameState.BigEnemyPhase:
+                if (UnitManager.Instance.bigEnemy == null)
+                {
+                    Debug.Log("No Big Enemy!");
+                    ChangeState(GameState.GiantEnemyPhase);
+                }
+                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
+                UnitManager.Instance.bigEnemy.DecideMovement();
+                ChangeState(GameState.GiantEnemyPhase);
+                break;
+            case GameState.GiantEnemyPhase:
+                if (UnitManager.Instance.giantEnemy == null)
+                {
+                    Debug.Log("No Giant Enemy!");
+                    ChangeState(GameState.CalamityPhase);
+                }
+                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.giantEnemy);
+                UnitManager.Instance.giantEnemy.DecideMovement();
+                ChangeState(GameState.CalamityPhase);
                 break;
             case GameState.CalamityPhase:
+                // CalamityManager.Instance.IncreaseCalamity()
                 break;
             default:
                 Debug.LogError("Invalid state");

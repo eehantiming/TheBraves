@@ -36,7 +36,7 @@ public class BaseUnit : MonoBehaviour
     /// Set unit's grid to new MapGrid. Moves towards this grid.
     /// </summary>
     /// <param name="grid">MapGrid to move to.</param>
-    public virtual void Move(MapGrid grid)
+    public void Move(MapGrid grid)
     {
         currentGrid.unitOnGrid = null;
         grid.unitOnGrid = this; // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster

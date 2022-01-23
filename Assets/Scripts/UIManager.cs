@@ -45,6 +45,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays message for the player
+    /// </summary>
+    /// <param name="inputText">Text to display. Set to null to disable text</param>
     public void ShowGameMessageText(string inputText)
     {
         if (inputText == null)

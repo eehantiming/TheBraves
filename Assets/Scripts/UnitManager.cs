@@ -6,13 +6,17 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-    [SerializeField] private BaseUnit smallEnemyPrefab;
+    [SerializeField] private BaseUnit smallEnemyPrefab, bigEnemyPrefab, giantEnemyPrefab;
     [SerializeField] private BaseUnit swordsmanPrefab, trapperPrefab, magicianPrefab;
+    private int smallEnemyCount = 0; 
 
     public Swordsman swordsman = null;
     public Trapper trapper = null;
     public Magician magician = null;
     public List<SmallEnemy> smallEnemies;
+    public bool smallEnemyCanDie = false;
+    public BigEnemy bigEnemy = null;
+    public GiantEnemy giantEnemy = null;
 
     public BaseUnit activeUnit = null;
     // Start is called before the first frame update
@@ -26,9 +30,15 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     /// <param name="prefab">Unit prefab to spawn</param>
     /// <param name="grid">Grid to spawn in</param>
-    BaseUnit SpawnUnit(BaseUnit prefab, MapGrid grid)
+    /// <param name="unitName">String to set as unit name</param>
+    /// <returns>BaseUnit spawned</returns>
+    BaseUnit SpawnUnit(BaseUnit prefab, MapGrid grid, string unitName=null)
     {
         BaseUnit spawnedUnit = Instantiate(prefab, grid.transform.position, Quaternion.identity);
+        if (unitName!=null)
+        {
+            spawnedUnit.unitName = unitName;
+        }
         grid.unitOnGrid = spawnedUnit;
         spawnedUnit.currentGrid = grid;
         return spawnedUnit;
@@ -39,10 +49,13 @@ public class UnitManager : MonoBehaviour
     /// </summary>
     public IEnumerator SpawnSmallEnemy()
     {
-        UIManager.Instance.ShowGameMessageText("Spawning Small Enemy");
+        UIManager.Instance.ShowGameMessageText("Small Monster Appears!");
         yield return new WaitForSeconds(1);
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()));
-        //smallEnemies.Add(smallEnemy);
+        smallEnemyCount++;
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[20])); // DEBUG
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
+        //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
 
@@ -103,7 +116,21 @@ public class UnitManager : MonoBehaviour
         }
         magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid);
         UIManager.Instance.ShowGameMessageText(null);
-        GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase);
+        GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase);
+    }
+
+    public IEnumerator SpawnBigEnemy()
+    {
+        UIManager.Instance.ShowGameMessageText("Big Monster Appears!");
+        yield return new WaitForSeconds(1);
+        bigEnemy = (BigEnemy)SpawnUnit(bigEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+    }
+
+    public IEnumerator SpawnGiantEnemy()
+    {
+        UIManager.Instance.ShowGameMessageText("Giant Monster Appears!!");
+        yield return new WaitForSeconds(1);
+        giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
     }
 
     /// <summary>

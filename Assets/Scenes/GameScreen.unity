@@ -1911,6 +1911,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smallEnemyPrefab: {fileID: -5886974794846121717, guid: d049136abc2a75a4b82bf8534b60d5bf, type: 3}
+  bigEnemyPrefab: {fileID: 5304881075150015858, guid: fe4a0352ee6fbd1419c920ae135be939, type: 3}
+  giantEnemyPrefab: {fileID: 6738177631065446103, guid: ba9aaa2a94fc01a4bb6ee075b7fba114, type: 3}
   swordsmanPrefab: {fileID: 7116737212726343688, guid: 08f8d7fe623d89847bcfa0414baa772b, type: 3}
   trapperPrefab: {fileID: 3292709896312144020, guid: 5a8275c122265604c8fcb631ffebd4f2, type: 3}
   magicianPrefab: {fileID: 8292782678496675093, guid: 10a27f1f2509a4c478144f5fcf1974d7, type: 3}
@@ -1918,6 +1920,9 @@ MonoBehaviour:
   trapper: {fileID: 0}
   magician: {fileID: 0}
   smallEnemies: []
+  smallEnemyCanDie: 0
+  bigEnemy: {fileID: 0}
+  giantEnemy: {fileID: 0}
   activeUnit: {fileID: 0}
 --- !u!4 &1289642956
 Transform:
