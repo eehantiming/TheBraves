@@ -9,6 +9,18 @@ public class SmallEnemy : EnemyUnit
     /// </summary>
     public override void DecideMovement()
     {
+        if (isBaited)
+        {
+            var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
+            if(directionToMove.x == 0) // move vertical
+            {
+                int goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
+            }
+            else if(directionToMove.y == 0) // move horizontal
+            {
+                int goalGridIndex = currentGrid.index + System.Math.Sign(directionToMove.x);
+            }
+        }
         // Find available grids
         var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
         //foreach(MapGrid grid in adjacentGrids)

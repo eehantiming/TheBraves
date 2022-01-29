@@ -14,7 +14,7 @@ public class UnitManager : MonoBehaviour
     public Trapper trapper = null;
     public Magician magician = null;
     public List<SmallEnemy> smallEnemies;
-    public bool smallEnemyCanDie = false;
+    public bool smallEnemyCanDie = false; //dies if move into player or trap
     public BigEnemy bigEnemy = null;
     public GiantEnemy giantEnemy = null;
 
@@ -116,7 +116,7 @@ public class UnitManager : MonoBehaviour
         }
         magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid);
         UIManager.Instance.ShowGameMessageText(null);
-        GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase);
+        GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
 
     public IEnumerator SpawnBigEnemy()
@@ -166,6 +166,8 @@ public class UnitManager : MonoBehaviour
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // TOOD: check if grid is valid
         activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
+        yield return new WaitForSeconds(1);
+        activeUnit.GetComponent<HeroUnit>().EndTurn();
     }
 
 }

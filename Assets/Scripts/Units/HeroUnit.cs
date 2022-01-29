@@ -5,11 +5,12 @@ using UnityEngine;
 public class HeroUnit : BaseUnit
 {
     public bool isConscious = true;
-    // Start is called before the first frame update
-    void Start()
+
+    /// <summary>
+    /// Ends current player turn and move gamestate to next phase
+    /// </summary>
+    public void EndTurn()
     {
-        
+        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
     }
-
-
 }

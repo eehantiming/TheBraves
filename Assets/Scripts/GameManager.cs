@@ -72,9 +72,13 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Skipping Swordsman!");
                     ChangeState(GameState.TrapperPhase);
                 }
-                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.swordsman);
+                else
+                {
+                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.swordsman);
+                }
                 break;
             case GameState.TrapperPhase:
+                Debug.Log("State: TrapperPhase");
                 break;
             case GameState.MagicianPhase:
                 break;
@@ -85,20 +89,23 @@ public class GameManager : MonoBehaviour
                     Debug.Log("No small enemies!");
                     ChangeState(GameState.BigEnemyPhase);
                 }
-                foreach(SmallEnemy smallEnemy in UnitManager.Instance.smallEnemies)
+                else
                 {
-                    if (smallEnemy.isAlive && !smallEnemy.isStunned)
+                    foreach(SmallEnemy smallEnemy in UnitManager.Instance.smallEnemies)
                     {
-                        UnitManager.Instance.SetActiveUnit(smallEnemy);
-                        smallEnemy.DecideMovement();
+                        if (smallEnemy.isAlive && !smallEnemy.isStunned)
+                        {
+                            UnitManager.Instance.SetActiveUnit(smallEnemy);
+                            smallEnemy.DecideMovement();
+                        }
+                        else
+                        {
+                            if(smallEnemy.isStunned) UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
+                            if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
+                        }
                     }
-                    else
-                    {
-                        if(smallEnemy.isStunned) UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
-                        if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
-                    }
+                    ChangeState(GameState.BigEnemyPhase);
                 }
-                ChangeState(GameState.BigEnemyPhase);
                 break;
             case GameState.BigEnemyPhase:
                 if (UnitManager.Instance.bigEnemy == null)
@@ -106,9 +113,12 @@ public class GameManager : MonoBehaviour
                     Debug.Log("No Big Enemy!");
                     ChangeState(GameState.GiantEnemyPhase);
                 }
-                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
-                UnitManager.Instance.bigEnemy.DecideMovement();
-                ChangeState(GameState.GiantEnemyPhase);
+                else
+                {
+                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
+                    UnitManager.Instance.bigEnemy.DecideMovement();
+                    ChangeState(GameState.GiantEnemyPhase);
+                }
                 break;
             case GameState.GiantEnemyPhase:
                 if (UnitManager.Instance.giantEnemy == null)
@@ -116,11 +126,15 @@ public class GameManager : MonoBehaviour
                     Debug.Log("No Giant Enemy!");
                     ChangeState(GameState.CalamityPhase);
                 }
-                UnitManager.Instance.SetActiveUnit(UnitManager.Instance.giantEnemy);
-                UnitManager.Instance.giantEnemy.DecideMovement();
-                ChangeState(GameState.CalamityPhase);
+                else
+                {
+                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.giantEnemy);
+                    UnitManager.Instance.giantEnemy.DecideMovement();
+                    ChangeState(GameState.CalamityPhase);
+                }
                 break;
             case GameState.CalamityPhase:
+                Debug.Log("Calamity Phase!");
                 // CalamityManager.Instance.IncreaseCalamity()
                 break;
             default:

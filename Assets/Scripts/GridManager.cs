@@ -88,6 +88,7 @@ public class GridManager : MonoBehaviour
                 if (!acceptHero && adjacentGrids[i].unitOnGrid.faction == Faction.Hero || !acceptEnemy && adjacentGrids[i].unitOnGrid.faction == Faction.Enemy) // && resolves before ||
                 {
                     adjacentGrids.RemoveAt(i);
+                    if (adjacentGrids[i].unitOnGrid is SmallEnemy) Debug.Log("test") ;
                     i--; // recheck at index which is a new grid since earlier grid was removed
                 }
             }

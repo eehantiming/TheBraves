@@ -9,6 +9,7 @@ public class EnemyUnit : BaseUnit
 
     protected int rageLevel = 0;
     protected bool isBaited = false;
+    protected MapGrid baitedTo;
     // Start is called before the first frame update
     void Start()
     {

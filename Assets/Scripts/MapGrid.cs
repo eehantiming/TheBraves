@@ -89,7 +89,7 @@ public class MapGrid : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the Grid, given by the value in grid to index</param>
     /// <returns>Vector2 of the coordinates of the Grid.</returns>
-    private Vector2 IndexToVect(int index)
+    public Vector2 IndexToVect()
     {
         int x = index % 4;
         int y = index / 4;
