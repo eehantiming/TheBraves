@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mouseSelectionText;
     [SerializeField] private TextMeshProUGUI activeUnitText;
     [SerializeField] private TextMeshProUGUI gameMessageText;
+    [SerializeField] private TextMeshProUGUI calamityCounterText;
+    [SerializeField] private GameObject playerLoseScreen;
 
     private void Awake()
     {
@@ -60,5 +62,23 @@ public class UIManager : MonoBehaviour
             gameMessageText.text = inputText;
             gameMessageText.gameObject.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// Displays the current Calamity Counter value
+    /// </summary>
+    /// <param name="currentCount"></param>
+    public void ShowCalamityCount(int currentCount)
+    {
+        // TODO: animation to move counter
+        calamityCounterText.text = $"Calamity: {currentCount}";
+    }
+
+    /// <summary>
+    /// Displays the player lose screen
+    /// </summary>
+    public void ShowLoseText()
+    {
+        playerLoseScreen.SetActive(true);
     }
 }

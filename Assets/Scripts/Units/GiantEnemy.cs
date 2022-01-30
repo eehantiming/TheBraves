@@ -8,6 +8,7 @@ public class GiantEnemy : EnemyUnit
     private bool movesTwice = false;
     public override void DecideMovement()
     {
+        //TODO: loop to move twice
         if (isBaited)
         {
 
@@ -26,12 +27,12 @@ public class GiantEnemy : EnemyUnit
     {
         if (rageLevel == 1)
         {
-            //UnitManager.Instance.SpawnHeart();
+            UnitManager.Instance.SpawnHeart();
             movesTwice = true;
         }
         else if (rageLevel == 2)
         {
-            //CalamityManager.Instance.increaseTwice = true;
+            CalamityManager.Instance.SpeedUp();
         }
     }
 }

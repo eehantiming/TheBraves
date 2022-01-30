@@ -11,6 +11,7 @@ public class HeroUnit : BaseUnit
     /// </summary>
     public void EndTurn()
     {
-        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
+        //GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
+        GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
     }
 }

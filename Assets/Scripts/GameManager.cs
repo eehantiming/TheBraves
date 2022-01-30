@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
                 // TODO: display spawnable grids during this phase
                 break;
             case GameState.SetupTrapper:
+                Debug.Log("State: SetupTrapper");
                 StartCoroutine(UnitManager.Instance.SpawnTrapper());
                 break;
             case GameState.SetupMagician:
@@ -135,13 +136,22 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.CalamityPhase:
                 Debug.Log("Calamity Phase!");
-                // CalamityManager.Instance.IncreaseCalamity()
+                StartCoroutine(CalamityManager.Instance.IncreaseCalamity());
+                //ChangeState(GameState.SwordsmanPhase);
                 break;
             default:
                 Debug.LogError("Invalid state");
                 break;
         }
 
+    }
+
+    /// <summary>
+    /// Call when any lose condition is met
+    /// </summary>
+    public void PlayerLose()
+    {
+        UIManager.Instance.ShowLoseText();
     }
 
 }

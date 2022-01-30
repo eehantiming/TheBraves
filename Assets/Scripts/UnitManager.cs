@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-    [SerializeField] private BaseUnit smallEnemyPrefab, bigEnemyPrefab, giantEnemyPrefab;
+    [SerializeField] private BaseUnit smallEnemyPrefab, bigEnemyPrefab, giantEnemyPrefab, heartPrefab;
     [SerializeField] private BaseUnit swordsmanPrefab, trapperPrefab, magicianPrefab;
     private int smallEnemyCount = 0; 
 
@@ -17,6 +17,7 @@ public class UnitManager : MonoBehaviour
     public bool smallEnemyCanDie = false; //dies if move into player or trap
     public BigEnemy bigEnemy = null;
     public GiantEnemy giantEnemy = null;
+    public BaseUnit heart = null;
 
     public BaseUnit activeUnit = null;
     // Start is called before the first frame update
@@ -52,8 +53,8 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Small Monster Appears!");
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[20])); // DEBUG
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[5])); // DEBUG
         //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
@@ -65,7 +66,7 @@ public class UnitManager : MonoBehaviour
     /// <returns>Changes game state once done.</returns>
     public IEnumerator SpawnSwordsman()
     {
-        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Swordsman");
+        UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Swordsman");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
@@ -85,7 +86,7 @@ public class UnitManager : MonoBehaviour
     /// <returns>Changes game state once done.</returns>
     public IEnumerator SpawnTrapper()
     {
-        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Trapper");
+        UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Trapper");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
@@ -105,7 +106,7 @@ public class UnitManager : MonoBehaviour
     /// <returns>Changes game state once done.</returns>
     public IEnumerator SpawnMagician()
     {
-        UIManager.Instance.ShowGameMessageText("Select Grid to spawn Magician");
+        UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Magician");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
@@ -131,6 +132,14 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Giant Monster Appears!!");
         yield return new WaitForSeconds(1);
         giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+    }
+
+    public IEnumerator SpawnHeart()
+    {
+        UIManager.Instance.ShowGameMessageText("Mosnter Heart Appears!!");
+        yield return new WaitForSeconds(1);
+        heart = SpawnUnit(heartPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+        yield return new WaitForSeconds(1);
     }
 
     /// <summary>
@@ -161,13 +170,24 @@ public class UnitManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PlayerMove()
     {
+        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(activeUnit.currentGrid, false, false);
+        if (validGrids.Count == 0)
+        {
+            UIManager.Instance.ShowGameMessageText("This unit can't move!");
+            Debug.Log("There no valid grids to move to");
+            yield break;
+        }
         // TODO: display valid move grids
-        UIManager.Instance.ShowGameMessageText("Select Grid to move Swordsman");
+        UIManager.Instance.ShowGameMessageText("Select Grid to move to");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
-        // TOOD: check if grid is valid
+        // Check if selected grid is a valid move
+        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        {
+            UIManager.Instance.ShowGameMessageText("Select Valid Grid to move to");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        }
         activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
         yield return new WaitForSeconds(1);
         activeUnit.GetComponent<HeroUnit>().EndTurn();
     }
-
 }
