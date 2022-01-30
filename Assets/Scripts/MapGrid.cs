@@ -7,7 +7,8 @@ public class MapGrid : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color grass1, grass2;
-    [SerializeField] private GameObject highlight;
+    [SerializeField] private GameObject highlight, selectedOverlay;
+    
     public int index;
     public BaseUnit unitOnGrid = null;
     public bool isEnemySpawnGrid = false;
@@ -27,6 +28,12 @@ public class MapGrid : MonoBehaviour
     public void Highlight()
     {
         spriteRenderer.color = grass1;
+    }
+
+    public void ToggleOverlay(bool selected)
+    {
+        if (selected) selectedOverlay.SetActive(true);
+        else selectedOverlay.SetActive(false);
     }
 
     private void OnMouseEnter()
@@ -74,6 +81,7 @@ public class MapGrid : MonoBehaviour
         // Second consecutive click on grid
         if(GridManager.Instance.selectedGrid == this)
         {
+            ToggleOverlay(false);
             GridManager.Instance.confirmSelectedGrid = this;
         }
         // Clicked on a different tile

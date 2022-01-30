@@ -109,7 +109,9 @@ public class GridManager : MonoBehaviour
     /// <param name="grid">MapGrid to set as the selectedGrid</param>
     public void SetSelectedGrid(MapGrid grid)
     {
+        if(selectedGrid != null) selectedGrid.ToggleOverlay(false);
         selectedGrid = grid;
+        selectedGrid.ToggleOverlay(true);
         if(grid.unitOnGrid == null)
         {
             UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");

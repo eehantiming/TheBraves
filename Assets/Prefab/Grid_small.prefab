@@ -103,6 +103,7 @@ MonoBehaviour:
   grass1: {r: 0.09656459, g: 0.5849056, b: 0.16086341, a: 1}
   grass2: {r: 0.15352438, g: 0.4716981, b: 0.25224364, a: 1}
   highlight: {fileID: 9195702065425769202}
+  selectedOverlay: {fileID: 4582821175194153243}
   index: 0
   unitOnGrid: {fileID: 0}
   isEnemySpawnGrid: 0
