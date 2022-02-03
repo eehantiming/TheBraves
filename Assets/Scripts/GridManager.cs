@@ -9,7 +9,6 @@ public class GridManager : MonoBehaviour
     public Dictionary<int, MapGrid> IndexToGrid = new Dictionary<int, MapGrid>();
     public MapGrid selectedGrid = null;
     public MapGrid confirmSelectedGrid = null;
-
     [SerializeField] private List<MapGrid> grids;    
     private int countlimit = 20;
     private int counter;
@@ -43,8 +42,8 @@ public class GridManager : MonoBehaviour
     /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
-        int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-        //int roll = 6;
+        //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+        int roll = DiceRoll.Instance.Generate();
         // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
         Debug.Log("Roll: " + roll);
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
@@ -52,7 +51,7 @@ public class GridManager : MonoBehaviour
         counter = 0;
         while (spawnGrid.unitOnGrid != null && counter < countlimit)
         {
-            roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+            roll = DiceRoll.Instance.Generate();; // TODO: currently fixed to 6. use this value for dice throw
             // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
             Debug.Log("Roll: " + roll);
             spawnGrid = grids[enemySpawnGrids[roll-1]];
