@@ -40,7 +40,8 @@ public class SmallEnemy : EnemyUnit
                 Move(goalGrid);
                 break;
             case 2:
-                int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+                //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+                int roll = DiceRoll.Instance.Generate();
                 // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
                 Debug.Log("Roll: " + roll);
                 goalGrid = adjacentGrids[(roll - 1) / 3];
@@ -48,10 +49,11 @@ public class SmallEnemy : EnemyUnit
                 Move(goalGrid);
                 break;
             case 3:
-                roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+                //roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
+                int roll1 = DiceRoll.Instance.Generate();
                 // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
-                Debug.Log("Roll: " + roll);
-                goalGrid = adjacentGrids[(roll - 1) / 2];
+                Debug.Log("Roll: " + roll1);
+                goalGrid = adjacentGrids[(roll1 - 1) / 2];
                 Move(goalGrid);
                 break;
             default:

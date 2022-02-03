@@ -54,8 +54,8 @@ public class UnitManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
         //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[5])); // DEBUG
-        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[5])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }

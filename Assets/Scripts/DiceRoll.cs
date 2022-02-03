@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DiceRoll : MonoBehaviour
 {
+    public static DiceRoll Instance;
     /// <summary>
     /// Generates a random number between 1 and 6
     /// </summary>
