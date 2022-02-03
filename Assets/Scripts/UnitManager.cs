@@ -141,7 +141,7 @@ public class UnitManager : MonoBehaviour
         MapGrid spawnGrid = GridManager.Instance.GetEnemySpawnGrid();
         heart = Instantiate(heartPrefab, spawnGrid.transform.position, Quaternion.identity);
         heart.currentGrid = spawnGrid;
-        spawnGrid.holdingHeart = true;
+        spawnGrid.isHoldingHeart = true;
         //heart = SpawnUnit(heartPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
         yield return new WaitForSeconds(1);
     }
@@ -165,6 +165,7 @@ public class UnitManager : MonoBehaviour
     // Wrapper for PlayerMove Coroutine so that button can access it
     public void ButtonPlayerMove()
     {
+        Debug.Log("Clicked move..");
         StartCoroutine(PlayerMove());
     }
 

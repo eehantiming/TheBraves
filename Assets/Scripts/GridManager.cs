@@ -127,7 +127,7 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator WaitForGridSelection()
     {
-        Debug.Log("Waiting for grid selection");
+        //Debug.Log("Waiting for grid selection");
         confirmSelectedGrid = null;
         while (confirmSelectedGrid == null)
         {

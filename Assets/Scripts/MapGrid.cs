@@ -11,7 +11,7 @@ public class MapGrid : MonoBehaviour
     
     public int index;
     public BaseUnit unitOnGrid = null;
-    public bool holdingHeart = false;
+    public bool isHoldingHeart = false;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
     public bool isGridSelected = false;
@@ -84,6 +84,7 @@ public class MapGrid : MonoBehaviour
         {
             ToggleOverlay(false);
             GridManager.Instance.confirmSelectedGrid = this;
+            Debug.Log($"\tSelected grid {index}");
         }
         // Clicked on a different tile
         else

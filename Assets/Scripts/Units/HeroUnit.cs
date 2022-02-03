@@ -11,7 +11,7 @@ public class HeroUnit : BaseUnit
     /// </summary>
     public void EndTurn()
     {
-        if (currentGrid.holdingHeart) GameManager.Instance.PlayerWin();
+        if (currentGrid.isHoldingHeart) GameManager.Instance.PlayerWin();
         //GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
         else GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
     }

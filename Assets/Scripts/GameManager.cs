@@ -81,8 +81,29 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.TrapperPhase:
                 Debug.Log("State: TrapperPhase");
+                if (!UnitManager.Instance.trapper.isConscious)
+                {
+                    UIManager.Instance.ShowGameMessageText("Trapper is Unconscious!");
+                    Debug.Log("Skipping Trapper!");
+                    ChangeState(GameState.MagicianPhase);
+                }
+                else
+                {
+                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.trapper);
+                }
                 break;
             case GameState.MagicianPhase:
+                Debug.Log("State: MagicianPhase");
+                if (!UnitManager.Instance.magician.isConscious)
+                {
+                    UIManager.Instance.ShowGameMessageText("Magician is Unconscious!");
+                    Debug.Log("Skipping Magician!");
+                    ChangeState(GameState.SmallEnemyPhase);
+                }
+                else
+                {
+                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.magician);
+                }
                 break;
             case GameState.SmallEnemyPhase:
                 // Check if there are small enemies alive. If so, each takes one action.
