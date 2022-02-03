@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4272837044254723142}
   - component: {fileID: 6695781492031464241}
-  - component: {fileID: 6082314988266967926}
+  - component: {fileID: -6789219547840740073}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6082314988266967926
+--- !u!114 &-6789219547840740073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,4 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGrid: {fileID: 0}
   unitName: Heart
-  faction: 2
+  faction: 0

@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI activeUnitText;
     [SerializeField] private TextMeshProUGUI gameMessageText;
     [SerializeField] private TextMeshProUGUI calamityCounterText;
-    [SerializeField] private GameObject playerLoseScreen;
+    [SerializeField] private GameObject playerLoseScreen, playerWinScreen;
 
     private void Awake()
     {
@@ -80,5 +80,13 @@ public class UIManager : MonoBehaviour
     public void ShowLoseText()
     {
         playerLoseScreen.SetActive(true);
+    }
+
+    /// <summary>
+    /// Displays the player win screen
+    /// </summary>
+    public void ShowWinText()
+    {
+        playerWinScreen.SetActive(true);
     }
 }

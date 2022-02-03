@@ -154,4 +154,11 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowLoseText();
     }
 
+    /// <summary>
+    /// Call when win condition is met
+    /// </summary>
+    public void PlayerWin()
+    {
+        UIManager.Instance.ShowWinText();
+    }
 }

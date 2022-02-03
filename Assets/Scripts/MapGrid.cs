@@ -11,6 +11,7 @@ public class MapGrid : MonoBehaviour
     
     public int index;
     public BaseUnit unitOnGrid = null;
+    public bool holdingHeart = false;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
     public bool isGridSelected = false;

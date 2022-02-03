@@ -136,9 +136,13 @@ public class UnitManager : MonoBehaviour
 
     public IEnumerator SpawnHeart()
     {
-        UIManager.Instance.ShowGameMessageText("Mosnter Heart Appears!!");
+        UIManager.Instance.ShowGameMessageText("Monster Heart Appears!!");
         yield return new WaitForSeconds(1);
-        heart = SpawnUnit(heartPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+        MapGrid spawnGrid = GridManager.Instance.GetEnemySpawnGrid();
+        heart = Instantiate(heartPrefab, spawnGrid.transform.position, Quaternion.identity);
+        heart.currentGrid = spawnGrid;
+        spawnGrid.holdingHeart = true;
+        //heart = SpawnUnit(heartPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
         yield return new WaitForSeconds(1);
     }
 
