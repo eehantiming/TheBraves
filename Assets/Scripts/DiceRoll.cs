@@ -11,6 +11,7 @@ public class DiceRoll : MonoBehaviour
     public int Generate()
     {
         int roll = Random.Range(1,6);
+        UIManager.Instance.ShowDiceRollText(roll);
         return (roll);
     }
 }

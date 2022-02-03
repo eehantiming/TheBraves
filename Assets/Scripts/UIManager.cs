@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI activeUnitText;
     [SerializeField] private TextMeshProUGUI gameMessageText;
     [SerializeField] private TextMeshProUGUI calamityCounterText;
+    [SerializeField] private TextMeshProUGUI DiceRollText;
     [SerializeField] private GameObject playerLoseScreen;
 
     private void Awake()
@@ -20,6 +21,14 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         
+    }
+    /// <summary>
+    /// Displays the unit that is selected by left click in UI
+    /// </summary>
+    /// <param name="inputText"></param>
+    public void ShowDiceRollText(int inputInt)
+    {
+        DiceRollText.text = "Dice Roll: " + inputInt;
     }
 
     /// <summary>
