@@ -10,10 +10,11 @@ public class MapGrid : MonoBehaviour
     [SerializeField] private GameObject highlight, selectedOverlay;
     
     public int index;
-    public BaseUnit unitOnGrid = null;
+    public List<BaseUnit> unitsOnGrid;
     public bool isHoldingHeart = false;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
+    public bool isTownGrid = false;
     public bool isGridSelected = false;
 
 
@@ -31,6 +32,10 @@ public class MapGrid : MonoBehaviour
         spriteRenderer.color = grass1;
     }
 
+    /// <summary>
+    /// Enable/disable visual overlay to show if grid is selected.
+    /// </summary>
+    /// <param name="selected">whether to enable or disable this overlay.</param>
     public void ToggleOverlay(bool selected)
     {
         if (selected) selectedOverlay.SetActive(true);
@@ -40,10 +45,10 @@ public class MapGrid : MonoBehaviour
     private void OnMouseEnter()
     {
         highlight.SetActive(true);
-        //if (unitOnGrid != null)
+        //if (unitsOnGrid != null)
         //{
         //    Debug.Log("setting name!");
-        //    UIManager.Instance.SetUnitText(unitOnGrid.unitName);
+        //    UIManager.Instance.SetUnitText(unitsOnGrid.unitName);
         //}
     }
     private void OnMouseExit()
@@ -82,9 +87,9 @@ public class MapGrid : MonoBehaviour
         // Second consecutive click on grid
         if(GridManager.Instance.selectedGrid == this)
         {
-            ToggleOverlay(false);
+            GridManager.Instance.SetSelectedGrid(null);
             GridManager.Instance.confirmSelectedGrid = this;
-            Debug.Log($"\tSelected grid {index}");
+            Debug.Log($"Selected grid {index}");
         }
         // Clicked on a different tile
         else
@@ -104,5 +109,49 @@ public class MapGrid : MonoBehaviour
         int x = index % 4;
         int y = index / 4;
         return new Vector2(x, y);
+    }
+
+    public void Resolve()
+    {
+        if (unitsOnGrid.Count > 0)
+        {
+            // Split units by faction
+            List<HeroUnit> heroes = new List<HeroUnit>();
+            List<EnemyUnit> monsters = new List<EnemyUnit>();
+            foreach(BaseUnit unit in unitsOnGrid)
+            {
+                if (unit.faction == Faction.Hero) heroes.Add((HeroUnit)unit);
+                else if (unit.faction == Faction.Enemy) monsters.Add((EnemyUnit)unit);
+            }
+            // Monsters attack heroes
+            if(heroes.Count > 0 && monsters.Count > 0)
+            {
+                foreach(HeroUnit hero in heroes)
+                {
+                    if (hero.isConscious)
+                    {
+                        hero.isConscious = false;
+                        UIManager.Instance.ShowGameMessageText($"{hero.unitName} is attacked!");
+                        Debug.Log($"{hero.unitName} is attacked");
+                    }
+                    else 
+                    {
+                        Debug.Log($"{hero.unitName} was unconscious and attacked again.");
+                        GameManager.Instance.PlayerLose();
+                    } 
+                }
+            }
+            // Monsters attack town
+            if(monsters.Count > 0 && isTownGrid)
+            {
+
+            }
+            // Monsters attack smaller monsters
+            if(monsters.Count > 1)
+            {
+
+            }
+
+        }
     }
 }

@@ -45,29 +45,29 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.SetUpGridmap:
-                Debug.Log("State: SetUpGridmap");
+                Debug.Log("\tState: SetUpGridmap");
                 StartCoroutine(GridManager.Instance.SetUpGridmap());
                 break;
             case GameState.SetupEnemies:
-                Debug.Log("State: SetupEnemies");
+                Debug.Log("\tState: SetupEnemies");
                 //Debug.Log(DiceRoll.Instance.Generate());
                 StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
                 break;
             case GameState.SetupSwordsman:
-                Debug.Log("State: SetupSwordsman");
+                Debug.Log("\tState: SetupSwordsman");
                 StartCoroutine(UnitManager.Instance.SpawnSwordsman());
                 // TODO: display spawnable grids during this phase
                 break;
             case GameState.SetupTrapper:
-                Debug.Log("State: SetupTrapper");
+                Debug.Log("\tState: SetupTrapper");
                 StartCoroutine(UnitManager.Instance.SpawnTrapper());
                 break;
             case GameState.SetupMagician:
-                Debug.Log("State: SetupMagician");
+                Debug.Log("\tState: SetupMagician");
                 StartCoroutine(UnitManager.Instance.SpawnMagician());
                 break;
             case GameState.SwordsmanPhase:
-                Debug.Log("State: SwordsmanPhase");
+                Debug.Log("\tState: SwordsmanPhase");
                 if (!UnitManager.Instance.swordsman.isConscious)
                 {
                     UIManager.Instance.ShowGameMessageText("Swordsman is Unconscious!");
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.TrapperPhase:
-                Debug.Log("State: TrapperPhase");
+                Debug.Log("\tState: TrapperPhase");
                 if (!UnitManager.Instance.trapper.isConscious)
                 {
                     UIManager.Instance.ShowGameMessageText("Trapper is Unconscious!");
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.MagicianPhase:
-                Debug.Log("State: MagicianPhase");
+                Debug.Log("\tState: MagicianPhase");
                 if (!UnitManager.Instance.magician.isConscious)
                 {
                     UIManager.Instance.ShowGameMessageText("Magician is Unconscious!");
@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.SmallEnemyPhase:
+                Debug.Log("\tState: SmallEnemyPhase");
                 // Check if there are small enemies alive. If so, each takes one action.
                 if (UnitManager.Instance.smallEnemies.Count == 0)
                 {
@@ -157,9 +158,9 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.CalamityPhase:
-                Debug.Log("Calamity Phase!");
+                Debug.Log("\tCalamity Phase!");
                 StartCoroutine(CalamityManager.Instance.IncreaseCalamity());
-                //ChangeState(GameState.SwordsmanPhase);
+                //TODO: check if all heroes are unconscious
                 break;
             default:
                 Debug.LogError("Invalid state");
@@ -173,6 +174,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayerLose()
     {
+        Debug.Log("Player lost");
         UIManager.Instance.ShowLoseText();
     }
 
@@ -181,6 +183,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayerWin()
     {
+        Debug.Log("Player won");
         UIManager.Instance.ShowWinText();
     }
 }

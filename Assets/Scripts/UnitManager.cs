@@ -40,7 +40,7 @@ public class UnitManager : MonoBehaviour
         {
             spawnedUnit.unitName = unitName;
         }
-        grid.unitOnGrid = spawnedUnit;
+        grid.unitsOnGrid.Add(spawnedUnit);
         spawnedUnit.currentGrid = grid;
         return spawnedUnit;
     }
@@ -53,9 +53,9 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Small Monster Appears!");
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
-        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[5])); // DEBUG
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[4])); // DEBUG
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
@@ -69,7 +69,7 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Swordsman");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
-        while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
             Debug.Log("Invalid grid");
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
@@ -89,7 +89,7 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Trapper");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
-        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
             Debug.Log("Invalid grid");
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
@@ -109,7 +109,7 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Magician");
         // TODO: display the valid grids selection
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
-        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitOnGrid != null)
+        while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
             Debug.Log("Invalid grid");
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
@@ -179,7 +179,7 @@ public class UnitManager : MonoBehaviour
         if (validGrids.Count == 0)
         {
             UIManager.Instance.ShowGameMessageText("This unit can't move!");
-            Debug.Log("There no valid grids to move to");
+            Debug.Log("There are no valid grids to move to");
             yield break;
         }
         // TODO: display valid move grids

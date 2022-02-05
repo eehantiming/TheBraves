@@ -42,7 +42,7 @@ public class CalamityManager : MonoBehaviour
                 break;
             }
         }
-        if (calamityCounter == 4) SpeedUp(); //DEBUG
+        //if (calamityCounter == 4) SpeedUp(); //DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
 

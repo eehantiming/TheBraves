@@ -9,6 +9,7 @@ public class SmallEnemy : EnemyUnit
     /// </summary>
     public override void DecideMovement()
     {
+        Debug.Log($"{unitName} turn to move");
         if (isBaited)
         {
             var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();

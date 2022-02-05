@@ -38,9 +38,10 @@ public class BaseUnit : MonoBehaviour
     /// <param name="grid">MapGrid to move to.</param>
     public void Move(MapGrid grid)
     {
-        currentGrid.unitOnGrid = null;
-        grid.unitOnGrid = this; // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
+        currentGrid.unitsOnGrid.Remove(this);
+        grid.unitsOnGrid.Add(this); // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
         currentGrid = grid;
+        if(faction == Faction.Enemy) currentGrid.Resolve();
     }
 
 }

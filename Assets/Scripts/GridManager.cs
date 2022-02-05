@@ -49,11 +49,11 @@ public class GridManager : MonoBehaviour
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
         MapGrid spawnGrid = grids[enemySpawnGrids[roll-1]];
         counter = 0;
-        while (spawnGrid.unitOnGrid != null && counter < countlimit)
+        while (spawnGrid.unitsOnGrid.Count > 0 && counter < countlimit)
         {
             roll = DiceRoll.Instance.Generate();; // TODO: currently fixed to 6. use this value for dice throw
             // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
-            Debug.Log("Roll: " + roll);
+            Debug.Log("Re-Roll: " + roll);
             spawnGrid = grids[enemySpawnGrids[roll-1]];
             counter++; //prevents infinite loop
         }
@@ -82,9 +82,17 @@ public class GridManager : MonoBehaviour
         // Remove occupied grids
         for (int i = 0; i < adjacentGrids.Count; i++)
         {
-            if (adjacentGrids[i].unitOnGrid != null)
+            if (adjacentGrids[i].unitsOnGrid.Count > 0)
             {
-                if (!acceptHero && adjacentGrids[i].unitOnGrid.faction == Faction.Hero || !acceptEnemy && adjacentGrids[i].unitOnGrid.faction == Faction.Enemy) // && resolves before ||
+                bool hasHero = false;
+                bool hasEnemy = false;
+                foreach(BaseUnit unit in adjacentGrids[i].unitsOnGrid)
+                {
+                    // can break if both are true. however grid should contain at most 3 units which is not too expensive.
+                    if (unit.faction == Faction.Hero) hasHero = true;
+                    else if (unit.faction == Faction.Enemy) hasEnemy = true;
+                }
+                if (!acceptHero && hasHero || !acceptEnemy && hasEnemy) // && resolves before ||
                 {
                     adjacentGrids.RemoveAt(i);
                     i--; // recheck at index which is a new grid since earlier grid was removed
@@ -93,10 +101,10 @@ public class GridManager : MonoBehaviour
         }
         //foreach (MapGrid adjacentGrid in adjacentGrids)
         //{
-        //    if (adjacentGrid.unitOnGrid != null)
+        //    if (adjacentGrid.unitsOnGrid != null)
         //    {
-        //        if (!acceptHero && adjacentGrid.unitOnGrid.faction == Faction.Hero) adjacentGrids.Remove(adjacentGrid);
-        //        if (!acceptEnemy && adjacentGrid.unitOnGrid.faction == Faction.Enemy) adjacentGrids.Remove(adjacentGrid);
+        //        if (!acceptHero && adjacentGrid.unitsOnGrid.faction == Faction.Hero) adjacentGrids.Remove(adjacentGrid);
+        //        if (!acceptEnemy && adjacentGrid.unitsOnGrid.faction == Faction.Enemy) adjacentGrids.Remove(adjacentGrid);
         //    }
         //}
         return adjacentGrids;
@@ -110,14 +118,20 @@ public class GridManager : MonoBehaviour
     {
         if(selectedGrid != null) selectedGrid.ToggleOverlay(false);
         selectedGrid = grid;
+        if (selectedGrid == null) return; // if input grid is null
         selectedGrid.ToggleOverlay(true);
-        if(grid.unitOnGrid == null)
+        if(grid.unitsOnGrid.Count == 0)
         {
             UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");
         }
         else
         {
-            UIManager.Instance.ShowMouseSelectionText(grid.unitOnGrid.unitName);
+            string names = "";
+            foreach(BaseUnit unit in grid.unitsOnGrid)
+            {
+                names = names + unit.unitName + "\n";
+            }
+            UIManager.Instance.ShowMouseSelectionText(names);
         }
     }
 
