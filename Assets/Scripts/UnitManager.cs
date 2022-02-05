@@ -54,7 +54,7 @@ public class UnitManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
         smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[4])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[0])); // DEBUG
         //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[16])); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
@@ -194,5 +194,21 @@ public class UnitManager : MonoBehaviour
         activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
         yield return new WaitForSeconds(1);
         activeUnit.GetComponent<HeroUnit>().EndTurn();
+    }
+
+    /// <summary>
+    /// Checks if any hero is conscious. if not, call PlayerLose
+    /// </summary>
+    /// <returns>false if all are unconscious</returns>
+    public bool CheckConsciousness()
+    {
+        if (!swordsman.isConscious && !trapper.isConscious && !magician.isConscious)
+        {
+            Debug.Log("All heroes are unconscious");
+            UIManager.Instance.ShowGameMessageText("All heroes are unconscious!");
+            GameManager.Instance.PlayerLose();
+            return (false);
+        }
+        return true;
     }
 }

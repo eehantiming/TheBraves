@@ -27,12 +27,15 @@ public class GridManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Setting up Gridmap!");
         yield return new WaitForSeconds(1);
         int gridNumber = 0;
+        int numberOfTowns = 0;
         foreach (MapGrid grid in grids)
         {
             grid.index = gridNumber;
             IndexToGrid.Add(gridNumber, grid);
             gridNumber++;
+            if (grid.isTownGrid) numberOfTowns++;
         }
+        GameManager.Instance.numberOfTownsLeft = numberOfTowns;
         GameManager.Instance.ChangeState(GameManager.GameState.SetupEnemies);
     }
 

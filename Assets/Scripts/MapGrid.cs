@@ -89,7 +89,7 @@ public class MapGrid : MonoBehaviour
         {
             GridManager.Instance.SetSelectedGrid(null);
             GridManager.Instance.confirmSelectedGrid = this;
-            Debug.Log($"Selected grid {index}");
+            Debug.Log($"Selected grid {IndexToVect()}");
         }
         // Clicked on a different tile
         else
@@ -111,6 +111,9 @@ public class MapGrid : MonoBehaviour
         return new Vector2(x, y);
     }
 
+    /// <summary>
+    /// Resolves all conflicts between heroes, monsters, towns and traps on this grid.
+    /// </summary>
     public void Resolve()
     {
         if (unitsOnGrid.Count > 0)
@@ -142,9 +145,9 @@ public class MapGrid : MonoBehaviour
                 }
             }
             // Monsters attack town
-            if(monsters.Count > 0 && isTownGrid)
+            if(isTownGrid && monsters.Count > 0)
             {
-
+                GameManager.Instance.DestroyTown(this);
             }
             // Monsters attack smaller monsters
             if(monsters.Count > 1)

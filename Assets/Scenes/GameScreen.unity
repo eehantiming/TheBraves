@@ -668,6 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  numberOfTownsLeft: 0
 --- !u!4 &164116947
 Transform:
   m_ObjectHideFlags: 0
@@ -1119,7 +1120,7 @@ RectTransform:
   m_Children:
   - {fileID: 1652453784}
   m_Father: {fileID: 1451618980}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -2856,6 +2857,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: isTownGrid
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
       propertyPath: isHeroSpawnGrid
       value: 1
       objectReference: {fileID: 0}
@@ -2893,7 +2898,7 @@ RectTransform:
   m_Children:
   - {fileID: 15580576}
   m_Father: {fileID: 1451618980}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -3096,7 +3101,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1451618980}
-  m_RootOrder: 5
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3296,11 +3301,11 @@ RectTransform:
   - {fileID: 2009160151}
   - {fileID: 334863168}
   - {fileID: 1113089533}
-  - {fileID: 1433666111}
   - {fileID: 1906306300}
   - {fileID: 388690822}
   - {fileID: 1838375599}
   - {fileID: 1354447290}
+  - {fileID: 1433666111}
   - {fileID: 76655741}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -3855,7 +3860,7 @@ RectTransform:
   m_Children:
   - {fileID: 1157743538}
   m_Father: {fileID: 1451618980}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -4047,7 +4052,7 @@ RectTransform:
   m_Children:
   - {fileID: 2068209074}
   m_Father: {fileID: 1451618980}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -4945,6 +4950,10 @@ PrefabInstance:
     - target: {fileID: 4329790519194702015, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: isTownGrid
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
       propertyPath: isHeroSpawnGrid

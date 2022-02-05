@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,9 +20,11 @@ public class GameManager : MonoBehaviour
         BigEnemyPhase = 9,
         GiantEnemyPhase = 10,
         CalamityPhase = 11,
+        Nothingness = 12,
     }
     public static GameManager Instance;
     public GameState currentState;
+    public int numberOfTownsLeft;
 
     private void Awake()
     {
@@ -159,8 +162,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.CalamityPhase:
                 Debug.Log("\tCalamity Phase!");
-                StartCoroutine(CalamityManager.Instance.IncreaseCalamity());
-                //TODO: check if all heroes are unconscious
+                bool anyHeroConscious = UnitManager.Instance.CheckConsciousness();
+                if(anyHeroConscious) StartCoroutine(CalamityManager.Instance.IncreaseCalamity());
+                break;
+            case GameState.Nothingness:
+                Debug.Log("\tNothingness");
                 break;
             default:
                 Debug.LogError("Invalid state");
@@ -176,6 +182,24 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Player lost");
         UIManager.Instance.ShowLoseText();
+        ChangeState(GameState.Nothingness); //TODO: stop processing game logic and prevent user input 
+    }
+
+    /// <summary>
+    /// Function to destroy a town and updates the number of towns left in the game
+    /// </summary>
+    /// <param name="grid">Town to be destroyed from this MapGrid</param>
+    public void DestroyTown(MapGrid grid)
+    {
+        Debug.Log($"Town on {grid.IndexToVect()} destroyed");
+        UIManager.Instance.ShowGameMessageText("Town Destroyed!");
+        grid.isTownGrid = false; // TODO: add destroy town animation
+        numberOfTownsLeft--;
+        if(numberOfTownsLeft == 0)
+        {
+            Debug.Log("All towns are destroyed");
+            PlayerLose();
+        }
     }
 
     /// <summary>
@@ -185,5 +209,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Player won");
         UIManager.Instance.ShowWinText();
+        ChangeState(GameState.Nothingness);
     }
 }

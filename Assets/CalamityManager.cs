@@ -34,7 +34,7 @@ public class CalamityManager : MonoBehaviour
                 //StartCoroutine(UnitManager.Instance.SpawnGiantEnemy());
                 yield return StartCoroutine(UnitManager.Instance.SpawnHeart()); // DEBUG
             }
-            else if(calamityCounter == 9) // Fire Breath
+            else if(calamityCounter == 15) // Fire Breath
             {
                 UIManager.Instance.ShowGameMessageText("Giant Monster Fire Breath!");
                 //TODO: add animation for this
