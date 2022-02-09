@@ -3913,7 +3913,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1289642955}
         m_TargetAssemblyTypeName: UnitManager, Assembly-CSharp
-        m_MethodName: ButtonPlayerMove
+        m_MethodName: ButtonUseSkill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

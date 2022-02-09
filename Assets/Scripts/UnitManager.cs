@@ -162,6 +162,16 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
     }
+    // Wrapper for UseSkill Coroutine so that button can access it
+    public void ButtonUseSkill()
+    {
+        Debug.Log("Clicked skill..");
+        //StartCoroutine(UseSkill());
+    }
+
+    //to create UseSkill()
+
+
     // Wrapper for PlayerMove Coroutine so that button can access it
     public void ButtonPlayerMove()
     {

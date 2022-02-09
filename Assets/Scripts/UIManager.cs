@@ -23,9 +23,9 @@ public class UIManager : MonoBehaviour
         
     }
     /// <summary>
-    /// Displays the unit that is selected by left click in UI
+    /// Display the dice roll
     /// </summary>
-    /// <param name="inputText"></param>
+    /// <param name="inputInt"></param>
     public void ShowDiceRollText(int inputInt)
     {
         DiceRollText.text = "Dice Roll: " + inputInt;
