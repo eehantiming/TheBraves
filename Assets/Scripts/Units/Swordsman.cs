@@ -23,6 +23,7 @@ public class Swordsman : HeroUnit
         //validGrids contains both empty and enemy - remove grids without enemy from ValidGrids
         for (int i = 0; i < validGrids.Count; i++)
         {
+            //not need to check count()
             if (validGrids[i].unitsOnGrid.Count > 0)
             {
                 bool hasEnemy = false;
@@ -58,6 +59,6 @@ public class Swordsman : HeroUnit
         Debug.Log("Charged successful");
         //reasign grid of monster and move it to the new grid
         yield return new WaitForSeconds(1);
-        UnitManager.Instance.activeUnit.GetComponent<HeroUnit>().EndTurn();
+        EndTurn();
     }
 }
