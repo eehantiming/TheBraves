@@ -42,7 +42,7 @@ public class SmallEnemy : EnemyUnit
                 break;
             case 2:
                 //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-                int roll = DiceRoll.Instance.Generate();
+                int roll = DiceRoll.Instance.GenerateRoll();
                 // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
                 Debug.Log("Roll: " + roll);
                 goalGrid = adjacentGrids[(roll - 1) / 3];
@@ -51,7 +51,7 @@ public class SmallEnemy : EnemyUnit
                 break;
             case 3:
                 //roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-                int roll1 = DiceRoll.Instance.Generate();
+                int roll1 = DiceRoll.Instance.GenerateRoll();
                 // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
                 Debug.Log("Roll: " + roll1);
                 goalGrid = adjacentGrids[(roll1 - 1) / 2];

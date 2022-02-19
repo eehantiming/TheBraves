@@ -46,7 +46,7 @@ public class GridManager : MonoBehaviour
     public MapGrid GetEnemySpawnGrid()
     {
         //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-        int roll = DiceRoll.Instance.Generate();
+        int roll = DiceRoll.Instance.GenerateRoll();
         // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
         Debug.Log("Roll: " + roll);
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
@@ -54,7 +54,7 @@ public class GridManager : MonoBehaviour
         counter = 0;
         while (spawnGrid.unitsOnGrid.Count > 0 && counter < countlimit)
         {
-            roll = DiceRoll.Instance.Generate();; // TODO: currently fixed to 6. use this value for dice throw
+            roll = DiceRoll.Instance.GenerateRoll();; // TODO: currently fixed to 6. use this value for dice throw
             // int roll = XX.rollDice(); // TODO: create a function somewhere to roll dice, run animation and return result
             Debug.Log("Re-Roll: " + roll);
             spawnGrid = grids[enemySpawnGrids[roll-1]];

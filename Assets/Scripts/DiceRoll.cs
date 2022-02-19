@@ -12,7 +12,7 @@ public class DiceRoll : MonoBehaviour
     /// <summary>
     /// Generates a random number between 1 and 6
     /// </summary>
-    public int Generate()
+    public int GenerateRoll()
     {
         int roll = Random.Range(1,7);
         UIManager.Instance.ShowDiceRollText(roll);
