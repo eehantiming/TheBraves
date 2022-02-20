@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Swordsman : HeroUnit
 {
@@ -17,17 +18,31 @@ public class Swordsman : HeroUnit
     /// <returns></returns>
     public IEnumerator SwordCharge()
     {
-        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, false, true);
+        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, true, true);
         Debug.Log(validGrids.Count);
         
-        //validGrids contains both empty and enemy - loop removes grids without enemy from ValidGrids
+        //validGrids contains both empty, monsters and heroes - loop removes grids without enemy from ValidGrids
         for (int i = 0; i < validGrids.Count; i++)
         {
-            //not need to check count()
+            //remove empty grid
             if (validGrids[i].unitsOnGrid.Count == 0)
             {
                 validGrids.RemoveAt(i);
                 i--; // recheck at index which is a new grid since earlier grid was removed
+            }
+            //remove grid without enemy
+            else
+            {
+                bool hasEnemy = false;
+                foreach(BaseUnit unit in validGrids[i].unitsOnGrid)
+                {
+                    if (unit.faction == Faction.Enemy) hasEnemy = true;
+                }
+                if (!hasEnemy)
+                {
+                    validGrids.RemoveAt(i);
+                    i--; // recheck at index which is a new grid since earlier grid was removed
+                }
             }
         }
         
