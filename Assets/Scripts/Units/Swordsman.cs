@@ -17,28 +17,20 @@ public class Swordsman : HeroUnit
     /// <returns></returns>
     public IEnumerator SwordCharge()
     {
-        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(UnitManager.Instance.activeUnit.currentGrid, false, true);
+        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, false, true);
         Debug.Log(validGrids.Count);
         
-        //validGrids contains both empty and enemy - remove grids without enemy from ValidGrids
+        //validGrids contains both empty and enemy - loop removes grids without enemy from ValidGrids
         for (int i = 0; i < validGrids.Count; i++)
         {
             //not need to check count()
-            if (validGrids[i].unitsOnGrid.Count > 0)
+            if (validGrids[i].unitsOnGrid.Count == 0)
             {
-                bool hasEnemy = false;
-                foreach(BaseUnit unit in validGrids[i].unitsOnGrid)
-                {
-                    // set hasEnemy to true if Enemy found
-                    if (unit.faction == Faction.Enemy) hasEnemy = true;
-                }
-                if (!hasEnemy)
-                {
-                    validGrids.RemoveAt(i);
-                    i--; // recheck at index which is a new grid since earlier grid was removed
-                }
+                validGrids.RemoveAt(i);
+                i--; // recheck at index which is a new grid since earlier grid was removed
             }
         }
+        
         Debug.Log(validGrids.Count);
         if (validGrids.Count == 0)
         {
@@ -52,12 +44,35 @@ public class Swordsman : HeroUnit
         // Check if selected grid is a valid move
         while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
         {
-            UIManager.Instance.ShowGameMessageText("Select Monster to Sword-Charge");
+            UIManager.Instance.ShowGameMessageText("Select a grid with Monster to Sword-Charge");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         }
-        //activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
-        Debug.Log("Charged successful");
+        Debug.Log("Swordcharged started");
         //reasign grid of monster and move it to the new grid
+        //Sword charge displacment = monster current pos - hero pos
+        Vector2 displacement = GridManager.Instance.confirmSelectedGrid.IndexToVect() - this.currentGrid.IndexToVect();
+        //Monster final grid = monster current pos + displacement
+        Vector2 monster_final_grid = GridManager.Instance.confirmSelectedGrid.IndexToVect() + displacement;
+
+        List<MapGrid> monster_final_validGrids = GridManager.Instance.GetAdjacentGrids(GridManager.Instance.confirmSelectedGrid, true, true);
+        //check if monster_final_grid is in one of the valid adjacentgrids
+        for (int i = 0; i < monster_final_validGrids.Count; i++)
+        {
+            //not need to check count()
+            if (monster_final_validGrids[i].IndexToVect() != monster_final_grid)
+            {
+                monster_final_validGrids.RemoveAt(i);
+                i--; // recheck at index which is a new grid since earlier grid was removed
+            }
+        }
+        //move monster to the monster_final_validGrids
+        if (monster_final_validGrids.Count > 0) 
+        {
+            //Selects the first unit in the unitsOnGrid list = need to be able to select from multiple monsters
+            BaseUnit target_monster = GridManager.Instance.confirmSelectedGrid.unitsOnGrid[0];
+            target_monster.Move(monster_final_validGrids[0]);
+        }
+        Debug.Log("SwordCharged successful");
         yield return new WaitForSeconds(1);
         EndTurn();
     }
