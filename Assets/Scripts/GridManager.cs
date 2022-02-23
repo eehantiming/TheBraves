@@ -87,15 +87,17 @@ public class GridManager : MonoBehaviour
         {
             if (adjacentGrids[i].unitsOnGrid.Count > 0)
             {
-                bool hasHero = false;
-                bool hasEnemy = false;
-                foreach(BaseUnit unit in adjacentGrids[i].unitsOnGrid)
-                {
-                    // can break if both are true. however grid should contain at most 3 units which is not too expensive.
-                    if (unit.faction == Faction.Hero) hasHero = true;
-                    else if (unit.faction == Faction.Enemy) hasEnemy = true;
-                }
-                if (!acceptHero && hasHero || !acceptEnemy && hasEnemy) // && resolves before ||
+                //bool hasHero = false;
+                //bool hasEnemy = false;
+                //if (adjacentGrids[i].heroesOnGrid.Count > 0) hasHero = true;
+                //if (adjacentGrids[i].enemiesOnGrid.Count > 0) hasEnemy = true;
+                //foreach (BaseUnit unit in adjacentGrids[i].unitsOnGrid)
+                //{
+                //    // can break if both are true. however grid should contain at most 3 units which is not too expensive.
+                //    if (unit.faction == Faction.Hero) hasHero = true;
+                //    else if (unit.faction == Faction.Enemy) hasEnemy = true;
+                //}
+                if (!acceptHero && (adjacentGrids[i].heroesOnGrid.Count > 0) || !acceptEnemy && (adjacentGrids[i].enemiesOnGrid.Count > 0)) // && resolves before ||
                 {
                     adjacentGrids.RemoveAt(i);
                     i--; // recheck at index which is a new grid since earlier grid was removed
@@ -150,5 +152,16 @@ public class GridManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    /// <summary>
+    /// Get the grid at given coordinates e.g. (3,4).
+    /// </summary>
+    /// <param name="position">Input grid coordinates (x,y).</param>
+    /// <returns>The MapGrid at this coordinate.</returns>
+    public MapGrid GetGridFromPosition(Vector2Int position)
+    {
+        int index = position.y * 4 + position.x; 
+        return IndexToGrid[index];
     }
 }

@@ -64,9 +64,9 @@ public class Swordsman : HeroUnit
         Debug.Log("Swordcharged started");
         //reasign grid of monster and move it to the new grid
         //Sword charge displacment = monster current pos - hero pos
-        Vector2 displacement = GridManager.Instance.confirmSelectedGrid.IndexToVect() - this.currentGrid.IndexToVect();
-        //Monster final grid = monster current pos + displacement
-        Vector2 monster_final_grid = GridManager.Instance.confirmSelectedGrid.IndexToVect() + displacement;
+        Vector2Int displacement = GridManager.Instance.confirmSelectedGrid.IndexToVect() - this.currentGrid.IndexToVect();
+        //MonstInter final grid = monster current pos + displacement
+        Vector2Int monster_final_grid = GridManager.Instance.confirmSelectedGrid.IndexToVect() + displacement;
 
         List<MapGrid> monster_final_validGrids = GridManager.Instance.GetAdjacentGrids(GridManager.Instance.confirmSelectedGrid, true, true);
         //check if monster_final_grid is in one of the valid adjacentgrids
@@ -83,8 +83,10 @@ public class Swordsman : HeroUnit
         if (monster_final_validGrids.Count > 0) 
         {
             //Selects the first unit in the unitsOnGrid list = need to be able to select from multiple monsters
-            BaseUnit target_monster = GridManager.Instance.confirmSelectedGrid.unitsOnGrid[0];
-            target_monster.Move(monster_final_validGrids[0]);
+            //BaseUnit target_monster = GridManager.Instance.confirmSelectedGrid.unitsOnGrid[0];
+            //target_monster.Move(monster_final_validGrids[0]);
+            EnemyUnit targetMonster = GridManager.Instance.confirmSelectedGrid.enemiesOnGrid[0];
+            targetMonster.Move(GridManager.Instance.GetGridFromPosition(monster_final_grid));
         }
         Debug.Log("SwordCharged successful");
         yield return new WaitForSeconds(1);

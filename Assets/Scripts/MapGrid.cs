@@ -11,6 +11,8 @@ public class MapGrid : MonoBehaviour
     
     public int index;
     public List<BaseUnit> unitsOnGrid;
+    public List<HeroUnit> heroesOnGrid;
+    public List<EnemyUnit> enemiesOnGrid;
     public bool isHoldingHeart = false;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
@@ -59,31 +61,6 @@ public class MapGrid : MonoBehaviour
     //Make MapGrid clickable - first click to select then followed by confirmation to move on second click
     private void OnMouseDown() 
     {
-        // TODO: Double click logic to move.
-        //Debug.Log(transform.position);
-        //if(!isGridSelected)
-        //{
-        //    isGridSelected = true;
-        //}
-        //else
-        //{
-        //    Debug.Log("moving");
-        //    isGridSelected = false;
-        //}
-        // Click to spawn Swordsman
-        //if(GameManager.Instance.currentState == GameManager.GameState.SetupSwordsman) 
-        //{
-        //    if (isHeroSpawnGrid)
-        //    {
-        //        UnitManager.Instance.SpawnSwordsman(this);
-        //        GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("Click on hero spawn grids!");
-        //    }
-        //}
-
         // Second consecutive click on grid
         if(GridManager.Instance.selectedGrid == this)
         {
@@ -104,11 +81,11 @@ public class MapGrid : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the Grid, given by the value in grid to index</param>
     /// <returns>Vector2 of the coordinates of the Grid.</returns>
-    public Vector2 IndexToVect()
+    public Vector2Int IndexToVect()
     {
         int x = index % 4;
         int y = index / 4;
-        return new Vector2(x, y);
+        return new Vector2Int(x, y);
     }
 
     /// <summary>
@@ -118,18 +95,10 @@ public class MapGrid : MonoBehaviour
     {
         if (unitsOnGrid.Count > 0)
         {
-            // Split units by faction
-            List<HeroUnit> heroes = new List<HeroUnit>();
-            List<EnemyUnit> monsters = new List<EnemyUnit>();
-            foreach(BaseUnit unit in unitsOnGrid)
-            {
-                if (unit.faction == Faction.Hero) heroes.Add((HeroUnit)unit);
-                else if (unit.faction == Faction.Enemy) monsters.Add((EnemyUnit)unit);
-            }
             // Monsters attack heroes
-            if(heroes.Count > 0 && monsters.Count > 0)
+            if(heroesOnGrid.Count > 0 && enemiesOnGrid.Count > 0)
             {
-                foreach(HeroUnit hero in heroes)
+                foreach(HeroUnit hero in heroesOnGrid)
                 {
                     if (hero.isConscious)
                     {
@@ -145,16 +114,30 @@ public class MapGrid : MonoBehaviour
                 }
             }
             // Monsters attack town
-            if(isTownGrid && monsters.Count > 0)
+            if(isTownGrid && enemiesOnGrid.Count > 0)
             {
                 GameManager.Instance.DestroyTown(this);
             }
-            // Monsters attack smaller monsters
-            if(monsters.Count > 1)
+            // TODO: Monsters attack smaller monsters
+            if(enemiesOnGrid.Count > 1)
             {
 
             }
-
+            // TODO: Monsters on trap
         }
+    }
+
+    public void AddUnitToGrid(BaseUnit unit)
+    {
+        unitsOnGrid.Add(unit);
+        if (unit.faction == Faction.Hero) heroesOnGrid.Add((HeroUnit)unit);
+        else if (unit.faction == Faction.Enemy) enemiesOnGrid.Add((EnemyUnit)unit);
+    }
+
+    public void RemoveUnitFromGrid(BaseUnit unit)
+    {
+        unitsOnGrid.Remove(unit);
+        if (unit.faction == Faction.Hero) heroesOnGrid.Remove((HeroUnit)unit);
+        else if (unit.faction == Faction.Enemy) enemiesOnGrid.Remove((EnemyUnit)unit);
     }
 }

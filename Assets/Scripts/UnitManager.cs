@@ -40,7 +40,8 @@ public class UnitManager : MonoBehaviour
         {
             spawnedUnit.unitName = unitName;
         }
-        grid.unitsOnGrid.Add(spawnedUnit);
+        //grid.unitsOnGrid.Add(spawnedUnit);
+        grid.AddUnitToGrid(spawnedUnit);
         spawnedUnit.currentGrid = grid;
         return spawnedUnit;
     }
@@ -54,7 +55,10 @@ public class UnitManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
         smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[11])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[9])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8])); // DEBUG
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[10])); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
@@ -74,7 +78,7 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
-        swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid);
+        swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid, "Reiner");
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SetupTrapper);
     }
@@ -114,7 +118,7 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
-        magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid);
+        magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid, "Wanda");
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
@@ -130,7 +134,7 @@ public class UnitManager : MonoBehaviour
     {
         UIManager.Instance.ShowGameMessageText("Giant Monster Appears!!");
         yield return new WaitForSeconds(1);
-        giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+        giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), "Godzilla"); // TODO: add spawn animation
     }
 
     public IEnumerator SpawnHeart()
@@ -151,7 +155,7 @@ public class UnitManager : MonoBehaviour
     /// <param name="unit">BaseUnit to set</param>
     public void SetActiveUnit(BaseUnit unit)
     {
-        activeUnit = unit;
+        activeUnit = unit; // TODO: add visualization for active unit
         if(activeUnit == null)
         {
             UIManager.Instance.ShowActiveUnitText(null);
@@ -161,14 +165,19 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
     }
-    // Wrapper for UseSkill Coroutine so that button can access it
+    // Wrapper for UseSkill so that button can access it
     public void ButtonUseSkill()
     {
         Debug.Log("Clicked skill..");
         activeUnit.ActivateSkill();
     }
 
-
+    // Wrapper for UseBait Coroutine so that button can access it
+    public void ButtonUseBait()
+    {
+        Debug.Log("Clicked bait..");
+        activeUnit.GetComponent<HeroUnit>().ActivateBait();
+    }
 
     // Wrapper for PlayerMove Coroutine so that button can access it
     public void ButtonPlayerMove()

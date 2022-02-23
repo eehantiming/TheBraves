@@ -15,4 +15,14 @@ public class HeroUnit : BaseUnit
         //GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
         else GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
     }
+
+    public void ActivateBait()
+    {
+        int x = currentGrid.IndexToVect().x;
+        int y = currentGrid.IndexToVect().y;
+        for(int dx = -2; dx <= 2; dx++)
+        {
+            Vector2Int gridToCheck = new Vector2Int(x + dx, y);
+        }
+    }
 }
