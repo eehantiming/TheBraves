@@ -59,7 +59,7 @@ public class Swordsman : HeroUnit
         while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
         {
             UIManager.Instance.ShowGameMessageText("Select a grid with Monster to Sword-Charge");
-            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); 
         }
         Debug.Log("Swordcharged started");
         //reasign grid of monster and move it to the new grid
@@ -87,7 +87,9 @@ public class Swordsman : HeroUnit
             //target_monster.Move(monster_final_validGrids[0]);
             EnemyUnit targetMonster = GridManager.Instance.confirmSelectedGrid.enemiesOnGrid[0];
             targetMonster.Move(GridManager.Instance.GetGridFromPosition(monsterFinalGridPosition));
-        }
+            //increase rage level
+            targetMonster.IncreaseRageLevel();
+        } 
         Debug.Log("SwordCharged successful");
         yield return new WaitForSeconds(1);
         EndTurn();
