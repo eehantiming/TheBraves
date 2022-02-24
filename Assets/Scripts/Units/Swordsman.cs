@@ -18,35 +18,11 @@ public class Swordsman : HeroUnit
     public IEnumerator SwordCharge()
     {
         List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, true, true);
-        Debug.Log(validGrids.Count);
         
-        //validGrids contains both empty, monsters and heroes - loop removes grids without enemy from ValidGrids
-        for (int i = 0; i < validGrids.Count; i++)
-        {
-            //remove empty grid
-            if (validGrids[i].unitsOnGrid.Count == 0)
-            {
-                validGrids.RemoveAt(i);
-                i--; // recheck at index which is a new grid since earlier grid was removed
-            }
-            //remove grid without enemy
-            else
-            {
-                bool hasEnemy = false;
-                foreach(BaseUnit unit in validGrids[i].unitsOnGrid)
-                {
-                    if (unit.faction == Faction.Enemy) hasEnemy = true;
-                }
-                if (!hasEnemy)
-                {
-                    validGrids.RemoveAt(i);
-                    i--; // recheck at index which is a new grid since earlier grid was removed
-                }
-            }
-        }
-        
-        Debug.Log(validGrids.Count);
-        if (validGrids.Count == 0)
+        //validGrids contains both empty, monsters and heroes - Find grid with enemiesOnGrid
+        List<MapGrid> enemyGrids = validGrids.FindAll(grid => grid.enemiesOnGrid.Count > 0);
+
+        if (enemyGrids.Count == 0)
         {
             UIManager.Instance.ShowGameMessageText("No monsters nearby");
             Debug.Log("No nonsters nearby to use skill on");
@@ -56,7 +32,7 @@ public class Swordsman : HeroUnit
         UIManager.Instance.ShowGameMessageText("Select Monster to Sword-Charge");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is a valid move
-        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        while (!enemyGrids.Contains(GridManager.Instance.confirmSelectedGrid))
         {
             UIManager.Instance.ShowGameMessageText("Select a grid with Monster to Sword-Charge");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); 
@@ -69,25 +45,18 @@ public class Swordsman : HeroUnit
         Vector2Int monsterFinalGridPosition = GridManager.Instance.confirmSelectedGrid.IndexToVect() + displacement;
 
         List<MapGrid> monsterFinalValidGrids = GridManager.Instance.GetAdjacentGrids(GridManager.Instance.confirmSelectedGrid, true, true);
-        //check if monsterFinalGridPosition is in one of the valid adjacentgrids
-        for (int i = 0; i < monsterFinalValidGrids.Count; i++)
-        {
-            //not need to check count()
-            if (monsterFinalValidGrids[i].IndexToVect() != monsterFinalGridPosition)
-            {
-                monsterFinalValidGrids.RemoveAt(i);
-                i--; // recheck at index which is a new grid since earlier grid was removed
-            }
-        }
+        
+        //Find grids from monsterFinalValidGrids that is equal to monsterFinalGridPosition
+        List<MapGrid> monsterPushBackGrid = monsterFinalValidGrids.FindAll(grid => grid.IndexToVect() == monsterFinalGridPosition);
+
         //move monster to the monsterFinalValidGrids
-        if (monsterFinalValidGrids.Count > 0) 
+        if (monsterPushBackGrid.Count > 0) 
         {
-            //Selects the first unit in the unitsOnGrid list = need to be able to select from multiple monsters
-            //BaseUnit target_monster = GridManager.Instance.confirmSelectedGrid.unitsOnGrid[0];
-            //target_monster.Move(monster_final_validGrids[0]);
+            //Selects the first unit in the unitsOnGrid list
             EnemyUnit targetMonster = GridManager.Instance.confirmSelectedGrid.enemiesOnGrid[0];
+            //move targetMonster back 1 space
             targetMonster.Move(GridManager.Instance.GetGridFromPosition(monsterFinalGridPosition));
-            //increase rage level
+            //increase targetMonster rage level
             targetMonster.IncreaseRageLevel();
         } 
         Debug.Log("SwordCharged successful");
