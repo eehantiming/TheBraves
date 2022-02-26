@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ChangeState(GameState.SetUpGridmap);
+        ///ChangeState(GameState.SetUpGridmap);
     }
 
     /// <summary>
