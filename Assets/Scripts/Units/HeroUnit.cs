@@ -23,6 +23,7 @@ public class HeroUnit : BaseUnit
     {
         int x = currentGrid.IndexToVect().x;
         int y = currentGrid.IndexToVect().y;
+        bool baitSuccess = false;
         for (int dx = -2; dx <= 2; dx++)
         {
             for (int dy = -2; dy <= 2; dy++)
@@ -37,11 +38,18 @@ public class HeroUnit : BaseUnit
                 {
                     foreach (EnemyUnit enemy in gridToCheck.enemiesOnGrid)
                         enemy.TakeBait(currentGrid);
+                    baitSuccess = true;
                 }
             }
         }
         yield return new WaitForSeconds(1);
-        EndTurn();
+        if(baitSuccess)
+            EndTurn();
+        else
+        {
+            Debug.Log("Nothing baited");
+            UIManager.Instance.ShowGameMessageText("No units in range for bait!");
+        }
     }
 
     /// <summary>

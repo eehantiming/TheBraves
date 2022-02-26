@@ -47,10 +47,8 @@ public class GridManager : MonoBehaviour
     /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
-        //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
         int roll = DiceRoll.Instance.GenerateRoll();
-        // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
-        Debug.Log("Roll: " + roll);
+        Debug.Log("Rolling for enemy spawn grid");
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
         MapGrid spawnGrid = grids[enemySpawnGrids[roll-1]];
         counter = 0;
