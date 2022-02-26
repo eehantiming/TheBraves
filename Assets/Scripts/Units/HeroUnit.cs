@@ -33,11 +33,44 @@ public class HeroUnit : BaseUnit
        //Each Hero has its own override ActivateSkill() 
     }
 
-        /// <summary>
+    /// <summary>
     /// Activate revive.
     /// </summary>
     public virtual void ActivateRevive()
     {
-       //WIP
+        Debug.Log("Clicked move..");
+        StartCoroutine(Revive());
+    }
+
+    public IEnumerator Revive()
+    {
+        //Retrieve list of adjacent grids
+        List<MapGrid> possibleGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, true, true);
+        
+        //Find grids with with unconscious heros
+        List<MapGrid> unconsciousHeroGrids = possibleGrids.FindAll(grid => grid.heroesOnGrid.Count > 0 && grid.heroesOnGrid[0].isConscious == false);
+    
+        if (unconsciousHeroGrids.Count == 0)
+        {
+            UIManager.Instance.ShowGameMessageText("No unconscious heroes nearby");
+            Debug.Log("No unconscious heroes nearby");
+            yield break;
+        }
+
+        // TODO: display valid Monster grids
+        UIManager.Instance.ShowGameMessageText("Select Hero to revive");
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        // Check if selected grid is a valid move
+        while (!unconsciousHeroGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        {
+            UIManager.Instance.ShowGameMessageText("Select Hero to revive");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); 
+        }
+
+        //Set selected unconscious hero isConscious to true
+        GridManager.Instance.confirmSelectedGrid.heroesOnGrid[0].isConscious = true;
+        Debug.Log("Saved" + GridManager.Instance.confirmSelectedGrid.heroesOnGrid[0].unitName);
+        yield return new WaitForSeconds(1);
+        EndTurn();
     }
 }

@@ -18,7 +18,6 @@ public class UnitManager : MonoBehaviour
     public BigEnemy bigEnemy = null;
     public GiantEnemy giantEnemy = null;
     public BaseUnit heart = null;
-
     public BaseUnit activeUnit = null;
     // Start is called before the first frame update
     private void Awake()
