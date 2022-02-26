@@ -5,56 +5,66 @@ using UnityEngine;
 public class SmallEnemy : EnemyUnit
 {
     /// <summary>
-    /// Function to throw dice and move Enemy.
+    /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
     public override void DecideMovement()
     {
         Debug.Log($"{unitName} turn to move");
+        MapGrid goalGrid;
+        int roll;
+
         if (isBaited)
         {
+            int goalGridIndex;
             var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
             if(directionToMove.x == 0) // move vertical
             {
-                int goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
+                goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
             }
             else if(directionToMove.y == 0) // move horizontal
             {
-                int goalGridIndex = currentGrid.index + System.Math.Sign(directionToMove.x);
+                goalGridIndex = currentGrid.index + System.Math.Sign(directionToMove.x);
             }
+            else // two possible moves, roll dice to decide
+            {
+                // TODO: add visualization for which dice roll values correspond to each move
+                List<int> possibleGridIndex = new List<int>()
+                {
+                    currentGrid.index + 4 * System.Math.Sign(directionToMove.y),
+                    currentGrid.index + System.Math.Sign(directionToMove.x)
+                };
+                roll = DiceRoll.Instance.GenerateRoll();
+                goalGridIndex = possibleGridIndex[(roll - 1) / 3];
+            }
+            goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
+            Move(goalGrid);
+            LoseBait();
+            return;
         }
-        // Find available grids
+
+        // If not baited
         var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
-        //foreach(MapGrid grid in adjacentGrids)
-        //{
-        //    Debug.Log(grid.index);
-        //}
         // Roll dice and move based on roll outcome
-        MapGrid goalGrid;
         switch (adjacentGrids.Count)
         {
             case 0:
                 UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
-                return;
+                break;
             case 1:
                 UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");
                 goalGrid = adjacentGrids[0];
                 Move(goalGrid);
                 break;
             case 2:
-                //int roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-                int roll = DiceRoll.Instance.GenerateRoll();
-                // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
-                Debug.Log("Roll: " + roll);
+                Debug.Log("2 moves, rolling dice");
+                roll = DiceRoll.Instance.GenerateRoll();
                 goalGrid = adjacentGrids[(roll - 1) / 3];
-                UIManager.Instance.ShowGameMessageText($"Rolled {roll}. {unitName} moving to {goalGrid.index}");
                 Move(goalGrid);
                 break;
             case 3:
-                //roll = Random.Range(1, 7); // TODO: currently fixed to 6. use this value for dice throw
-                int roll1 = DiceRoll.Instance.GenerateRoll();
-                // int roll = XX.rollDice(); // TODO: create a function/coroutine somewhere to roll dice, run animation and return result
-                Debug.Log("Roll: " + roll1);
-                goalGrid = adjacentGrids[(roll1 - 1) / 2];
+                Debug.Log("3 moves, rolling dice");
+                roll = DiceRoll.Instance.GenerateRoll();
+                goalGrid = adjacentGrids[(roll - 1) / 2];
                 Move(goalGrid);
                 break;
             default:

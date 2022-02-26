@@ -28,6 +28,9 @@ public class EnemyUnit : BaseUnit
         }
     }
 
+    /// <summary>
+    /// Function for Enemy to move this turn. Throws dice if neccesary.
+    /// </summary>
     public virtual void DecideMovement() // Make this abstract?
     {
 
@@ -36,5 +39,24 @@ public class EnemyUnit : BaseUnit
     protected virtual void ActivateRage() // Make this abstract?
     {
 
+    }
+
+    /// <summary>
+    /// Function to make enemy baited and move towards bait source on its next turn.
+    /// </summary>
+    /// <param name="baitSource">The MapGrid that the baited enemy will move towards.</param>
+    public void TakeBait(MapGrid baitSource)
+    {
+        isBaited = true;
+        baitedTo = baitSource;
+        GetComponent<SpriteRenderer>().color = new Color(0.7294118f, 0.4941176f, 0.7490196f);
+        UIManager.Instance.ShowGameMessageText($"{unitName} is baited!");
+        Debug.Log($"{unitName} is baited to {baitedTo.IndexToVect()}");
+    }
+
+    public void LoseBait() // TODO: make this protected?
+    {
+        isBaited = false;
+        GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

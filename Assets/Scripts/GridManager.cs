@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    const int GridHeight = 6;
+    const int GridWidth = 4;
     public static GridManager Instance;
     //public Dictionary<MapGrid, Vector2> GridToPosition = new Dictionary<MapGrid, Vector2>();
     public Dictionary<int, MapGrid> IndexToGrid = new Dictionary<int, MapGrid>();
@@ -163,5 +165,17 @@ public class GridManager : MonoBehaviour
     {
         int index = position.y * 4 + position.x; 
         return IndexToGrid[index];
+    }
+
+    /// <summary>
+    /// Checks if coordinate is within the board.
+    /// </summary>
+    /// <param name="pos">Vector2Int(x,y) to check.</param>
+    /// <returns>True if it is within the board.</returns>
+    public bool CheckPosInBoard(Vector2Int pos)
+    {
+        if (pos.x < 0 || pos.x >= GridWidth || pos.y < 0 || pos.y >= GridHeight)
+            return false;
+        return true;
     }
 }

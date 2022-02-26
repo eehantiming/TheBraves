@@ -40,12 +40,10 @@ public class BaseUnit : MonoBehaviour
     {
         currentGrid.RemoveUnitFromGrid(this);
         grid.AddUnitToGrid(this); // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
-        //currentGrid.unitsOnGrid.Remove(this);
-        //grid.unitsOnGrid.Add(this); // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
         currentGrid = grid;
-        if(faction == Faction.Enemy) currentGrid.Resolve();
+        UIManager.Instance.ShowGameMessageText($"{unitName} moving to {currentGrid.IndexToVect()}");
+        if (faction == Faction.Enemy) currentGrid.Resolve();
     }
-
 }
 
 public enum Faction

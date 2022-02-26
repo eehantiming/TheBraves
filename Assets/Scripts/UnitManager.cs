@@ -54,10 +54,7 @@ public class UnitManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         smallEnemyCount++;
         smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[11])); // DEBUG
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[9])); // DEBUG
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8])); // DEBUG
-        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[10])); // DEBUG
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8], $"Small Monster 2")); // DEBUG
         //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
         GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
     }
@@ -183,7 +180,7 @@ public class UnitManager : MonoBehaviour
     public void ButtonUseBait()
     {
         Debug.Log("Clicked bait..");
-        activeUnit.GetComponent<HeroUnit>().ActivateBait();
+        StartCoroutine(activeUnit.GetComponent<HeroUnit>().ActivateBait());
     }
 
     // Wrapper for PlayerMove Coroutine so that button can access it
@@ -197,7 +194,7 @@ public class UnitManager : MonoBehaviour
     /// Coroutine. Prompt user to select grid, then moves active unit to that grid.
     /// </summary>
     /// <returns></returns>
-    public IEnumerator PlayerMove()
+    public IEnumerator PlayerMove() //TODO: move this to HeroUnit.PlayerMove()?
     {
         List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(activeUnit.currentGrid, false, false);
         if (validGrids.Count == 0)

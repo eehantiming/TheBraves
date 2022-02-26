@@ -16,15 +16,34 @@ public class HeroUnit : BaseUnit
         else GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
     }
 
-    public void ActivateBait()
+    /// <summary>
+    /// Bait enemies within distance 2 of the hero.
+    /// </summary>
+    public IEnumerator ActivateBait()
     {
         int x = currentGrid.IndexToVect().x;
         int y = currentGrid.IndexToVect().y;
-        for(int dx = -2; dx <= 2; dx++)
+        for (int dx = -2; dx <= 2; dx++)
         {
-            Vector2Int gridToCheck = new Vector2Int(x + dx, y);
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                if (System.Math.Abs(dx) + System.Math.Abs(dy) > 2)
+                    continue;
+                Vector2Int gridPosToCheck = new Vector2Int(x + dx, y + dy);
+                if (!GridManager.Instance.CheckPosInBoard(gridPosToCheck)) // coordinates is out of board range.
+                    continue;
+                MapGrid gridToCheck = GridManager.Instance.GetGridFromPosition(gridPosToCheck);
+                if (gridToCheck.enemiesOnGrid.Count > 0)
+                {
+                    foreach (EnemyUnit enemy in gridToCheck.enemiesOnGrid)
+                        enemy.TakeBait(currentGrid);
+                }
+            }
         }
+        yield return new WaitForSeconds(1);
+        EndTurn();
     }
+
     /// <summary>
     /// Activate the hero specifc skill.
     /// </summary>
