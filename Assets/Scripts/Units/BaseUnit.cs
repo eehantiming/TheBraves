@@ -46,14 +46,6 @@ public class BaseUnit : MonoBehaviour
         if(faction == Faction.Enemy) currentGrid.Resolve();
     }
 
-    /// <summary>
-    /// Activate the hero specifc skill.
-    /// </summary>
-    public virtual void ActivateSkill()
-    {
-       //Each Hero has its own override ActivateSkill() 
-    }
-
 }
 
 public enum Faction

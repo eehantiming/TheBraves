@@ -1173,7 +1173,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1289642955}
         m_TargetAssemblyTypeName: UnitManager, Assembly-CSharp
-        m_MethodName: ButtonPlayerMove
+        m_MethodName: ButtonUseBait
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3231,7 +3231,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1289642955}
         m_TargetAssemblyTypeName: UnitManager, Assembly-CSharp
-        m_MethodName: ButtonPlayerMove
+        m_MethodName: ButtonUseRevive
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -25,4 +25,19 @@ public class HeroUnit : BaseUnit
             Vector2Int gridToCheck = new Vector2Int(x + dx, y);
         }
     }
+    /// <summary>
+    /// Activate the hero specifc skill.
+    /// </summary>
+    public virtual void ActivateSkill()
+    {
+       //Each Hero has its own override ActivateSkill() 
+    }
+
+        /// <summary>
+    /// Activate revive.
+    /// </summary>
+    public virtual void ActivateRevive()
+    {
+       //WIP
+    }
 }

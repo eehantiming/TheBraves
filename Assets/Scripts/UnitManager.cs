@@ -165,11 +165,19 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
     }
+
+    // Wrapper for UseSkill so that button can access it
+    public void ButtonUseRevive()
+    {
+        Debug.Log("Clicked revive..");
+        activeUnit.GetComponent<HeroUnit>().ActivateRevive();
+    }
+
     // Wrapper for UseSkill so that button can access it
     public void ButtonUseSkill()
     {
         Debug.Log("Clicked skill..");
-        activeUnit.ActivateSkill();
+        activeUnit.GetComponent<HeroUnit>().ActivateSkill();
     }
 
     // Wrapper for UseBait Coroutine so that button can access it
