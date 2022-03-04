@@ -8,12 +8,15 @@ public class MapGrid : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color grass1, grass2;
     [SerializeField] private GameObject highlight, selectedOverlay;
-    
+    [SerializeField] private GameObject trapPrefab;
+    private GameObject trap;
+
     public int index;
     public List<BaseUnit> unitsOnGrid;
     public List<HeroUnit> heroesOnGrid;
     public List<EnemyUnit> enemiesOnGrid;
     public bool isHoldingHeart = false;
+    public bool isHoldingTrap = false;
     public bool isEnemySpawnGrid = false;
     public bool isHeroSpawnGrid = false;
     public bool isTownGrid = false;
@@ -139,5 +142,19 @@ public class MapGrid : MonoBehaviour
         unitsOnGrid.Remove(unit);
         if (unit.faction == Faction.Hero) heroesOnGrid.Remove((HeroUnit)unit);
         else if (unit.faction == Faction.Enemy) enemiesOnGrid.Remove((EnemyUnit)unit);
+    }
+
+    public void AddTrapToGrid()
+    {
+        trap = Instantiate(trapPrefab, transform.position, Quaternion.identity); // TODO: add animation
+        isHoldingTrap = true;
+    }
+
+    public void RemoveTrapFromGrid()
+    {
+        if (trap==null) return;
+        Destroy(trap);
+        isHoldingTrap = false;
+        UnitManager.Instance.trapper.NumOfTrapsLeft++;
     }
 }

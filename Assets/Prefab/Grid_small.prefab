@@ -104,10 +104,16 @@ MonoBehaviour:
   grass2: {r: 0.15352438, g: 0.4716981, b: 0.25224364, a: 1}
   highlight: {fileID: 9195702065425769202}
   selectedOverlay: {fileID: 4582821175194153243}
+  trapPrefab: {fileID: 3067593670755266486, guid: 0391727b32b8674469acea4768b75456, type: 3}
   index: 0
-  unitOnGrid: {fileID: 0}
+  unitsOnGrid: []
+  heroesOnGrid: []
+  enemiesOnGrid: []
+  isHoldingHeart: 0
+  isHoldingTrap: 0
   isEnemySpawnGrid: 0
   isHeroSpawnGrid: 0
+  isTownGrid: 0
   isGridSelected: 0
 --- !u!61 &8954995959316251613
 BoxCollider2D:

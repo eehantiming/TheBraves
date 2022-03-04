@@ -12,8 +12,8 @@ public class HeroUnit : BaseUnit
     public void EndTurn()
     {
         if (currentGrid.isHoldingHeart) GameManager.Instance.PlayerWin();
-        //GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
-        else GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
+        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
+        //else GameManager.Instance.ChangeState(GameManager.GameState.SmallEnemyPhase); // DEBUG
     }
 
     /// <summary>
@@ -28,7 +28,9 @@ public class HeroUnit : BaseUnit
         {
             for (int dy = -2; dy <= 2; dy++)
             {
-                if (System.Math.Abs(dx) + System.Math.Abs(dy) > 2)
+                if (System.Math.Abs(dx) + System.Math.Abs(dy) > 2) // 2 units away diagonally
+                    continue;
+                if (dx == 0 && dy == 0)
                     continue;
                 Vector2Int gridPosToCheck = new Vector2Int(x + dx, y + dy);
                 if (!GridManager.Instance.CheckPosInBoard(gridPosToCheck)) // coordinates is out of board range.

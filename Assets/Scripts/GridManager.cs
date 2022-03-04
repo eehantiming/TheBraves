@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    const int GridHeight = 6;
-    const int GridWidth = 4;
+    const int MapHeight = 6;
+    const int MapWidth = 4;
     public static GridManager Instance;
     //public Dictionary<MapGrid, Vector2> GridToPosition = new Dictionary<MapGrid, Vector2>();
     public Dictionary<int, MapGrid> IndexToGrid = new Dictionary<int, MapGrid>();
@@ -172,8 +172,28 @@ public class GridManager : MonoBehaviour
     /// <returns>True if it is within the board.</returns>
     public bool CheckPosInBoard(Vector2Int pos)
     {
-        if (pos.x < 0 || pos.x >= GridWidth || pos.y < 0 || pos.y >= GridHeight)
+        if (pos.x < 0 || pos.x >= MapWidth || pos.y < 0 || pos.y >= MapHeight)
             return false;
         return true;
+    }
+
+    /// <summary>
+    /// Gets all grids which are linearly 2 units away from the input MapGrid
+    /// </summary>
+    /// <param name="centerGrid">The input MapGrid</param>
+    /// <returns>List of valid MapGrids</returns>
+    public List<MapGrid> GetTeleportGrids(MapGrid centerGrid)
+    {
+        List<MapGrid> ValidGrids = new List<MapGrid>();
+        if (centerGrid.IndexToVect().y >= 2)
+            ValidGrids.Add(GetGridFromPosition(new Vector2Int(centerGrid.IndexToVect().x, centerGrid.IndexToVect().y - 2)));
+        if (centerGrid.IndexToVect().y <= MapHeight - 3)
+            ValidGrids.Add(GetGridFromPosition(new Vector2Int(centerGrid.IndexToVect().x, centerGrid.IndexToVect().y + 2)));
+        if (centerGrid.IndexToVect().x >= 2)
+            ValidGrids.Add(GetGridFromPosition(new Vector2Int(centerGrid.IndexToVect().x - 2, centerGrid.IndexToVect().y)));
+        if (centerGrid.IndexToVect().x <= MapWidth - 3)
+            ValidGrids.Add(GetGridFromPosition(new Vector2Int(centerGrid.IndexToVect().x + 2, centerGrid.IndexToVect().y)));
+        ValidGrids = ValidGrids.FindAll(grid => grid.unitsOnGrid.Count == 0);
+        return ValidGrids;
     }
 }
