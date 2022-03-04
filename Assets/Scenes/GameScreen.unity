@@ -5375,9 +5375,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4582821175194153243, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
       propertyPath: isEnemySpawnGrid
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441533623749238509, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195702065425769202, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
