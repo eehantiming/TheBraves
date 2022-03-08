@@ -2632,6 +2632,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedGrid: {fileID: 0}
   confirmSelectedGrid: {fileID: 0}
+  bait: {fileID: 0}
+  baitPrefab: {fileID: 0}
   grids:
   - {fileID: 1472564595}
   - {fileID: 1636416785}

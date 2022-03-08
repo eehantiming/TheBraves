@@ -7,11 +7,13 @@ public class GridManager : MonoBehaviour
     const int MapHeight = 6;
     const int MapWidth = 4;
     public static GridManager Instance;
-    //public Dictionary<MapGrid, Vector2> GridToPosition = new Dictionary<MapGrid, Vector2>();
     public Dictionary<int, MapGrid> IndexToGrid = new Dictionary<int, MapGrid>();
     public MapGrid selectedGrid = null;
     public MapGrid confirmSelectedGrid = null;
-    [SerializeField] private List<MapGrid> grids;    
+    public GameObject bait;
+
+    [SerializeField] private GameObject baitPrefab;
+    [SerializeField] private List<MapGrid> grids;
     private int countlimit = 20;
     private int counter;
 
@@ -196,4 +198,5 @@ public class GridManager : MonoBehaviour
         ValidGrids = ValidGrids.FindAll(grid => grid.unitsOnGrid.Count == 0);
         return ValidGrids;
     }
+
 }

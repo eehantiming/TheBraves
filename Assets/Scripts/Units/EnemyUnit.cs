@@ -10,10 +10,12 @@ public class EnemyUnit : BaseUnit
     protected int rageLevel = 0;
     protected bool isBaited = false;
     protected MapGrid baitedTo;
+    //TODO: create line renderer as part of script instead?
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     /// <summary>
@@ -49,6 +51,11 @@ public class EnemyUnit : BaseUnit
     {
         isBaited = true;
         baitedTo = baitSource;
+
+        LineRenderer lr = GetComponent<LineRenderer>();
+        lr.SetPosition(0, currentGrid.transform.position);
+        lr.SetPosition(1, baitSource.transform.position);
+
         GetComponent<SpriteRenderer>().color = new Color(0.7294118f, 0.4941176f, 0.7490196f);
         UIManager.Instance.ShowGameMessageText($"{unitName} is baited!");
         Debug.Log($"{unitName} is baited to {baitedTo.IndexToVect()}");
@@ -58,5 +65,8 @@ public class EnemyUnit : BaseUnit
     {
         isBaited = false;
         GetComponent<SpriteRenderer>().color = Color.white;
+        LineRenderer lr = GetComponent<LineRenderer>();
+        lr.SetPosition(1, transform.position);
+        
     }
 }
