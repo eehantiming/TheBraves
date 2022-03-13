@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI calamityCounterText;
     [SerializeField] private TextMeshProUGUI DiceRollText;
     [SerializeField] private GameObject playerLoseScreen, playerWinScreen;
+    [SerializeField] private List<Button> playerButtons;
 
     private void Awake()
     {
@@ -97,5 +99,31 @@ public class UIManager : MonoBehaviour
     public void ShowWinText()
     {
         playerWinScreen.SetActive(true);
+    }
+
+    /// <summary>
+    /// Function to make each button in playerButtons non-interactable
+    /// </summary>
+    /// <param name="exceptions">button to keep interactable from playerButtons</param>
+    public void DisableButtons(Button exceptions=null)
+    {
+        foreach(Button button in playerButtons)
+        {
+            if(button != exceptions)
+                    button.interactable = false;
+        }
+    }
+
+    /// <summary>
+    /// Function to make each button in playerButtons interactable
+    /// </summary>
+    /// <param name="exceptions">buttons to keep non interactable from playerButtons</param>
+    public void EnableButtons(Button exceptions=null)
+    {
+        foreach (Button button in playerButtons)
+        {
+            if (button != exceptions)
+                button.interactable = true;
+        }
     }
 }

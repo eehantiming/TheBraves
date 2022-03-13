@@ -160,6 +160,10 @@ public class UnitManager : MonoBehaviour
         {
             UIManager.Instance.ShowActiveUnitText(activeUnit.unitName);
         }
+        if (activeUnit.faction == Faction.Hero)
+        {
+            UIManager.Instance.EnableButtons();
+        }
     }
 
     // Wrapper for UseSkill so that button can access it
@@ -196,6 +200,7 @@ public class UnitManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PlayerMove() //TODO: move this to HeroUnit.PlayerMove()?
     {
+        UIManager.Instance.DisableButtons();
         List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(activeUnit.currentGrid, false, false);
         if (validGrids.Count == 0)
         {

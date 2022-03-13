@@ -785,6 +785,11 @@ MonoBehaviour:
   DiceRollText: {fileID: 1113089534}
   playerLoseScreen: {fileID: 1433666110}
   playerWinScreen: {fileID: 76655740}
+  playerButtons:
+  - {fileID: 1838375600}
+  - {fileID: 1906306301}
+  - {fileID: 1354447291}
+  - {fileID: 388690823}
 --- !u!4 &261833064
 Transform:
   m_ObjectHideFlags: 0

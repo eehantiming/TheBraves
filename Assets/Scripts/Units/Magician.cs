@@ -6,7 +6,7 @@ public class Magician : HeroUnit
 {
     public override void ActivateSkill()
     {
-        //base.ActivateSkill();
+        base.ActivateSkill();
         Debug.Log("Teleport");
         StartCoroutine(Teleport());
     }

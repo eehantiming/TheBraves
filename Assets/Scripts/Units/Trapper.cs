@@ -16,7 +16,7 @@ public class Trapper : HeroUnit
 
     public override void ActivateSkill()
     {
-        //base.ActivateSkill();
+        base.ActivateSkill();
         Debug.Log("Set Trap");
         StartCoroutine(SetTrap());
     }

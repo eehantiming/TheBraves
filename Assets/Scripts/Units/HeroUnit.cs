@@ -21,6 +21,7 @@ public class HeroUnit : BaseUnit
     /// </summary>
     public IEnumerator ActivateBait()
     {
+        UIManager.Instance.DisableButtons();
         int x = currentGrid.IndexToVect().x;
         int y = currentGrid.IndexToVect().y;
         bool baitSuccess = false;
@@ -59,7 +60,8 @@ public class HeroUnit : BaseUnit
     /// </summary>
     public virtual void ActivateSkill()
     {
-       //Each Hero has its own override ActivateSkill() 
+        UIManager.Instance.DisableButtons();
+        //Each Hero has its own override ActivateSkill() 
     }
 
     /// <summary>
@@ -73,6 +75,7 @@ public class HeroUnit : BaseUnit
 
     public IEnumerator Revive()
     {
+        UIManager.Instance.DisableButtons();
         //Retrieve list of adjacent grids
         List<MapGrid> possibleGrids = GridManager.Instance.GetAdjacentGrids(this.currentGrid, true, true);
         
