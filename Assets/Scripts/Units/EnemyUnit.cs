@@ -69,4 +69,9 @@ public class EnemyUnit : BaseUnit
         lr.SetPosition(1, transform.position);
         
     }
+
+    public void NearestHero()
+    {
+        //pending code to find a mapgrid containing nearest hero.
+    }
 }

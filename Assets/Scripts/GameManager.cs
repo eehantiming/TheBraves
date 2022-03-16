@@ -143,6 +143,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
+                    // bigEnemy moves twice
+                    UnitManager.Instance.bigEnemy.DecideMovement();
                     UnitManager.Instance.bigEnemy.DecideMovement();
                     ChangeState(GameState.GiantEnemyPhase);
                 }
