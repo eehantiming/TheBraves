@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyUnit : BaseUnit
@@ -11,7 +12,7 @@ public class EnemyUnit : BaseUnit
     protected bool isBaited = false;
     protected MapGrid baitedTo;
     //TODO: create line renderer as part of script instead?
-
+    protected MapGrid nearestHero;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,8 +71,11 @@ public class EnemyUnit : BaseUnit
         
     }
 
-    public void NearestHero()
+    public void FindNearestHero()
     {
         //pending code to find a mapgrid containing nearest hero.
+        List<MapGrid> allGrids = GridManager.Instance.IndexToGrid.Values.ToList();
+        List<MapGrid> heroGrids = allGrids.FindAll(grid => grid.heroesOnGrid.Count > 1 );
+        //need to sort heroGrids by distant to active unit current grid
     }
 }
