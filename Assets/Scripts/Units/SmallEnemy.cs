@@ -44,6 +44,7 @@ public class SmallEnemy : EnemyUnit
 
         // If not baited
         var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
+        FindNearestHero();
         // Roll dice and move based on roll outcome
         switch (adjacentGrids.Count)
         {

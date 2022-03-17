@@ -71,11 +71,30 @@ public class EnemyUnit : BaseUnit
         
     }
 
-    public void FindNearestHero()
+    public MapGrid FindNearestHero()
     {
+        DistanceMapGridComparer compareDistance = new DistanceMapGridComparer();
         //pending code to find a mapgrid containing nearest hero.
         List<MapGrid> allGrids = GridManager.Instance.IndexToGrid.Values.ToList();
-        List<MapGrid> heroGrids = allGrids.FindAll(grid => grid.heroesOnGrid.Count > 1 );
+        List<MapGrid> heroGrids = allGrids.FindAll(grid => grid.heroesOnGrid.Count > 0 );
         //need to sort heroGrids by distant to active unit current grid
+        heroGrids.Sort(compareDistance);
+        Debug.Log(heroGrids[0].IndexToVect());
+        return heroGrids[0];
+        
     }
+    public class DistanceMapGridComparer : IComparer<MapGrid>
+    {
+        public int Compare(MapGrid grid1, MapGrid grid2)
+        {
+            if(Vector2Int.Distance(grid1.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()) > Vector2Int.Distance(grid2.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()))
+                return 1;
+            if(Vector2Int.Distance(grid1.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()) < Vector2Int.Distance(grid2.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()))
+                return -1;
+            else
+                return 0;
+        }
+
+    }
+
 }

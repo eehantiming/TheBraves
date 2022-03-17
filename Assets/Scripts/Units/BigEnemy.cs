@@ -46,7 +46,7 @@ public class BigEnemy : EnemyUnit
             //using code from isBaited
             int goalGridIndex;
             //need to change baitedTo into a mapgrid that contains the nearest hero
-            var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
+            var directionToMove = FindNearestHero().IndexToVect() - currentGrid.IndexToVect();
             if(directionToMove.x == 0) // move vertical
             {
                 goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
@@ -73,6 +73,20 @@ public class BigEnemy : EnemyUnit
         else if (moveTowardsSpawnPoint)
         {
             // moves up until. check if reach spawn
+            int goalGridIndex;
+            
+            goalGridIndex = currentGrid.index + 4;
+
+            goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
+            Move(goalGrid);
+            if(goalGrid.isEnemySpawnGrid)
+            {
+                rageLevel = 0;
+                moveTowardsPlayer = false;
+                moveTowardsSpawnPoint = false;
+
+            }
+            return;
         }
         else // move freely
         {
