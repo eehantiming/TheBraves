@@ -7,6 +7,10 @@ public class BigEnemy : EnemyUnit
     private bool moveTowardsPlayer = false;
     private bool moveTowardsSpawnPoint = false;
 
+    public void Start()
+    {
+        size = 2;
+    }
     public override void DecideMovement()
     {
         Debug.Log($"{unitName} turn to move");
@@ -38,6 +42,7 @@ public class BigEnemy : EnemyUnit
             }
             goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
             Move(goalGrid);
+            //need to make lose bait trigger only after 2 moves
             LoseBait();
             return;
         }
@@ -46,7 +51,7 @@ public class BigEnemy : EnemyUnit
             //using code from isBaited
             int goalGridIndex;
             //need to change baitedTo into a mapgrid that contains the nearest hero
-            var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
+            var directionToMove = FindNearestHero().IndexToVect() - currentGrid.IndexToVect();
             if(directionToMove.x == 0) // move vertical
             {
                 goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
@@ -73,15 +78,33 @@ public class BigEnemy : EnemyUnit
         else if (moveTowardsSpawnPoint)
         {
             // moves up until. check if reach spawn
+            int goalGridIndex;
+            
+            goalGridIndex = currentGrid.index + 4;
+
+            goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
+            Move(goalGrid);
+            if(goalGrid.isEnemySpawnGrid)
+            {
+                rageLevel = 0;
+                moveTowardsPlayer = false;
+                moveTowardsSpawnPoint = false;
+
+            }
+            return;
         }
         else // move freely
         {
-            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
+            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // can't move north
+
+            //looks for grids whereby there are no monsters larger or equal to own size
+            var safeGrids = adjacentGrids.FindAll(grid => grid.unitsOnGrid.TrueForAll(unit => unit.size < this.size));
             // Roll dice and move based on roll outcome
-            switch (adjacentGrids.Count)
+            switch (safeGrids.Count)
             {
                 case 0:
                     UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
+                    Debug.Log("Big Monster can't move");
                     break;
                 case 1:
                     UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");

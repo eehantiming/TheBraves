@@ -8,6 +8,8 @@ public class BaseUnit : MonoBehaviour
     public string unitName;
     public Faction faction;
 
+    public int size = 0;
+
     private bool isUnitSelected = false;
     private bool isMoving = false;
 

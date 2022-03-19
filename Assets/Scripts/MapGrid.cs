@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -116,15 +117,28 @@ public class MapGrid : MonoBehaviour
                     } 
                 }
             }
-            // Monsters attack town
+            //Monsters attack town
             if(isTownGrid && enemiesOnGrid.Count > 0)
             {
                 GameManager.Instance.DestroyTown(this);
             }
-            // TODO: Monsters attack smaller monsters
+            //Monsters of a smaller size on a grid with another monster is destroyed
             if(enemiesOnGrid.Count > 1)
             {
+                List<int> allSizes = new List<int>();
 
+                foreach(EnemyUnit monster in enemiesOnGrid)
+                {
+                    allSizes.Add(monster.size);
+                }
+
+                foreach(EnemyUnit monster in enemiesOnGrid)
+                {
+                    if(monster.size < allSizes.Min())
+                    {
+                        monster.DestroyMonster();
+                    }
+                }
             }
             // Monsters on trap
             if(trap != null)

@@ -7,6 +7,12 @@ public class GiantEnemy : EnemyUnit
     private bool moveTowardsTown = true;
     private bool movesTwice = false;
 
+    public void Start()
+    {
+        size = 3;
+    }
+
+
     /// <summary>
     /// Function to find and move towards nearest town, which may have 1 or 2 possible paths.
     /// </summary>
