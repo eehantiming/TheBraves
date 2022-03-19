@@ -1171,7 +1171,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 388690824}
   m_OnClick:
     m_PersistentCalls:
@@ -2638,6 +2638,7 @@ MonoBehaviour:
   selectedGrid: {fileID: 0}
   confirmSelectedGrid: {fileID: 0}
   bait: {fileID: 0}
+  townGrids: []
   baitPrefab: {fileID: 0}
   grids:
   - {fileID: 1472564595}
@@ -3231,7 +3232,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1354447292}
   m_OnClick:
     m_PersistentCalls:
@@ -4194,7 +4195,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1838375601}
   m_OnClick:
     m_PersistentCalls:
@@ -4386,7 +4387,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1906306302}
   m_OnClick:
     m_PersistentCalls:
