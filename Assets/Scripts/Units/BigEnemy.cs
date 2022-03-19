@@ -95,7 +95,7 @@ public class BigEnemy : EnemyUnit
         }
         else // move freely
         {
-            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
+            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // can't move north
 
             //looks for grids whereby there are no monsters larger or equal to own size
             var safeGrids = adjacentGrids.FindAll(grid => grid.unitsOnGrid.TrueForAll(unit => unit.size < this.size));
