@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SmallEnemy : EnemyUnit
 {
+    public void Start()
+    {
+        size = 1;
+    }
     /// <summary>
     /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
@@ -45,11 +49,14 @@ public class SmallEnemy : EnemyUnit
         // If not baited
         var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
         FindNearestHero();
+        //looks for grids whereby there are no monsters larger or equal to own size
+        var safeGrids = adjacentGrids.FindAll(grid => grid.unitsOnGrid.TrueForAll(unit => unit.size < this.size));
         // Roll dice and move based on roll outcome
-        switch (adjacentGrids.Count)
+        switch (safeGrids.Count)
         {
             case 0:
                 UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
+                Debug.Log("Small Monster can't move");
                 break;
             case 1:
                 UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");

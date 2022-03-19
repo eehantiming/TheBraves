@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("\tState: SetupEnemies");
                 //Debug.Log(DiceRoll.Instance.Generate());
                 StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
+
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("\tState: SetupSwordsman");
@@ -144,8 +145,8 @@ public class GameManager : MonoBehaviour
                 {
                     UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
                     // bigEnemy moves twice
-                    UnitManager.Instance.bigEnemy.DecideMovement();
-                    UnitManager.Instance.bigEnemy.DecideMovement();
+                    //UnitManager.Instance.bigEnemy.DecideMovement();
+                    StartCoroutine(BigMonsterDoubleMove());
                     ChangeState(GameState.GiantEnemyPhase);
                 }
                 break;
@@ -213,4 +214,12 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowWinText();
         ChangeState(GameState.Nothingness);
     }
+
+    IEnumerator BigMonsterDoubleMove()
+    {
+        UnitManager.Instance.bigEnemy.DecideMovement();
+        yield return new WaitForSeconds(0.5f);
+        UnitManager.Instance.bigEnemy.DecideMovement();
+    }
+
 }

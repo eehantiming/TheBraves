@@ -6,6 +6,12 @@ public class GiantEnemy : EnemyUnit
 {
     private bool moveTowardsTown = true;
     private bool movesTwice = false;
+
+    public void Start()
+    {
+        size = 3;
+    }
+
     public override void DecideMovement()
     {
         //TODO: loop to move twice
