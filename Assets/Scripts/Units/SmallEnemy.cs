@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SmallEnemy : EnemyUnit
 {
+    public void MoveDown() // DEBUG
+    {
+        Vector2Int targetGridPos = currentGrid.IndexToVect();
+        targetGridPos.y--;
+        Move(GridManager.Instance.GetGridFromPosition(targetGridPos));
+    }
+
     /// <summary>
     /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
@@ -73,14 +80,18 @@ public class SmallEnemy : EnemyUnit
         }
     }
 
-    protected override void ActivateRage()
+    protected override IEnumerator ActivateRage()
     {
+        UIManager.Instance.ShowGameMessageText($"{unitName} RAGE!!");
         if (rageLevel == 1)
         {
-            StartCoroutine(UnitManager.Instance.SpawnBigEnemy());
+            Debug.Log("Rage 1, spawning BigEnemy");
+            yield return StartCoroutine(UnitManager.Instance.SpawnBigEnemy());
+            Debug.Log("Spawned!");
         }
         else if (rageLevel == 2)
         {
+            Debug.Log("Rage 2, Can now die");
             UnitManager.Instance.smallEnemyCanDie = true;
         }
     }

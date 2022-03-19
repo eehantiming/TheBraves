@@ -27,7 +27,83 @@ public class EnemyUnit : BaseUnit
         if(rageLevel < 2)
         {
             rageLevel++; // TODO: add visualization
-            ActivateRage();
+            StartCoroutine(ActivateRage());
+        }
+    }
+    
+    /// <summary>
+    /// Function to move from current grid towards target grid, which may have 1 or 2 possible paths.
+    /// </summary>
+    /// <param name="targetGrid">MapGrid to move towards</param>
+    protected void MoveTowardsGrid(MapGrid targetGrid)
+    {
+        int goalGridIndex;
+        var directionToMove = targetGrid.IndexToVect() - currentGrid.IndexToVect();
+        if (directionToMove.x == 0) // move vertical
+        {
+            goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
+        }
+        else if (directionToMove.y == 0) // move horizontal
+        {
+            goalGridIndex = currentGrid.index + System.Math.Sign(directionToMove.x);
+        }
+        else // two possible moves, roll dice to decide
+        {
+            // TODO: add visualization for which dice roll values correspond to each move
+            List<int> possibleGridIndex = new List<int>()
+                {
+                    currentGrid.index + 4 * System.Math.Sign(directionToMove.y),
+                    currentGrid.index + System.Math.Sign(directionToMove.x)
+                };
+            int roll = DiceRoll.Instance.GenerateRoll();
+            goalGridIndex = possibleGridIndex[(roll - 1) / 3];
+        }
+        MapGrid goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
+        Move(goalGrid);
+    }
+
+    /// <summary>
+    /// Function to move from current grid towards baitedTo, which may have 1 or 2 possible paths.
+    /// </summary>
+    protected void MoveTowardsBait()
+    {
+        MoveTowardsGrid(baitedTo);
+        LoseBait();
+    }
+
+    /// <summary>
+    /// Function to randomly select valid west, east or south grid to move to.
+    /// </summary>
+    /// <param name="adjacentGrids">List of MapGrids which are valid movement based on this unit's movement rules</param>
+    protected void RandomMovement(List<MapGrid> adjacentGrids)
+    {
+        MapGrid goalGrid;
+        int roll;
+        switch (adjacentGrids.Count)
+        {
+            case 0:
+                UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
+                break;
+            case 1:
+                UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");
+                goalGrid = adjacentGrids[0];
+                Move(goalGrid);
+                break;
+            case 2:
+                Debug.Log("2 moves, rolling dice");
+                roll = DiceRoll.Instance.GenerateRoll();
+                goalGrid = adjacentGrids[(roll - 1) / 3];
+                Move(goalGrid);
+                break;
+            case 3:
+                Debug.Log("3 moves, rolling dice");
+                roll = DiceRoll.Instance.GenerateRoll();
+                goalGrid = adjacentGrids[(roll - 1) / 2];
+                Move(goalGrid);
+                break;
+            default:
+                Debug.LogError("Invalid movement outcome");
+                break;
         }
     }
 
@@ -39,9 +115,9 @@ public class EnemyUnit : BaseUnit
 
     }
 
-    protected virtual void ActivateRage() // Make this abstract?
+    protected virtual IEnumerator ActivateRage() // Make this abstract?
     {
-
+        yield break;
     }
 
     /// <summary>
@@ -77,5 +153,20 @@ public class EnemyUnit : BaseUnit
         List<MapGrid> allGrids = GridManager.Instance.IndexToGrid.Values.ToList();
         List<MapGrid> heroGrids = allGrids.FindAll(grid => grid.heroesOnGrid.Count > 1 );
         //need to sort heroGrids by distant to active unit current grid
+    }
+
+    public void GetStunned()
+    {
+        isStunned = true; //TODO: add animation to indicate trapped 
+        GetComponent<SpriteRenderer>().color = new Color(0f,0f,0f);
+        UIManager.Instance.ShowGameMessageText($"{unitName} is stunned by the trap!");
+        Debug.Log($"{unitName} stunned by trap on {currentGrid.IndexToVect()}");
+    }
+
+    public void LoseStun()
+    {
+        isStunned = false;
+        GetComponent<SpriteRenderer>().color = Color.white;
+        Debug.Log($"{unitName} is un-stunned");
     }
 }

@@ -126,7 +126,13 @@ public class MapGrid : MonoBehaviour
             {
 
             }
-            // TODO: Monsters on trap
+            // Monsters on trap
+            if(trap != null)
+            {
+                enemiesOnGrid[enemiesOnGrid.Count-1].GetStunned(); // Assume only monster moving in gets stunned
+                enemiesOnGrid[enemiesOnGrid.Count-1].IncreaseRageLevel();
+                RemoveTrapFromGrid();
+            }
         }
     }
 
@@ -148,6 +154,7 @@ public class MapGrid : MonoBehaviour
     {
         trap = Instantiate(trapPrefab, transform.position, Quaternion.identity); // TODO: add animation
         isHoldingTrap = true;
+        UIManager.Instance.ShowGameMessageText("Trap set on grid!");
     }
 
     public void RemoveTrapFromGrid()

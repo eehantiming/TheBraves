@@ -107,7 +107,7 @@ public class BigEnemy : EnemyUnit
         }
     }
 
-    protected override void ActivateRage()
+    protected override IEnumerator ActivateRage()
     {
         if (rageLevel == 1)
         {
@@ -118,5 +118,6 @@ public class BigEnemy : EnemyUnit
             moveTowardsPlayer = false;
             moveTowardsSpawnPoint = true;
         }
+        yield break;
     }
 }

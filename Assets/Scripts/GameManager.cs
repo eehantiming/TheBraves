@@ -114,7 +114,6 @@ public class GameManager : MonoBehaviour
                 if (UnitManager.Instance.smallEnemies.Count == 0)
                 {
                     Debug.Log("No small enemies!");
-                    ChangeState(GameState.BigEnemyPhase);
                 }
                 else
                 {
@@ -124,15 +123,21 @@ public class GameManager : MonoBehaviour
                         {
                             UnitManager.Instance.SetActiveUnit(smallEnemy);
                             smallEnemy.DecideMovement();
+                            //smallEnemy.MoveDown(); // DEBUG
                         }
                         else
                         {
-                            if(smallEnemy.isStunned) UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
+                            if (smallEnemy.isStunned)
+                            {
+                                UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
+                                Debug.Log($"{smallEnemy.unitName} stunned, skipping.");
+                                smallEnemy.LoseStun();
+                            }
                             if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
                         }
                     }
-                    ChangeState(GameState.BigEnemyPhase);
                 }
+                ChangeState(GameState.BigEnemyPhase);
                 break;
             case GameState.BigEnemyPhase:
                 if (UnitManager.Instance.bigEnemy == null)
@@ -153,14 +158,23 @@ public class GameManager : MonoBehaviour
                 if (UnitManager.Instance.giantEnemy == null)
                 {
                     Debug.Log("No Giant Enemy!");
-                    ChangeState(GameState.CalamityPhase);
                 }
                 else
                 {
-                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.giantEnemy);
-                    UnitManager.Instance.giantEnemy.DecideMovement();
-                    ChangeState(GameState.CalamityPhase);
+                    GiantEnemy giantEnemy = UnitManager.Instance.giantEnemy;
+                    if (giantEnemy.isStunned)
+                    {
+                        UIManager.Instance.ShowGameMessageText($"{giantEnemy.unitName} is stunned!");
+                        Debug.Log($"{giantEnemy.unitName} stunned, skipping.");
+                        giantEnemy.LoseStun();
+                    }
+                    else
+                    {
+                        UnitManager.Instance.SetActiveUnit(giantEnemy);
+                        giantEnemy.DecideMovement();
+                    }
                 }
+                ChangeState(GameState.CalamityPhase);
                 break;
             case GameState.CalamityPhase:
                 Debug.Log("\tCalamity Phase!");

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Trapper : HeroUnit
 {
-    private int numOfTrapsLeft = 2; // TODO: add setter for this
+    [SerializeField] private int numOfTrapsLeft = 2; // TODO: add setter for this
     public int NumOfTrapsLeft
     {
         set
         {
             if (value > 2) numOfTrapsLeft = 2;
+            else numOfTrapsLeft = value;
         }
         get { return numOfTrapsLeft; }
     }

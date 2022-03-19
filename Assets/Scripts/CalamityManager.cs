@@ -29,10 +29,12 @@ public class CalamityManager : MonoBehaviour
             {
                 //UnitManager.Instance.SpawnSmallEnemy();
             }
-            if(calamityCounter == 5) // Spawn Giant Monster
+            //if(calamityCounter == 8) // Spawn Giant Monster
+            if(calamityCounter == 5) // DEBUG
             {
-                //StartCoroutine(UnitManager.Instance.SpawnGiantEnemy());
-                yield return StartCoroutine(UnitManager.Instance.SpawnHeart()); // DEBUG
+                Debug.Log("Calamity: Spawning GiantMonster");
+                yield return StartCoroutine(UnitManager.Instance.SpawnGiantEnemy());
+                //yield return StartCoroutine(UnitManager.Instance.SpawnHeart()); // DEBUG
             }
             else if(calamityCounter == 15) // Fire Breath
             {

@@ -39,9 +39,9 @@ public class UnitManager : MonoBehaviour
         {
             spawnedUnit.unitName = unitName;
         }
-        //grid.unitsOnGrid.Add(spawnedUnit);
         grid.AddUnitToGrid(spawnedUnit);
         spawnedUnit.currentGrid = grid;
+        UIManager.Instance.ShowGameMessageText($"{unitName} spawned on {grid.IndexToVect()}!");
         return spawnedUnit;
     }
 

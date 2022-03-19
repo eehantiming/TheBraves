@@ -11,6 +11,7 @@ public class GridManager : MonoBehaviour
     public MapGrid selectedGrid = null;
     public MapGrid confirmSelectedGrid = null;
     public GameObject bait;
+    public List<MapGrid> townGrids = new List<MapGrid>();
 
     [SerializeField] private GameObject baitPrefab;
     [SerializeField] private List<MapGrid> grids;
@@ -37,7 +38,11 @@ public class GridManager : MonoBehaviour
             grid.index = gridNumber;
             IndexToGrid.Add(gridNumber, grid);
             gridNumber++;
-            if (grid.isTownGrid) numberOfTowns++;
+            if (grid.isTownGrid)
+            {
+                numberOfTowns++;
+                townGrids.Add(grid);
+            }
         }
         GameManager.Instance.numberOfTownsLeft = numberOfTowns;
         GameManager.Instance.ChangeState(GameManager.GameState.SetupEnemies);
@@ -49,8 +54,8 @@ public class GridManager : MonoBehaviour
     /// <returns>MapGrid object. Use grid.transform.position to get position.</returns>
     public MapGrid GetEnemySpawnGrid()
     {
-        int roll = DiceRoll.Instance.GenerateRoll();
         Debug.Log("Rolling for enemy spawn grid");
+        int roll = DiceRoll.Instance.GenerateRoll();
         int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
         MapGrid spawnGrid = grids[enemySpawnGrids[roll-1]];
         counter = 0;
@@ -62,7 +67,6 @@ public class GridManager : MonoBehaviour
             spawnGrid = grids[enemySpawnGrids[roll-1]];
             counter++; //prevents infinite loop
         }
-        UIManager.Instance.ShowGameMessageText($"Spawning Enemy on {roll}");
         return spawnGrid;
     }
 
