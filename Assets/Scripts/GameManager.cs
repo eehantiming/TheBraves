@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
                 Debug.Log("\tState: SetupEnemies");
                 //Debug.Log(DiceRoll.Instance.Generate());
                 StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
-
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("\tState: SetupSwordsman");

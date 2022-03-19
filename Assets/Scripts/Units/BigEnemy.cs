@@ -42,6 +42,7 @@ public class BigEnemy : EnemyUnit
             }
             goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
             Move(goalGrid);
+            //need to make lose bait trigger only after 2 moves
             LoseBait();
             return;
         }

@@ -97,4 +97,9 @@ public class EnemyUnit : BaseUnit
 
     }
 
+    public void DestroyMonster()
+    {
+        Destroy(this.gameObject);
+    }
+
 }
