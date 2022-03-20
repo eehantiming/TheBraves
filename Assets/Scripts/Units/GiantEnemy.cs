@@ -36,18 +36,20 @@ public class GiantEnemy : EnemyUnit
 
     public override void DecideMovement()
     {
-        Debug.Log($"{unitName} turn to move");
         //TODO: loop to move twice
         if (isBaited)
         {
+            Debug.Log($"{unitName} move to baited");
             MoveTowardsBait();
         }
         else if (moveTowardsTown)
         {
+            Debug.Log($"{unitName} move towards town");
             MoveTowardsNearestTown();
         }
         else // move freely
         {
+            Debug.Log($"{unitName} move freely");
             var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // Moves onto monsters. assume only 1 GiantEnemy.
             RandomMovement(adjacentGrids);
         }
@@ -55,14 +57,17 @@ public class GiantEnemy : EnemyUnit
 
     protected override IEnumerator ActivateRage()
     {
+        UIManager.Instance.ShowGameMessageText($"{unitName} RAGE!!");
         if (rageLevel == 1)
         {
+            Debug.Log("Rage 1, spawning Heart");
             UnitManager.Instance.SpawnHeart();
             moveTowardsTown = false;
             movesTwice = true;
         }
         else if (rageLevel == 2)
         {
+            Debug.Log("Rage 2, speed up calamity");
             CalamityManager.Instance.SpeedUp();
         }
         yield break;

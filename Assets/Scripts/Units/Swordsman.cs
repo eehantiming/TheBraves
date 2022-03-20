@@ -49,16 +49,16 @@ public class Swordsman : HeroUnit
         //Find grids from monsterFinalValidGrids that is equal to monsterFinalGridPosition
         List<MapGrid> monsterPushBackGrid = monsterFinalValidGrids.FindAll(grid => grid.IndexToVect() == monsterFinalGridPosition);
 
+        //Selects the first unit in the unitsOnGrid list
+        EnemyUnit targetMonster = GridManager.Instance.confirmSelectedGrid.enemiesOnGrid[0];
         //move monster to the monsterFinalValidGrids
         if (monsterPushBackGrid.Count > 0) 
         {
-            //Selects the first unit in the unitsOnGrid list
-            EnemyUnit targetMonster = GridManager.Instance.confirmSelectedGrid.enemiesOnGrid[0];
             //move targetMonster back 1 space
             targetMonster.Move(GridManager.Instance.GetGridFromPosition(monsterFinalGridPosition));
-            //increase targetMonster rage level
-            targetMonster.IncreaseRageLevel();
         } 
+        //increase targetMonster rage level
+        targetMonster.IncreaseRageLevel();
         Debug.Log("SwordCharged successful");
         yield return new WaitForSeconds(1);
         EndTurn();

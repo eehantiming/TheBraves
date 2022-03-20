@@ -30,7 +30,7 @@ public class CalamityManager : MonoBehaviour
                 //UnitManager.Instance.SpawnSmallEnemy();
             }
             //if(calamityCounter == 8) // Spawn Giant Monster
-            if(calamityCounter == 5) // DEBUG
+            if(calamityCounter == 2) // DEBUG
             {
                 Debug.Log("Calamity: Spawning GiantMonster");
                 yield return StartCoroutine(UnitManager.Instance.SpawnGiantEnemy());

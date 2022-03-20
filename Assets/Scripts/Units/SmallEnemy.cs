@@ -21,12 +21,12 @@ public class SmallEnemy : EnemyUnit
     /// </summary>
     public override void DecideMovement()
     {
-        Debug.Log($"{unitName} turn to move");
         MapGrid goalGrid;
         int roll;
 
         if (isBaited)
         {
+            Debug.Log($"{unitName} move towards bait");
             int goalGridIndex;
             var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
             if(directionToMove.x == 0) // move vertical
@@ -55,8 +55,8 @@ public class SmallEnemy : EnemyUnit
         }
 
         // If not baited
+        Debug.Log($"{unitName} move freely");
         var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
-        FindNearestHero();
         // Roll dice and move based on roll outcome
         switch (adjacentGrids.Count)
         {

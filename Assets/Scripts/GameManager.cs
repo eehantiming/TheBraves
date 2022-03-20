@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     }
     public static GameManager Instance;
     public GameState currentState;
-    public int numberOfTownsLeft;
 
     private void Awake()
     {
@@ -210,8 +209,8 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Town on {grid.IndexToVect()} destroyed");
         UIManager.Instance.ShowGameMessageText("Town Destroyed!");
         grid.isTownGrid = false; // TODO: add destroy town animation
-        numberOfTownsLeft--;
-        if(numberOfTownsLeft == 0)
+        GridManager.Instance.townGrids.Remove(grid);
+        if(GridManager.Instance.townGrids.Count == 0)
         {
             Debug.Log("All towns are destroyed");
             PlayerLose();
