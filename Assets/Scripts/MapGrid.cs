@@ -134,7 +134,7 @@ public class MapGrid : MonoBehaviour
 
                 foreach(EnemyUnit monster in enemiesOnGrid)
                 {
-                    if(monster.size < allSizes.Min())
+                    if(monster.size < allSizes.Max())
                     {
                         monster.DestroyMonster();
                     }
