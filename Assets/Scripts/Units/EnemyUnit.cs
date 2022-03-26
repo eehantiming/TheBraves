@@ -63,12 +63,11 @@ public class EnemyUnit : BaseUnit
     }
 
     /// <summary>
-    /// Function to move from current grid towards baitedTo, which may have 1 or 2 possible paths.
+    /// Function to move from current grid towards baitedTo, which may have 1 or 2 possible paths. Note: does not remove the bait status.
     /// </summary>
     protected void MoveTowardsBait()
     {
         MoveTowardsGrid(baitedTo);
-        LoseBait();
     }
 
     /// <summary>

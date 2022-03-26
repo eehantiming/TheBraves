@@ -143,7 +143,7 @@ public class MapGrid : MonoBehaviour
             // Monsters on trap
             if(trap != null)
             {
-                enemiesOnGrid[enemiesOnGrid.Count-1].GetStunned(); // Assume only monster moving in gets stunned
+                enemiesOnGrid[enemiesOnGrid.Count-1].GetStunned(); // Only monster moving in gets stunned
                 enemiesOnGrid[enemiesOnGrid.Count-1].IncreaseRageLevel();
                 RemoveTrapFromGrid();
             }

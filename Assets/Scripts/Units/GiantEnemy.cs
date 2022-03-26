@@ -5,7 +5,7 @@ using UnityEngine;
 public class GiantEnemy : EnemyUnit
 {
     private bool moveTowardsTown = true;
-    private bool movesTwice = false;
+    private int movesTwice = 0; // this is either 0 or 1
 
     public void Start()
     {
@@ -36,23 +36,32 @@ public class GiantEnemy : EnemyUnit
 
     public override void DecideMovement()
     {
-        //TODO: loop to move twice
-        if (isBaited)
+        for(int x = 0; x <= movesTwice; x++)
         {
-            Debug.Log($"{unitName} move to baited");
-            MoveTowardsBait();
+            // End movement if stunned during turn
+            if (isStunned)
+            {
+                break;
+            }
+            if (isBaited)
+            {
+                Debug.Log($"{unitName} move to baited");
+                MoveTowardsBait();
+            }
+            else if (moveTowardsTown)
+            {
+                Debug.Log($"{unitName} move towards town");
+                MoveTowardsNearestTown();
+            }
+            else // move freely
+            {
+                Debug.Log($"{unitName} move freely");
+                var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // Moves onto monsters. assume only 1 GiantEnemy.
+                RandomMovement(adjacentGrids);
+            }
         }
-        else if (moveTowardsTown)
-        {
-            Debug.Log($"{unitName} move towards town");
-            MoveTowardsNearestTown();
-        }
-        else // move freely
-        {
-            Debug.Log($"{unitName} move freely");
-            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // Moves onto monsters. assume only 1 GiantEnemy.
-            RandomMovement(adjacentGrids);
-        }
+        // Only remove bait after finishing movement
+        if(isBaited) LoseBait();
     }
 
     protected override IEnumerator ActivateRage()
@@ -61,13 +70,14 @@ public class GiantEnemy : EnemyUnit
         if (rageLevel == 1)
         {
             Debug.Log("Rage 1, spawning Heart");
-            UnitManager.Instance.SpawnHeart();
+            StartCoroutine(UnitManager.Instance.SpawnHeart());
             moveTowardsTown = false;
-            movesTwice = true;
+            movesTwice = 1;
         }
         else if (rageLevel == 2)
         {
             Debug.Log("Rage 2, speed up calamity");
+            movesTwice = 0;
             CalamityManager.Instance.SpeedUp();
         }
         yield break;

@@ -131,6 +131,7 @@ public class UnitManager : MonoBehaviour
         UIManager.Instance.ShowGameMessageText("Giant Monster Appears!!");
         yield return new WaitForSeconds(1);
         giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), "Godzilla"); // TODO: add spawn animation
+        //giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.IndexToGrid[8], "Godzilla"); // DEBUG
     }
 
     public IEnumerator SpawnHeart()
