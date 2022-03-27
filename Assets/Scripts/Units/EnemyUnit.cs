@@ -187,9 +187,4 @@ public class EnemyUnit : BaseUnit
         Debug.Log($"{unitName} is un-stunned");
     }
 
-    public void DestroyMonster()
-    {
-        Destroy(this.gameObject);
-    }
-
 }
