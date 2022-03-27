@@ -108,11 +108,11 @@ public class SmallEnemy : EnemyUnit
     /// </summary>
     public override void IncreaseRageLevel()
     {
-        base.IncreaseRageLevel();
         if (rageLevel == 2)
         {
             Debug.Log("small enemy dies from rage");
             UnitManager.Instance.DestroyUnit(this);
         }
+        else base.IncreaseRageLevel();
     }
 }
