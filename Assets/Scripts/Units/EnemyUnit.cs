@@ -22,7 +22,7 @@ public class EnemyUnit : BaseUnit
     /// <summary>
     /// Function to increase Rage level by 1. If you do, activates associated ability
     /// </summary>
-    public void IncreaseRageLevel()
+    public virtual void IncreaseRageLevel()
     {
         if(rageLevel < 2)
         {
@@ -146,7 +146,7 @@ public class EnemyUnit : BaseUnit
         
     }
 
-    public MapGrid FindNearestHero()
+    protected MapGrid FindNearestHero()
     {
         DistanceMapGridComparer compareDistance = new DistanceMapGridComparer();
         //pending code to find a mapgrid containing nearest hero.

@@ -118,7 +118,8 @@ public class GameManager : MonoBehaviour
                 {
                     foreach(SmallEnemy smallEnemy in UnitManager.Instance.smallEnemies)
                     {
-                        if (smallEnemy.isAlive && !smallEnemy.isStunned)
+                        // small enemy will be null and still in list if killed out of turn (e.g. by trap)
+                        if (smallEnemy!= null && !smallEnemy.isStunned)
                         {
                             UnitManager.Instance.SetActiveUnit(smallEnemy);
                             smallEnemy.DecideMovement();
@@ -135,6 +136,8 @@ public class GameManager : MonoBehaviour
                             if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
                         }
                     }
+                    // Remove enemies that are dead. have to do this after finishing iterating thru the list.
+                    UnitManager.Instance.smallEnemies = UnitManager.Instance.smallEnemies.FindAll(units => units.isAlive);
                 }
                 ChangeState(GameState.BigEnemyPhase);
                 break;

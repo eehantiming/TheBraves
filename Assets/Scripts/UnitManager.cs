@@ -239,4 +239,29 @@ public class UnitManager : MonoBehaviour
         }
         return true;
     }
+
+    /// <summary>
+    /// Function to destroy unit's gameobject and unitmanager's refernce for the unit.
+    /// </summary>
+    /// <param name="unit">The baseunit to be destroyed.</param>
+    public void DestroyUnit(BaseUnit unit)
+    {
+        if (unit.GetComponent<SmallEnemy>())
+        {
+            // Sets a flag to remove small enemy from the list later
+            unit.GetComponent<SmallEnemy>().isAlive = false;
+        }
+        else if(unit.GetComponent<BigEnemy>())
+        {
+            bigEnemy = null;
+        }
+        else if (unit.GetComponent<BigEnemy>())
+        {
+            giantEnemy = null;
+        }
+        // Destroys the game object. any references to it will be "missing" and treated as null
+        Destroy(unit.gameObject, 0.5f); //TODO: add animation for this
+        UIManager.Instance.ShowGameMessageText($"{unit.unitName} dies!");
+        Debug.Log($"{unit.unitName} is destroyed");
+    }
 }

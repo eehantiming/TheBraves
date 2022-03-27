@@ -102,4 +102,17 @@ public class SmallEnemy : EnemyUnit
             UnitManager.Instance.smallEnemyCanDie = true;
         }
     }
+
+    /// <summary>
+    /// Function to increase Rage level by 1. If you do, activates associated ability. If already at rage 2, enemy dies.
+    /// </summary>
+    public override void IncreaseRageLevel()
+    {
+        base.IncreaseRageLevel();
+        if (rageLevel == 2)
+        {
+            Debug.Log("small enemy dies from rage");
+            UnitManager.Instance.DestroyUnit(this);
+        }
+    }
 }
