@@ -109,7 +109,8 @@ public class EnemyUnit : BaseUnit
     /// <summary>
     /// Function for Enemy to move this turn. Throws dice if neccesary.
     /// </summary>
-    public virtual void DecideMovement() // Make this abstract?
+    /// <param name="keepBait">true if monster does not lose debuff after this movement</param>
+    public virtual void DecideMovement(bool keepBait) // Make this abstract?
     {
 
     }
@@ -158,6 +159,22 @@ public class EnemyUnit : BaseUnit
         return heroGrids[0];
         
     }
+
+    protected MapGrid FindNearestSpawnPoint()
+    {
+        DistanceMapGridComparer compareDistance = new DistanceMapGridComparer();
+        //pending code to find a mapgrid containing nearest spawnPoint.
+        List<MapGrid> allGrids = GridManager.Instance.IndexToGrid.Values.ToList();
+        List<MapGrid> spawnGrids = allGrids.FindAll(grid => grid.isEnemySpawnGrid);
+        //need to sort spawnGrids by distant to active unit current grid
+        spawnGrids.Sort(compareDistance);
+        Debug.Log(spawnGrids[0].IndexToVect());
+        return spawnGrids[0];
+        
+    }
+
+
+
     public class DistanceMapGridComparer : IComparer<MapGrid>
     {
         public int Compare(MapGrid grid1, MapGrid grid2)

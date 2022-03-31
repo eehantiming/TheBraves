@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
                 Debug.Log("\tState: SetupEnemies");
                 //Debug.Log(DiceRoll.Instance.Generate());
                 StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
+                StartCoroutine(UnitManager.Instance.SpawnBigEnemy());
+
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("\tState: SetupSwordsman");
@@ -122,7 +124,7 @@ public class GameManager : MonoBehaviour
                         if (smallEnemy!= null && !smallEnemy.isStunned)
                         {
                             UnitManager.Instance.SetActiveUnit(smallEnemy);
-                            smallEnemy.DecideMovement();
+                            smallEnemy.DecideMovement(false);
                             //smallEnemy.MoveDown(); // DEBUG
                         }
                         else
@@ -173,7 +175,7 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         UnitManager.Instance.SetActiveUnit(giantEnemy);
-                        giantEnemy.DecideMovement();
+                        giantEnemy.DecideMovement(false);
                     }
                 }
                 ChangeState(GameState.CalamityPhase);
@@ -232,9 +234,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator BigMonsterDoubleMove()
     {
-        UnitManager.Instance.bigEnemy.DecideMovement();
+        UnitManager.Instance.bigEnemy.DecideMovement(true);
         yield return new WaitForSeconds(0.5f);
-        UnitManager.Instance.bigEnemy.DecideMovement();
+        UnitManager.Instance.bigEnemy.DecideMovement(false);
     }
 
 }

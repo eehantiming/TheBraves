@@ -34,7 +34,7 @@ public class GiantEnemy : EnemyUnit
         MoveTowardsGrid(nearestGrid);
     }
 
-    public override void DecideMovement()
+    public override void DecideMovement(bool keepBait)
     {
         for(int x = 0; x <= movesTwice; x++)
         {
@@ -60,8 +60,8 @@ public class GiantEnemy : EnemyUnit
                 RandomMovement(adjacentGrids);
             }
         }
-        // Only remove bait after finishing movement
-        if(isBaited) LoseBait();
+        // Only remove bait after finishing movement and keepBait is false
+        if(!keepBait & isBaited) LoseBait();
     }
 
     protected override IEnumerator ActivateRage()
