@@ -136,6 +136,9 @@ public class MapGrid : MonoBehaviour
                 {
                     if(monster.size < allSizes.Max())
                     {
+                        //remove from enemiesOnGrid and unitsOnGrid
+                        enemiesOnGrid.Remove(monster);
+                        unitsOnGrid.Remove(monster);
                         //destroy the monster.gameObject
                         Destroy(monster.gameObject);
                     }
