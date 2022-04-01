@@ -9,17 +9,17 @@ public class SmallEnemy : EnemyUnit
         size = 1;
     }
 
-    public void MoveDown() // DEBUG
+    public IEnumerator MoveDown() // DEBUG
     {
         Vector2Int targetGridPos = currentGrid.IndexToVect();
         targetGridPos.y--;
-        Move(GridManager.Instance.GetGridFromPosition(targetGridPos));
+        yield return StartCoroutine(MoveTo(GridManager.Instance.GetGridFromPosition(targetGridPos)));
     }
 
     /// <summary>
     /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
-    public override void DecideMovement(bool keepBait)
+    public override IEnumerator DecideMovement()
     {
         MapGrid goalGrid;
         int roll;
@@ -49,41 +49,16 @@ public class SmallEnemy : EnemyUnit
                 goalGridIndex = possibleGridIndex[(roll - 1) / 3];
             }
             goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
-            Move(goalGrid);
+            yield return StartCoroutine(MoveTo(goalGrid));
             LoseBait();
-            return;
         }
-
-        // If not baited
-        Debug.Log($"{unitName} move freely");
-        var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
-        // Roll dice and move based on roll outcome
-        switch (adjacentGrids.Count)
+        // not baited
+        else
         {
-            case 0:
-                UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
-                Debug.Log("Small Monster can't move");
-                break;
-            case 1:
-                UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");
-                goalGrid = adjacentGrids[0];
-                Move(goalGrid);
-                break;
-            case 2:
-                Debug.Log("2 moves, rolling dice");
-                roll = DiceRoll.Instance.GenerateRoll();
-                goalGrid = adjacentGrids[(roll - 1) / 3];
-                Move(goalGrid);
-                break;
-            case 3:
-                Debug.Log("3 moves, rolling dice");
-                roll = DiceRoll.Instance.GenerateRoll();
-                goalGrid = adjacentGrids[(roll - 1) / 2];
-                Move(goalGrid);
-                break;
-            default:
-                Debug.LogError("Invalid movement outcome");
-                break;
+            Debug.Log($"{unitName} move freely");
+            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
+            // Roll dice and move based on roll outcome
+            yield return StartCoroutine(RandomMovement(adjacentGrids));
         }
     }
 
@@ -106,13 +81,13 @@ public class SmallEnemy : EnemyUnit
     /// <summary>
     /// Function to increase Rage level by 1. If you do, activates associated ability. If already at rage 2, enemy dies.
     /// </summary>
-    public override void IncreaseRageLevel()
+    public override IEnumerator IncreaseRageLevel()
     {
         if (rageLevel == 2)
         {
             Debug.Log("small enemy dies from rage");
             UnitManager.Instance.DestroyUnit(this);
         }
-        else base.IncreaseRageLevel();
+        else yield return StartCoroutine(base.IncreaseRageLevel());
     }
 }

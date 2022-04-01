@@ -115,33 +115,12 @@ public class GameManager : MonoBehaviour
                 if (UnitManager.Instance.smallEnemies.Count == 0)
                 {
                     Debug.Log("No small enemies!");
+                    ChangeState(GameState.BigEnemyPhase);
                 }
                 else
                 {
-                    foreach(SmallEnemy smallEnemy in UnitManager.Instance.smallEnemies)
-                    {
-                        // small enemy will be null and still in list if killed out of turn (e.g. by trap)
-                        if (smallEnemy!= null && !smallEnemy.isStunned)
-                        {
-                            UnitManager.Instance.SetActiveUnit(smallEnemy);
-                            smallEnemy.DecideMovement(false);
-                            //smallEnemy.MoveDown(); // DEBUG
-                        }
-                        else
-                        {
-                            if (smallEnemy.isStunned)
-                            {
-                                UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
-                                Debug.Log($"{smallEnemy.unitName} stunned, skipping.");
-                                smallEnemy.LoseStun();
-                            }
-                            if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
-                        }
-                    }
-                    // Remove enemies that are dead. have to do this after finishing iterating thru the list.
-                    UnitManager.Instance.smallEnemies = UnitManager.Instance.smallEnemies.FindAll(units => units.isAlive);
+                    StartCoroutine(UnitManager.Instance.MoveSmallEnemies());
                 }
-                ChangeState(GameState.BigEnemyPhase);
                 break;
             case GameState.BigEnemyPhase:
                 if (UnitManager.Instance.bigEnemy == null)
@@ -162,6 +141,7 @@ public class GameManager : MonoBehaviour
                 if (UnitManager.Instance.giantEnemy == null)
                 {
                     Debug.Log("No Giant Enemy!");
+                    ChangeState(++currentState);
                 }
                 else
                 {
@@ -171,14 +151,15 @@ public class GameManager : MonoBehaviour
                         UIManager.Instance.ShowGameMessageText($"{giantEnemy.unitName} is stunned!");
                         Debug.Log($"{giantEnemy.unitName} stunned, skipping.");
                         giantEnemy.LoseStun();
+                        ChangeState(++currentState);
                     }
                     else
                     {
                         UnitManager.Instance.SetActiveUnit(giantEnemy);
-                        giantEnemy.DecideMovement(false);
+                        StartCoroutine(giantEnemy.DecideMovement(false));
                     }
                 }
-                ChangeState(GameState.CalamityPhase);
+                //ChangeState(GameState.CalamityPhase); //TODO: move this to after movement
                 break;
             case GameState.CalamityPhase:
                 Debug.Log("\tCalamity Phase!");

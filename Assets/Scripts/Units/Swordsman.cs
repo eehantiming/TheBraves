@@ -55,12 +55,12 @@ public class Swordsman : HeroUnit
         if (monsterPushBackGrid.Count > 0) 
         {
             //move targetMonster back 1 space
-            targetMonster.Move(GridManager.Instance.GetGridFromPosition(monsterFinalGridPosition));
-        } 
+            yield return StartCoroutine(targetMonster.MoveTo(GridManager.Instance.GetGridFromPosition(monsterFinalGridPosition)));
+        }
         //increase targetMonster rage level
-        targetMonster.IncreaseRageLevel();
+        yield return StartCoroutine(targetMonster.IncreaseRageLevel());
         Debug.Log("SwordCharged successful");
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
         EndTurn();
     }
 }

@@ -10,30 +10,6 @@ public class BaseUnit : MonoBehaviour
 
     public int size = 0;
 
-    private bool isUnitSelected = false;
-    private bool isMoving = false;
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Moves unit to currentGrid set through Move()
-        isMoving = transform.position != currentGrid.transform.position;
-        if (isUnitSelected || isMoving)
-        {
-            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, 1), 5 * Time.deltaTime);
-            transform.position = Vector2.MoveTowards(transform.position, currentGrid.transform.position, 5 * Time.deltaTime);
-        }
-    }
-
-    //private void OnMouseDown() 
-    //{
-    //    Debug.Log(transform.position + "unit");
-    //    if(!isUnitSelected)
-    //    {
-    //        isUnitSelected = true;
-    //    }
-    //}
-
     /// <summary>
     /// Set unit's grid to new MapGrid. Moves towards this grid.
     /// </summary>
@@ -44,6 +20,22 @@ public class BaseUnit : MonoBehaviour
         grid.AddUnitToGrid(this); // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
         currentGrid = grid;
         UIManager.Instance.ShowGameMessageText($"{unitName} moving to {currentGrid.IndexToVect()}");
+        if (faction == Faction.Enemy) currentGrid.Resolve();
+    }
+
+    public IEnumerator MoveTo(MapGrid grid)
+    {
+        currentGrid.RemoveUnitFromGrid(this);
+        grid.AddUnitToGrid(this);
+        currentGrid = grid;
+        UIManager.Instance.ShowGameMessageText($"{unitName} moving to {currentGrid.IndexToVect()}");
+        Vector3 finalPos = grid.transform.position;
+        while (transform.position != finalPos)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, finalPos, 3 * Time.deltaTime);
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f); // pause briefly after moving
         if (faction == Faction.Enemy) currentGrid.Resolve();
     }
 }

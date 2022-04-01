@@ -16,7 +16,7 @@ public class GiantEnemy : EnemyUnit
     /// <summary>
     /// Function to find and move towards nearest town, which may have 1 or 2 possible paths.
     /// </summary>
-    protected void MoveTowardsNearestTown()
+    protected IEnumerator MoveTowardsNearestTown()
     {
         // Find the nearest town. TODO: add support for >1 nearest town.
         float minDist = 1000f;
@@ -31,10 +31,10 @@ public class GiantEnemy : EnemyUnit
             }
         }
 
-        MoveTowardsGrid(nearestGrid);
+        yield return StartCoroutine(MoveTowardsGrid(nearestGrid));
     }
 
-    public override void DecideMovement(bool keepBait)
+    public override IEnumerator DecideMovement()
     {
         for(int x = 0; x <= movesTwice; x++)
         {
@@ -46,22 +46,23 @@ public class GiantEnemy : EnemyUnit
             if (isBaited)
             {
                 Debug.Log($"{unitName} move to baited");
-                MoveTowardsBait();
+                yield return StartCoroutine(MoveTowardsBait());
             }
             else if (moveTowardsTown)
             {
                 Debug.Log($"{unitName} move towards town");
-                MoveTowardsNearestTown();
+                yield return StartCoroutine(MoveTowardsNearestTown());
             }
             else // move freely
             {
                 Debug.Log($"{unitName} move freely");
                 var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // Moves onto monsters. assume only 1 GiantEnemy.
-                RandomMovement(adjacentGrids);
+                yield return StartCoroutine(RandomMovement(adjacentGrids));
             }
         }
-        // Only remove bait after finishing movement and keepBait is false
-        if(!keepBait & isBaited) LoseBait();
+        // Only remove bait after finishing movement
+        if(isBaited) LoseBait();
+        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
     }
 
     protected override IEnumerator ActivateRage()

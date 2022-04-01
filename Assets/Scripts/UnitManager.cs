@@ -219,10 +219,43 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Select Valid Grid to move to");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         }
-        activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
-        yield return new WaitForSeconds(1);
+        //activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
+        //yield return new WaitForSeconds(1);
+        yield return StartCoroutine(activeUnit.MoveTo(GridManager.Instance.confirmSelectedGrid));
         activeUnit.GetComponent<HeroUnit>().EndTurn();
     }
+
+    /// <summary>
+    /// Coroutine which moves each small enemy one after another. Switches to next state after all movement are completed
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator MoveSmallEnemies()
+    {
+        foreach (SmallEnemy smallEnemy in smallEnemies) 
+        {
+            // small enemy will be null and still in list if killed out of turn (e.g. by trap)
+            if (smallEnemy != null && !smallEnemy.isStunned)
+            {
+                SetActiveUnit(smallEnemy);
+                yield return StartCoroutine(smallEnemy.DecideMovement());
+                //yield return StartCoroutine(smallEnemy.MoveDown()); // DEBUG
+            }
+            else
+            {
+                if (smallEnemy.isStunned)
+                {
+                    UIManager.Instance.ShowGameMessageText($"{smallEnemy.unitName} is stunned!");
+                    Debug.Log($"{smallEnemy.unitName} stunned, skipping.");
+                    smallEnemy.LoseStun();
+                }
+                if (!smallEnemy.isAlive) Debug.Log($"{smallEnemy.unitName} is Dead");
+            }
+        }
+        // Remove enemies that are dead. have to do this after finishing iterating thru the list.
+        smallEnemies = smallEnemies.FindAll(units => units.isAlive);
+        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
+    }
+
 
     /// <summary>
     /// Checks if any hero is conscious. if not, call PlayerLose

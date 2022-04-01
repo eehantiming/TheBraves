@@ -33,8 +33,8 @@ public class Magician : HeroUnit
             UIManager.Instance.ShowGameMessageText("Select a valid Grid to Teleport to");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         }
-        Move(GridManager.Instance.confirmSelectedGrid);
-        yield return new WaitForSeconds(1);
+        StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
+        //yield return new WaitForSeconds(1);
         EndTurn();
     }
 }

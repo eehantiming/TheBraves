@@ -13,21 +13,26 @@ public class EnemyUnit : BaseUnit
     protected MapGrid baitedTo;
     //TODO: create line renderer as part of script instead?
     protected MapGrid nearestHero;
+
     // Start is called before the first frame update
     void Start()
     {
 
     }
+    protected virtual IEnumerator ActivateRage() 
+    {
+        yield break;
+    }
 
     /// <summary>
     /// Function to increase Rage level by 1. If you do, activates associated ability
     /// </summary>
-    public virtual void IncreaseRageLevel()
+    public virtual IEnumerator IncreaseRageLevel()
     {
         if(rageLevel < 2)
         {
             rageLevel++; // TODO: add visualization
-            StartCoroutine(ActivateRage());
+            yield return StartCoroutine(ActivateRage());
         }
     }
     
@@ -35,7 +40,7 @@ public class EnemyUnit : BaseUnit
     /// Function to move from current grid towards target grid, which may have 1 or 2 possible paths.
     /// </summary>
     /// <param name="targetGrid">MapGrid to move towards</param>
-    protected void MoveTowardsGrid(MapGrid targetGrid)
+    protected IEnumerator MoveTowardsGrid(MapGrid targetGrid)
     {
         int goalGridIndex;
         var directionToMove = targetGrid.IndexToVect() - currentGrid.IndexToVect();
@@ -59,22 +64,22 @@ public class EnemyUnit : BaseUnit
             goalGridIndex = possibleGridIndex[(roll - 1) / 3];
         }
         MapGrid goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
-        Move(goalGrid);
+        yield return StartCoroutine(MoveTo(goalGrid));
     }
 
     /// <summary>
     /// Function to move from current grid towards baitedTo, which may have 1 or 2 possible paths. Note: does not remove the bait status.
     /// </summary>
-    protected void MoveTowardsBait()
+    protected IEnumerator MoveTowardsBait()
     {
-        MoveTowardsGrid(baitedTo);
+        yield return StartCoroutine(MoveTowardsGrid(baitedTo));
     }
 
     /// <summary>
     /// Function to randomly select valid west, east or south grid to move to.
     /// </summary>
     /// <param name="adjacentGrids">List of MapGrids which are valid movement based on this unit's movement rules</param>
-    protected void RandomMovement(List<MapGrid> adjacentGrids)
+    protected IEnumerator RandomMovement(List<MapGrid> adjacentGrids)
     {
         MapGrid goalGrid;
         int roll;
@@ -82,23 +87,24 @@ public class EnemyUnit : BaseUnit
         {
             case 0:
                 UIManager.Instance.ShowGameMessageText($"{unitName} can't Move");
+                Debug.Log($"{unitName} can't move");
                 break;
             case 1:
                 UIManager.Instance.ShowGameMessageText($"{unitName} has only 1 Move");
                 goalGrid = adjacentGrids[0];
-                Move(goalGrid);
+                yield return StartCoroutine(MoveTo(goalGrid));
                 break;
             case 2:
                 Debug.Log("2 moves, rolling dice");
                 roll = DiceRoll.Instance.GenerateRoll();
                 goalGrid = adjacentGrids[(roll - 1) / 3];
-                Move(goalGrid);
+                yield return StartCoroutine(MoveTo(goalGrid));
                 break;
             case 3:
                 Debug.Log("3 moves, rolling dice");
                 roll = DiceRoll.Instance.GenerateRoll();
                 goalGrid = adjacentGrids[(roll - 1) / 2];
-                Move(goalGrid);
+                yield return StartCoroutine(MoveTo(goalGrid));
                 break;
             default:
                 Debug.LogError("Invalid movement outcome");
@@ -110,15 +116,12 @@ public class EnemyUnit : BaseUnit
     /// Function for Enemy to move this turn. Throws dice if neccesary.
     /// </summary>
     /// <param name="keepBait">true if monster does not lose debuff after this movement</param>
-    public virtual void DecideMovement(bool keepBait) // Make this abstract?
-    {
-
-    }
-
-    protected virtual IEnumerator ActivateRage() // Make this abstract?
+    public virtual IEnumerator DecideMovement(bool keepBait) // Make this abstract?
     {
         yield break;
     }
+
+
 
     /// <summary>
     /// Function to make enemy baited and move towards bait source on its next turn.
@@ -143,8 +146,8 @@ public class EnemyUnit : BaseUnit
         isBaited = false;
         GetComponent<SpriteRenderer>().color = Color.white;
         LineRenderer lr = GetComponent<LineRenderer>();
+        lr.SetPosition(0, transform.position);
         lr.SetPosition(1, transform.position);
-        
     }
 
     protected MapGrid FindNearestHero()
