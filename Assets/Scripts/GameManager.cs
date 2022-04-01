@@ -54,8 +54,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("\tState: SetupEnemies");
                 //Debug.Log(DiceRoll.Instance.Generate());
                 StartCoroutine(UnitManager.Instance.SpawnSmallEnemy());
-                StartCoroutine(UnitManager.Instance.SpawnBigEnemy());
-
+                //StartCoroutine(UnitManager.Instance.SpawnBigEnemy()); // DEBUG
                 break;
             case GameState.SetupSwordsman:
                 Debug.Log("\tState: SetupSwordsman");
@@ -76,7 +75,7 @@ public class GameManager : MonoBehaviour
                 {
                     UIManager.Instance.ShowGameMessageText("Swordsman is Unconscious!");
                     Debug.Log("Skipping Swordsman!");
-                    ChangeState(GameState.TrapperPhase);
+                    ChangeState(++currentState);
                 }
                 else
                 {
@@ -89,7 +88,7 @@ public class GameManager : MonoBehaviour
                 {
                     UIManager.Instance.ShowGameMessageText("Trapper is Unconscious!");
                     Debug.Log("Skipping Trapper!");
-                    ChangeState(GameState.MagicianPhase);
+                    ChangeState(++currentState);
                 }
                 else
                 {
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
                 {
                     UIManager.Instance.ShowGameMessageText("Magician is Unconscious!");
                     Debug.Log("Skipping Magician!");
-                    ChangeState(GameState.SmallEnemyPhase);
+                    ChangeState(++currentState);
                 }
                 else
                 {
@@ -115,7 +114,7 @@ public class GameManager : MonoBehaviour
                 if (UnitManager.Instance.smallEnemies.Count == 0)
                 {
                     Debug.Log("No small enemies!");
-                    ChangeState(GameState.BigEnemyPhase);
+                    ChangeState(++currentState);
                 }
                 else
                 {
@@ -123,18 +122,30 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.BigEnemyPhase:
+                Debug.Log("\tState: BigEnemyPhase");
                 if (UnitManager.Instance.bigEnemy == null)
                 {
                     Debug.Log("No Big Enemy!");
-                    ChangeState(GameState.GiantEnemyPhase);
+                    ChangeState(++currentState);
                 }
                 else
                 {
-                    UnitManager.Instance.SetActiveUnit(UnitManager.Instance.bigEnemy);
-                    // bigEnemy moves twice
-                    //UnitManager.Instance.bigEnemy.DecideMovement();
-                    StartCoroutine(BigMonsterDoubleMove());
-                    ChangeState(GameState.GiantEnemyPhase);
+                    BigEnemy bigEnemy = UnitManager.Instance.bigEnemy;
+                    if (bigEnemy.isStunned)
+                    {
+                        UIManager.Instance.ShowGameMessageText($"{bigEnemy.unitName} is stunned!");
+                        Debug.Log($"{bigEnemy.unitName} stunned, skipping.");
+                        bigEnemy.LoseStun();
+                        ChangeState(++currentState);
+                    }
+                    else
+                    {
+                        UnitManager.Instance.SetActiveUnit(bigEnemy);
+                        // bigEnemy moves twice
+                        //UnitManager.Instance.bigEnemy.DecideMovement();
+                        StartCoroutine(BigMonsterDoubleMove());
+                    }
+                    //ChangeState(++currentState);
                 }
                 break;
             case GameState.GiantEnemyPhase:
@@ -215,9 +226,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator BigMonsterDoubleMove()
     {
-        UnitManager.Instance.bigEnemy.DecideMovement(true);
-        yield return new WaitForSeconds(0.5f);
-        UnitManager.Instance.bigEnemy.DecideMovement(false);
+        yield return StartCoroutine(UnitManager.Instance.bigEnemy.DecideMovement(true));
+        //yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(UnitManager.Instance.bigEnemy.DecideMovement(false));
+        ChangeState(++currentState);
     }
 
 }

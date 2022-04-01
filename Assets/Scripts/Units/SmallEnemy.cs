@@ -19,7 +19,7 @@ public class SmallEnemy : EnemyUnit
     /// <summary>
     /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
-    public override IEnumerator DecideMovement()
+    public override IEnumerator DecideMovement(bool keepBait)
     {
         MapGrid goalGrid;
         int roll;

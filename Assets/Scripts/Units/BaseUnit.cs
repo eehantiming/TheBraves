@@ -11,18 +11,9 @@ public class BaseUnit : MonoBehaviour
     public int size = 0;
 
     /// <summary>
-    /// Set unit's grid to new MapGrid. Moves towards this grid.
+    /// Set unit's grid to new MapGrid. Moves towards this grid. Resolve conflicts on grid
     /// </summary>
     /// <param name="grid">MapGrid to move to.</param>
-    public void Move(MapGrid grid)
-    {
-        currentGrid.RemoveUnitFromGrid(this);
-        grid.AddUnitToGrid(this); // TODO: resolve 2 units on same grid. Monster vs hero, monster vs trap, monster vs monster
-        currentGrid = grid;
-        UIManager.Instance.ShowGameMessageText($"{unitName} moving to {currentGrid.IndexToVect()}");
-        if (faction == Faction.Enemy) currentGrid.Resolve();
-    }
-
     public IEnumerator MoveTo(MapGrid grid)
     {
         currentGrid.RemoveUnitFromGrid(this);

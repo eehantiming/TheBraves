@@ -34,7 +34,7 @@ public class GiantEnemy : EnemyUnit
         yield return StartCoroutine(MoveTowardsGrid(nearestGrid));
     }
 
-    public override IEnumerator DecideMovement()
+    public override IEnumerator DecideMovement(bool keepBait)
     {
         for(int x = 0; x <= movesTwice; x++)
         {

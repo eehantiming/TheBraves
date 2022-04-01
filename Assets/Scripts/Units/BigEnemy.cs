@@ -11,7 +11,7 @@ public class BigEnemy : EnemyUnit
     {
         size = 2;
     }
-    public override void DecideMovement(bool keepBait)
+    public override IEnumerator DecideMovement(bool keepBait)
     {
         for(int x = 0; x <= movesTwice; x++)
         {
@@ -23,19 +23,19 @@ public class BigEnemy : EnemyUnit
             if (isBaited)
             {
                 Debug.Log($"{unitName} move to baited");
-                MoveTowardsBait();
+                yield return StartCoroutine(MoveTowardsBait());
             }
             else if (moveTowardsPlayer)
             {
                 Debug.Log($"{unitName} move to hero");
                 var nearestHero = FindNearestHero();
-                MoveTowardsGrid(nearestHero);
+                yield return StartCoroutine(MoveTowardsGrid(nearestHero));
             }
             else if (moveTowardsSpawnPoint)
             {
                 Debug.Log($"{unitName} move to spawn point");
                 var spawnPoint = FindNearestSpawnPoint();
-                MoveTowardsGrid(spawnPoint);
+                yield return StartCoroutine(MoveTowardsGrid(spawnPoint));
                 //check if new currentGrid is a spawn point
                 if(this.currentGrid.isEnemySpawnGrid)
                 {
@@ -50,7 +50,7 @@ public class BigEnemy : EnemyUnit
                 var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true); // Moves onto monsters.
                 //looks for grids whereby there are no monsters larger or equal to own size
                 var safeGrids = adjacentGrids.FindAll(grid => grid.unitsOnGrid.TrueForAll(unit => unit.size < this.size));
-                RandomMovement(safeGrids);
+                yield return StartCoroutine(RandomMovement(safeGrids));
             }
         }
         // Only remove bait after finishing movement and keepBait is false
