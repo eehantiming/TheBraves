@@ -95,7 +95,7 @@ public class MapGrid : MonoBehaviour
     /// <summary>
     /// Resolves all conflicts between heroes, monsters, towns and traps on this grid.
     /// </summary>
-    public void Resolve()
+    public IEnumerator Resolve()
     {
         if (unitsOnGrid.Count > 0)
         {
@@ -148,7 +148,7 @@ public class MapGrid : MonoBehaviour
             if(trap != null)
             {
                 enemiesOnGrid[enemiesOnGrid.Count-1].GetStunned(); // Only monster moving in gets stunned
-                enemiesOnGrid[enemiesOnGrid.Count-1].IncreaseRageLevel();
+                yield return StartCoroutine(enemiesOnGrid[enemiesOnGrid.Count-1].IncreaseRageLevel());
                 RemoveTrapFromGrid();
             }
         }

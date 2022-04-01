@@ -27,7 +27,7 @@ public class BaseUnit : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.5f); // pause briefly after moving
-        if (faction == Faction.Enemy) currentGrid.Resolve();
+        if (faction == Faction.Enemy) yield return StartCoroutine(currentGrid.Resolve());
     }
 }
 

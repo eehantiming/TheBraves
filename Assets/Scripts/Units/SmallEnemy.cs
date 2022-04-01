@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SmallEnemy : EnemyUnit
 {
+    static new int rageLevel = 0; // shared among all small enemies. New for masking the same attribute from EnemyUnit
     public void Start()
     {
         size = 1;
@@ -88,6 +89,11 @@ public class SmallEnemy : EnemyUnit
             Debug.Log("small enemy dies from rage");
             UnitManager.Instance.DestroyUnit(this);
         }
-        else yield return StartCoroutine(base.IncreaseRageLevel());
+        //else yield return StartCoroutine(base.IncreaseRageLevel());
+        else
+        {
+            rageLevel++; // TODO: add visualization
+            yield return StartCoroutine(ActivateRage());
+        }
     }
 }
