@@ -57,7 +57,6 @@ public class SmallEnemy : EnemyUnit
         {
             Debug.Log("Rage 1, spawning BigEnemy");
             yield return StartCoroutine(UnitManager.Instance.SpawnBigEnemy());
-            Debug.Log("Spawned!");
         }
         else if (rageLevel == 2)
         {
