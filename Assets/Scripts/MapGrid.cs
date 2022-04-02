@@ -132,15 +132,15 @@ public class MapGrid : MonoBehaviour
                     allSizes.Add(monster.size);
                 }
 
-                foreach(EnemyUnit monster in enemiesOnGrid)
+                foreach(EnemyUnit monster in enemiesOnGrid.ToList())
                 {
                     if(monster.size < allSizes.Max())
                     {
                         //remove from enemiesOnGrid and unitsOnGrid
                         enemiesOnGrid.Remove(monster);
                         unitsOnGrid.Remove(monster);
-                        //destroy the monster.gameObject
-                        Destroy(monster.gameObject);
+                        //destroy the monster.gameObject using UnitManager Destroy Unit
+                        UnitManager.Instance.DestroyUnit(monster);
                     }
                 }
             }

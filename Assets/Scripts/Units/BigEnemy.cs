@@ -6,12 +6,12 @@ public class BigEnemy : EnemyUnit
 {
     private bool moveTowardsPlayer = false;
     private bool moveTowardsSpawnPoint = false;
-    private int movesTwice = 0; // this is either 0 or 1
+    private int movesTwice = 1; // this is either 0 or 1
     public void Start()
     {
         size = 2;
     }
-    public override IEnumerator DecideMovement(bool keepBait)
+    public override IEnumerator DecideMovement()
     {
         for(int x = 0; x <= movesTwice; x++)
         {
@@ -53,8 +53,9 @@ public class BigEnemy : EnemyUnit
                 yield return StartCoroutine(RandomMovement(safeGrids));
             }
         }
-        // Only remove bait after finishing movement and keepBait is false
-        if(!keepBait & isBaited) LoseBait();
+        // Only remove bait after finishing movement
+        if(isBaited) LoseBait();
+        GameManager.Instance.ChangeState(++GameManager.Instance.currentState);
     }
 
     protected override IEnumerator ActivateRage()

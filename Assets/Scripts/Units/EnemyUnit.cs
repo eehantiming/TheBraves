@@ -115,13 +115,11 @@ public class EnemyUnit : BaseUnit
     /// <summary>
     /// Function for Enemy to move this turn. Throws dice if neccesary.
     /// </summary>
-    /// <param name="keepBait">true if monster does not lose debuff after this movement</param>
-    public virtual IEnumerator DecideMovement(bool keepBait) // Make this abstract?
+
+    public virtual IEnumerator DecideMovement() // Make this abstract?
     {
         yield break;
     }
-
-
 
     /// <summary>
     /// Function to make enemy baited and move towards bait source on its next turn.
@@ -166,17 +164,18 @@ public class EnemyUnit : BaseUnit
     protected MapGrid FindNearestSpawnPoint()
     {
         DistanceMapGridComparer compareDistance = new DistanceMapGridComparer();
+        RandomShuffle shuffle = new RandomShuffle();
         //pending code to find a mapgrid containing nearest spawnPoint.
         List<MapGrid> allGrids = GridManager.Instance.IndexToGrid.Values.ToList();
         List<MapGrid> spawnGrids = allGrids.FindAll(grid => grid.isEnemySpawnGrid);
+        //shuffle all spawnGrids with a random sort
+        spawnGrids.Sort(shuffle);
         //need to sort spawnGrids by distant to active unit current grid
         spawnGrids.Sort(compareDistance);
         Debug.Log(spawnGrids[0].IndexToVect());
         return spawnGrids[0];
         
     }
-
-
 
     public class DistanceMapGridComparer : IComparer<MapGrid>
     {
@@ -185,6 +184,22 @@ public class EnemyUnit : BaseUnit
             if(Vector2Int.Distance(grid1.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()) > Vector2Int.Distance(grid2.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()))
                 return 1;
             if(Vector2Int.Distance(grid1.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()) < Vector2Int.Distance(grid2.IndexToVect(), UnitManager.Instance.activeUnit.currentGrid.IndexToVect()))
+                return -1;
+            else
+                return 0;
+        }
+
+    }
+    public class RandomShuffle : IComparer<MapGrid>
+    {
+        public int Compare(MapGrid grid1, MapGrid grid2)
+        {
+            int random1 = Random.Range(1,101);
+            int random2 = Random.Range(1,101);
+
+            if(random1 > random2)
+                return 1;
+            if(random1 < random2)
                 return -1;
             else
                 return 0;

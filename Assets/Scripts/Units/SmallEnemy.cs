@@ -5,6 +5,8 @@ using UnityEngine;
 public class SmallEnemy : EnemyUnit
 {
     static new int rageLevel = 0; // shared among all small enemies. New for masking the same attribute from EnemyUnit
+    private int movesTwice = 0; // this is either 0 or 1
+
     public void Start()
     {
         size = 1;
@@ -20,47 +22,32 @@ public class SmallEnemy : EnemyUnit
     /// <summary>
     /// Function to move small enemy towards bait, else throw dice and move randomly.   
     /// </summary>
-    public override IEnumerator DecideMovement(bool keepBait)
+    public override IEnumerator DecideMovement()
     {
-        MapGrid goalGrid;
-        int roll;
+        for(int x = 0; x <= movesTwice; x++)
+        {
+            // End movement if stunned during turn
+            if (isStunned)
+            {
+                break;
+            }
+            if (isBaited)
+            {
+                Debug.Log($"{unitName} move to baited");
+                yield return StartCoroutine(MoveTowardsBait());
+            }
 
-        if (isBaited)
-        {
-            Debug.Log($"{unitName} move towards bait");
-            int goalGridIndex;
-            var directionToMove = baitedTo.IndexToVect() - currentGrid.IndexToVect();
-            if(directionToMove.x == 0) // move vertical
+            else // move freely
             {
-                goalGridIndex = currentGrid.index + 4 * System.Math.Sign(directionToMove.y);
+                Debug.Log($"{unitName} move freely");
+                var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, true, false, true);
+                //look for grid without monster bigger than itself
+                var safeGrids = adjacentGrids.FindAll(grid => grid.unitsOnGrid.TrueForAll(unit => unit.size < this.size));
+                yield return StartCoroutine(RandomMovement(safeGrids));
             }
-            else if(directionToMove.y == 0) // move horizontal
-            {
-                goalGridIndex = currentGrid.index + System.Math.Sign(directionToMove.x);
-            }
-            else // two possible moves, roll dice to decide
-            {
-                // TODO: add visualization for which dice roll values correspond to each move
-                List<int> possibleGridIndex = new List<int>()
-                {
-                    currentGrid.index + 4 * System.Math.Sign(directionToMove.y),
-                    currentGrid.index + System.Math.Sign(directionToMove.x)
-                };
-                roll = DiceRoll.Instance.GenerateRoll();
-                goalGridIndex = possibleGridIndex[(roll - 1) / 3];
-            }
-            goalGrid = GridManager.Instance.IndexToGrid[goalGridIndex];
-            yield return StartCoroutine(MoveTo(goalGrid));
-            LoseBait();
         }
-        // not baited
-        else
-        {
-            Debug.Log($"{unitName} move freely");
-            var adjacentGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, true, false, false, true); // can't move north
-            // Roll dice and move based on roll outcome
-            yield return StartCoroutine(RandomMovement(adjacentGrids));
-        }
+        // Only remove bait after finishing movement
+        if(isBaited) LoseBait();
     }
 
     protected override IEnumerator ActivateRage()

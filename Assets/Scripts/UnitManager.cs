@@ -237,7 +237,7 @@ public class UnitManager : MonoBehaviour
             if (smallEnemy != null && !smallEnemy.isStunned)
             {
                 SetActiveUnit(smallEnemy);
-                yield return StartCoroutine(smallEnemy.DecideMovement(false));
+                yield return StartCoroutine(smallEnemy.DecideMovement());
                 //yield return StartCoroutine(smallEnemy.MoveDown()); // DEBUG
             }
             else
