@@ -7,9 +7,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    [SerializeField] private TextMeshProUGUI mouseSelectionText;
+    [SerializeField] private TextMeshProUGUI mouseSelectionName;
+    [SerializeField] private TextMeshProUGUI mouseSelectionExtra;
     [SerializeField] private TextMeshProUGUI activeUnitText;
     [SerializeField] private TextMeshProUGUI gameMessageText;
+    [SerializeField] private TextMeshProUGUI buttonHoverText;
     [SerializeField] private TextMeshProUGUI calamityCounterText;
     [SerializeField] private TextMeshProUGUI DiceRollText;
     [SerializeField] private GameObject playerLoseScreen, playerWinScreen;
@@ -39,7 +41,17 @@ public class UIManager : MonoBehaviour
     /// <param name="inputText"></param>
     public void ShowMouseSelectionText(string inputText)
     {
-        mouseSelectionText.text = "Selected: " + inputText;
+        mouseSelectionName.text = "Selected: " + inputText;
+    }
+
+    public void ShowMouseSelectionExtraInfo(string inputText)
+    {
+        mouseSelectionExtra.text = inputText;
+    }
+
+    public void ShowButtonHoverText(string inputText)
+    {
+        buttonHoverText.text = inputText;
     }
     /// <summary>
     /// Displays the current Active unit in UI

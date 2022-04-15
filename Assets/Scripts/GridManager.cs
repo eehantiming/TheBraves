@@ -131,15 +131,20 @@ public class GridManager : MonoBehaviour
         if(grid.unitsOnGrid.Count == 0)
         {
             UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");
+            UIManager.Instance.ShowMouseSelectionExtraInfo("Nothing here");
         }
         else
         {
             string names = "";
+            string extraInfo = "";
             foreach(BaseUnit unit in grid.unitsOnGrid)
             {
                 names = names + unit.unitName + "\n";
+                extraInfo = extraInfo + unit.extraText + "\n";
             }
             UIManager.Instance.ShowMouseSelectionText(names);
+            UIManager.Instance.ShowMouseSelectionExtraInfo(extraInfo);
+
         }
     }
 

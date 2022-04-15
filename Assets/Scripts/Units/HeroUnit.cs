@@ -5,11 +5,6 @@ using UnityEngine;
 public class HeroUnit : BaseUnit
 {
     public bool isConscious = true;
-    public void Start()
-    {
-        size = 0;
-    }
-
 
     /// <summary>
     /// Ends current player turn, checks if on heart and move gamestate to next phase

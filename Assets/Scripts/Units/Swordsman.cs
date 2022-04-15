@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Swordsman : HeroUnit
 {
+    public void Start()
+    {
+        size = 0;
+        extraText = "Skill: Sword Charge Skill can push a monster back 1 space";
+    }
     public override void ActivateSkill()
     {
         base.ActivateSkill();

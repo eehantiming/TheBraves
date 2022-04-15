@@ -10,6 +10,8 @@ public class BigEnemy : EnemyUnit
     public void Start()
     {
         size = 2;
+        extraText = "Big Enemy Extra Info";
+
     }
     public override IEnumerator DecideMovement()
     {

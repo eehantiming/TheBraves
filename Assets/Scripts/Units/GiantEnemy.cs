@@ -10,6 +10,7 @@ public class GiantEnemy : EnemyUnit
     public void Start()
     {
         size = 3;
+        extraText = "Giant Enemy Extra Info";
     }
 
 

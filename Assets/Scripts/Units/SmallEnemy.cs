@@ -10,6 +10,8 @@ public class SmallEnemy : EnemyUnit
     public void Start()
     {
         size = 1;
+        extraText = "Small Enemy Extra Info";
+
     }
 
     public IEnumerator MoveDown() // DEBUG

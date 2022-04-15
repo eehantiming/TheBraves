@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Magician : HeroUnit
 {
+    public void Start()
+    {
+        size = 0;
+        extraText = "Skill: Teleports to a grid 2 spaces away";
+    }
+
     public override void ActivateSkill()
     {
         base.ActivateSkill();

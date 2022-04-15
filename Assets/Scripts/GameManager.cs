@@ -191,7 +191,6 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Invalid state");
                 break;
         }
-
     }
 
     /// <summary>
