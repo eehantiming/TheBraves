@@ -3064,6 +3064,7 @@ MonoBehaviour:
   giantEnemy: {fileID: 0}
   heart: {fileID: 0}
   activeUnit: {fileID: 0}
+  activeMarker: {fileID: 5628297060948207089, guid: bcebe5853a719944fa8480e35b3f498e, type: 3}
 --- !u!4 &1289642956
 Transform:
   m_ObjectHideFlags: 0

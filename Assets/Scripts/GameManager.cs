@@ -43,6 +43,12 @@ public class GameManager : MonoBehaviour
     /// <param name="newState">The GameState to change to.</param>
     public void ChangeState(GameState newState)
     {
+        //check if previous activeUnit was defined - if yes then destroy the previous ActiveMarker
+        if(UnitManager.Instance.activeUnit)
+        {
+            Destroy(UnitManager.Instance.activeUnit.transform.GetChild(0).gameObject);
+        }
+
         currentState = newState;
         switch (newState)
         {

@@ -19,6 +19,9 @@ public class UnitManager : MonoBehaviour
     public GiantEnemy giantEnemy = null;
     public BaseUnit heart = null;
     public BaseUnit activeUnit = null;
+
+    [SerializeField] public ActiveMarker activeMarker;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -166,6 +169,7 @@ public class UnitManager : MonoBehaviour
         {
             UIManager.Instance.EnableButtons();
         }
+        SetActiveMarker();
     }
 
     // Wrapper for UseSkill so that button can access it
@@ -296,5 +300,16 @@ public class UnitManager : MonoBehaviour
         Destroy(unit.gameObject, 0.5f); //TODO: add animation for this
         UIManager.Instance.ShowGameMessageText($"{unit.unitName} dies!");
         Debug.Log($"{unit.unitName} is destroyed");
+    }
+    
+    /// <summary>
+    /// Function to add a ActiveMarker to active unit
+    /// </summary>
+    public void SetActiveMarker()
+    {
+        ActiveMarker marker = Instantiate(activeMarker, activeUnit.transform.position, Quaternion.identity);
+        marker.transform.parent = activeUnit.transform;
+        marker.transform.position = new Vector3(activeUnit.transform.position.x + 0.4f, activeUnit.transform.position.y + 0.4f, activeUnit.transform.position.z);
+
     }
 }
