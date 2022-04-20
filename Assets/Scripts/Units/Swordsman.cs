@@ -31,6 +31,7 @@ public class Swordsman : HeroUnit
         {
             UIManager.Instance.ShowGameMessageText("No monsters nearby");
             Debug.Log("No nonsters nearby to use skill on");
+            UIManager.Instance.EnableButtons();
             yield break;
         }
         // TODO: display valid Monster grids

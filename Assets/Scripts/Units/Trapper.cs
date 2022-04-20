@@ -38,12 +38,14 @@ public class Trapper : HeroUnit
         {
             UIManager.Instance.ShowGameMessageText("No more traps left!");
             Debug.Log("can't set when numOfTrapsLeft = 0");
+            UIManager.Instance.EnableButtons();
             yield break;
         }
         if (currentGrid.isHoldingTrap)
         {
             UIManager.Instance.ShowGameMessageText("There is already a trap here!");
             Debug.Log("current grid is already holding trap");
+            UIManager.Instance.EnableButtons();
             yield break;
         }
         currentGrid.AddTrapToGrid();

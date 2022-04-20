@@ -28,6 +28,7 @@ public class Magician : HeroUnit
         {
             UIManager.Instance.ShowGameMessageText("Can't teleport anywhere!");
             Debug.Log("No grids to teleport to");
+            UIManager.Instance.EnableButtons();
             yield break;
         }
         // TODO: Highlight valid grids

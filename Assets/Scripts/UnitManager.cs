@@ -172,62 +172,34 @@ public class UnitManager : MonoBehaviour
         SetActiveMarker();
     }
 
-    // Wrapper for UseSkill so that button can access it
+    // Wrapper for ActivateRevive coroutine so that button can access it
     public void ButtonUseRevive()
     {
         Debug.Log("Clicked revive..");
-        activeUnit.GetComponent<HeroUnit>().ActivateRevive();
+        StartCoroutine(activeUnit.GetComponent<HeroUnit>().ActivateRevive());
     }
 
-    // Wrapper for UseSkill so that button can access it
+    // Wrapper for ActivateSkill for consistency
     public void ButtonUseSkill()
     {
         Debug.Log("Clicked skill..");
         activeUnit.GetComponent<HeroUnit>().ActivateSkill();
     }
 
-    // Wrapper for UseBait Coroutine so that button can access it
+    // Wrapper for ActivateBait Coroutine so that button can access it
     public void ButtonUseBait()
     {
         Debug.Log("Clicked bait..");
         StartCoroutine(activeUnit.GetComponent<HeroUnit>().ActivateBait());
     }
 
-    // Wrapper for PlayerMove Coroutine so that button can access it
+    // Wrapper for ActivateMove Coroutine so that button can access it
     public void ButtonPlayerMove()
     {
         Debug.Log("Clicked move..");
-        StartCoroutine(PlayerMove());
+        StartCoroutine(activeUnit.GetComponent<HeroUnit>().ActivateMove());
     }
 
-    /// <summary>
-    /// Coroutine. Prompt user to select grid, then moves active unit to that grid.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator PlayerMove() //TODO: move this to HeroUnit.PlayerMove()?
-    {
-        UIManager.Instance.DisableButtons();
-        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(activeUnit.currentGrid, false, false);
-        if (validGrids.Count == 0)
-        {
-            UIManager.Instance.ShowGameMessageText("This unit can't move!");
-            Debug.Log("There are no valid grids to move to");
-            yield break;
-        }
-        // TODO: display valid move grids
-        UIManager.Instance.ShowGameMessageText("Select Grid to move to");
-        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
-        // Check if selected grid is a valid move
-        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
-        {
-            UIManager.Instance.ShowGameMessageText("Select Valid Grid to move to");
-            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
-        }
-        //activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
-        //yield return new WaitForSeconds(1);
-        yield return StartCoroutine(activeUnit.MoveTo(GridManager.Instance.confirmSelectedGrid));
-        activeUnit.GetComponent<HeroUnit>().EndTurn();
-    }
 
     /// <summary>
     /// Coroutine which moves each small enemy one after another. Switches to next state after all movement are completed

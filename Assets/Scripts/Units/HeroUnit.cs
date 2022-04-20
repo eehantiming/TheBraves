@@ -52,6 +52,7 @@ public class HeroUnit : BaseUnit
         {
             Debug.Log("Nothing baited");
             UIManager.Instance.ShowGameMessageText("No units in range for bait!");
+            UIManager.Instance.EnableButtons();
         }
     }
 
@@ -64,16 +65,7 @@ public class HeroUnit : BaseUnit
         //Each Hero has its own override ActivateSkill() 
     }
 
-    /// <summary>
-    /// Activate revive.
-    /// </summary>
-    public virtual void ActivateRevive()
-    {
-        Debug.Log("Clicked move..");
-        StartCoroutine(Revive());
-    }
-
-    public IEnumerator Revive()
+    public IEnumerator ActivateRevive()
     {
         UIManager.Instance.DisableButtons();
         //Retrieve list of adjacent grids
@@ -86,6 +78,7 @@ public class HeroUnit : BaseUnit
         {
             UIManager.Instance.ShowGameMessageText("No unconscious heroes nearby");
             Debug.Log("No unconscious heroes nearby");
+            UIManager.Instance.EnableButtons();
             yield break;
         }
 
@@ -103,6 +96,36 @@ public class HeroUnit : BaseUnit
         GridManager.Instance.confirmSelectedGrid.heroesOnGrid[0].isConscious = true;
         Debug.Log("Saved" + GridManager.Instance.confirmSelectedGrid.heroesOnGrid[0].unitName);
         yield return new WaitForSeconds(1);
+        EndTurn();
+    }
+
+    /// <summary>
+    /// Coroutine. Prompt user to select grid, then moves active unit to that grid.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator ActivateMove() 
+    {
+        UIManager.Instance.DisableButtons();
+        List<MapGrid> validGrids = GridManager.Instance.GetAdjacentGrids(currentGrid, false, false);
+        if (validGrids.Count == 0)
+        {
+            UIManager.Instance.ShowGameMessageText("This unit can't move!");
+            Debug.Log("There are no valid grids to move to");
+            UIManager.Instance.EnableButtons();
+            yield break;
+        }
+        // TODO: display valid move grids
+        UIManager.Instance.ShowGameMessageText("Select Grid to move to");
+        yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        // Check if selected grid is a valid move
+        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        {
+            UIManager.Instance.ShowGameMessageText("Select Valid Grid to move to");
+            yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        }
+        //activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
+        //yield return new WaitForSeconds(1);
+        yield return StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
         EndTurn();
     }
 }
