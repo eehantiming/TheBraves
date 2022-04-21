@@ -18,24 +18,22 @@ public class PlayerClick : MonoBehaviour
             RaycastHit hit = new RaycastHit();      
             Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
  
-             if (Physics.Raycast(ray, out hit))
-             {
-                 
- 
-                 if (hit.collider.gameObject == this.gameObject)
-                 {
-                     Debug.Log("Click!!!");
-                 }
-                 else
-                 {
-                     Debug.Log("Click outside");
-                   
-                 }
-             }
-             else
-             {
-                 Debug.Log("Click outside of any object");
-             }
-}
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject == this.gameObject)
+                {
+                    Debug.Log("Click!");
+                }
+                else
+                {
+                    Debug.Log("Click on other colliders");
+                }
+            }
+            else
+            {
+                Debug.Log("Click on non-collider");
+                GridManager.Instance.clickedOutside = true;
+            }
+        }
     }
 }

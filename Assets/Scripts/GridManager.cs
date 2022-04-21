@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
     public MapGrid confirmSelectedGrid = null;
     public GameObject bait;
     public List<MapGrid> townGrids = new List<MapGrid>();
+    public bool clickedOutside;
 
     [SerializeField] private GameObject baitPrefab;
     [SerializeField] private List<MapGrid> grids;
@@ -156,7 +157,8 @@ public class GridManager : MonoBehaviour
     {
         //Debug.Log("Waiting for grid selection");
         confirmSelectedGrid = null;
-        while (confirmSelectedGrid == null)
+        clickedOutside = false;
+        while (confirmSelectedGrid == null && !clickedOutside)
         {
             yield return new WaitForSeconds(0.1f);
         }

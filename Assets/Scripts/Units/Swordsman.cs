@@ -38,12 +38,18 @@ public class Swordsman : HeroUnit
         UIManager.Instance.ShowGameMessageText("Select Monster to Sword-Charge");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is a valid move
-        while (!enemyGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        while (!enemyGrids.Contains(GridManager.Instance.confirmSelectedGrid) && !GridManager.Instance.clickedOutside)
         {
             UIManager.Instance.ShowGameMessageText("Select a grid with Monster to Sword-Charge");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); 
         }
-        Debug.Log("Swordcharged started");
+        if (GridManager.Instance.clickedOutside == true) // Cancel Sword-Charge
+        {
+            Debug.Log("Cancelled");
+            UIManager.Instance.EnableButtons();
+            yield break;
+        }
+        Debug.Log("Sword-Charge started");
         //reasign grid of monster and move it to the new grid
         //Sword charge displacment = monster current pos - hero pos
         Vector2Int displacement = GridManager.Instance.confirmSelectedGrid.IndexToVect() - this.currentGrid.IndexToVect();

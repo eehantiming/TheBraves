@@ -82,14 +82,20 @@ public class HeroUnit : BaseUnit
             yield break;
         }
 
-        // TODO: display valid Monster grids
+        // TODO: display valid heroes grids
         UIManager.Instance.ShowGameMessageText("Select Hero to revive");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
-        // Check if selected grid is a valid move
-        while (!unconsciousHeroGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        // Check if selected grid is a valid move or if player has clicked outside to cancel revive
+        while (!unconsciousHeroGrids.Contains(GridManager.Instance.confirmSelectedGrid) && !GridManager.Instance.clickedOutside)
         {
             UIManager.Instance.ShowGameMessageText("Select Hero to revive");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); 
+        }
+        if (GridManager.Instance.clickedOutside == true) // Cancel revive
+        {
+            Debug.Log("Cancelled");
+            UIManager.Instance.EnableButtons();
+            yield break;
         }
 
         //Set selected unconscious hero isConscious to true
@@ -117,14 +123,18 @@ public class HeroUnit : BaseUnit
         // TODO: display valid move grids
         UIManager.Instance.ShowGameMessageText("Select Grid to move to");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
-        // Check if selected grid is a valid move
-        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        // Check if selected grid is a valid move or if player has clicked outside to cancel Move
+        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid) && !GridManager.Instance.clickedOutside)
         {
             UIManager.Instance.ShowGameMessageText("Select Valid Grid to move to");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         }
-        //activeUnit.Move(GridManager.Instance.confirmSelectedGrid);
-        //yield return new WaitForSeconds(1);
+        if (GridManager.Instance.clickedOutside == true) // Cancel move
+        {
+            Debug.Log("Cancelled");
+            UIManager.Instance.EnableButtons();
+            yield break;
+        }
         yield return StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
         EndTurn();
     }

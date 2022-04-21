@@ -35,10 +35,16 @@ public class Magician : HeroUnit
         UIManager.Instance.ShowGameMessageText("Select Grid to Teleport to");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is valid
-        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid))
+        while (!validGrids.Contains(GridManager.Instance.confirmSelectedGrid) && !GridManager.Instance.clickedOutside)
         {
             UIManager.Instance.ShowGameMessageText("Select a valid Grid to Teleport to");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
+        }
+        if (GridManager.Instance.clickedOutside == true) // Cancel Teleport
+        {
+            Debug.Log("Cancelled");
+            UIManager.Instance.EnableButtons();
+            yield break;
         }
         yield return StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
         //yield return new WaitForSeconds(1);
