@@ -69,7 +69,8 @@ public class UnitManager : MonoBehaviour
     public IEnumerator SpawnSwordsman()
     {
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Swordsman");
-        // TODO: display the valid grids selection
+        // Display the valid grids selection
+        GridManager.Instance.ToggleDarken(true);
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while(!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
@@ -77,6 +78,7 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
+        GridManager.Instance.ToggleDarken(false);
         swordsman = (Swordsman)SpawnUnit(swordsmanPrefab, GridManager.Instance.confirmSelectedGrid, "Reiner");
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SetupTrapper);
@@ -89,7 +91,8 @@ public class UnitManager : MonoBehaviour
     public IEnumerator SpawnTrapper()
     {
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Trapper");
-        // TODO: display the valid grids selection
+        // Display the valid grids selection
+        GridManager.Instance.ToggleDarken(true);
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
@@ -97,6 +100,7 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
+        GridManager.Instance.ToggleDarken(false);
         trapper = (Trapper)SpawnUnit(trapperPrefab, GridManager.Instance.confirmSelectedGrid);
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SetupMagician);
@@ -109,7 +113,8 @@ public class UnitManager : MonoBehaviour
     public IEnumerator SpawnMagician()
     {
         UIManager.Instance.ShowGameMessageText("Double click Grid to spawn Magician");
-        // TODO: display the valid grids selection
+        // Display the valid grids selection
+        GridManager.Instance.ToggleDarken(true);
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         while (!GridManager.Instance.confirmSelectedGrid.isHeroSpawnGrid || GridManager.Instance.confirmSelectedGrid.unitsOnGrid.Count > 0)
         {
@@ -117,6 +122,7 @@ public class UnitManager : MonoBehaviour
             UIManager.Instance.ShowGameMessageText("Choose a valid grid!");
             yield return StartCoroutine(GridManager.Instance.WaitForGridSelection()); //yield return required to wait for this to complete
         }
+        GridManager.Instance.ToggleDarken(false);
         magician = (Magician)SpawnUnit(magicianPrefab, GridManager.Instance.confirmSelectedGrid, "Wanda");
         UIManager.Instance.ShowGameMessageText(null);
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);

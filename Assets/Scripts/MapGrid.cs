@@ -8,7 +8,7 @@ public class MapGrid : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color grass1, grass2;
-    [SerializeField] private GameObject highlight, selectedOverlay;
+    [SerializeField] private GameObject highlight, selectedOverlay, darkenOverlay;
     [SerializeField] private GameObject trapPrefab;
     private GameObject trap;
 
@@ -46,6 +46,16 @@ public class MapGrid : MonoBehaviour
     {
         if (selected) selectedOverlay.SetActive(true);
         else selectedOverlay.SetActive(false);
+    }
+
+    /// <summary>
+    /// Enable/disable the dark overlay of this grid
+    /// </summary>
+    /// <param name="darken">whether to enable or disable</param>
+    public void ToggleDarken(bool darken)
+    {
+        if (darken) darkenOverlay.SetActive(true);
+        else darkenOverlay.SetActive(false);
     }
 
     private void OnMouseEnter()

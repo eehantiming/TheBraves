@@ -207,4 +207,18 @@ public class GridManager : MonoBehaviour
         return ValidGrids;
     }
 
+    /// <summary>
+    /// Function to darken or revert every grid that is not a hero spawn grid
+    /// </summary>
+    /// <param name="darken">whether to darken or remove darkness</param>
+    public void ToggleDarken(bool darken)
+    {
+        foreach(MapGrid grid in grids)
+        {
+            if (!grid.isHeroSpawnGrid)
+            {
+                grid.ToggleDarken(darken);
+            }
+        }
+    }
 }
