@@ -8,6 +8,7 @@ public class CalamityManager : MonoBehaviour
 
     private int calamityCounter = 1;
     private int increaseSpeed = 1; // Number of times to increment counter
+    public CalamityHighlight highlight;
 
     private void Awake()
     {
