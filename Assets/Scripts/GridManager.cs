@@ -150,16 +150,19 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine. Prompt user to select grid by clicking twice consecutively. Updates confirmSelectedGrid.
+    /// Coroutine. Prompt user to select grid by clicking grid twice consecutively. Updates confirmSelectedGrid.
     /// </summary>
+    /// <param name="cancellable">Whether this wait can be cancelled by clicking outside the gridmap.</param>
     /// <returns></returns>
-    public IEnumerator WaitForGridSelection()
+    public IEnumerator WaitForGridSelection(bool cancellable=true)
     {
         //Debug.Log("Waiting for grid selection");
         confirmSelectedGrid = null;
         clickedOutside = false;
-        while (confirmSelectedGrid == null && !clickedOutside)
+        while (confirmSelectedGrid == null)
         {
+            if (cancellable && clickedOutside) // Player cancelled this action.
+                break;
             yield return new WaitForSeconds(0.1f);
         }
     }
