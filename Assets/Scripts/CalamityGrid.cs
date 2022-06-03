@@ -6,4 +6,9 @@ public class CalamityGrid : MonoBehaviour
 {
     [SerializeField] public int count;
     
+    void onMouseOver()
+    {
+        Debug.Log("asd");
+    }
+
 }

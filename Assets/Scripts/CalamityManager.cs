@@ -19,6 +19,8 @@ public class CalamityManager : MonoBehaviour
     /// <summary>
     /// Function to increase calamity counter and activate corresponding events. Number of times to increase is determined by increaseSpeed
     /// </summary>
+
+    
     public IEnumerator IncreaseCalamity()
     {
         for(int i=1; i<=increaseSpeed; i++)

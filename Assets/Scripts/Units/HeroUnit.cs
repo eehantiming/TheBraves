@@ -121,6 +121,9 @@ public class HeroUnit : BaseUnit
             yield break;
         }
         // TODO: display valid move grids
+
+        GridManager.Instance.ToggleActionDarken(true, validGrids);
+
         UIManager.Instance.ShowGameMessageText("Select Grid to move to");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is a valid move or if player has clicked outside to cancel Move
@@ -136,6 +139,8 @@ public class HeroUnit : BaseUnit
             yield break;
         }
         yield return StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
+        GridManager.Instance.ToggleActionDarken(false, validGrids);
+
         EndTurn();
     }
 }

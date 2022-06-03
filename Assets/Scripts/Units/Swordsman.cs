@@ -35,7 +35,8 @@ public class Swordsman : HeroUnit
             UIManager.Instance.EnableButtons();
             yield break;
         }
-        // TODO: display valid Monster grids
+        // Display valid Monster grids
+        GridManager.Instance.ToggleActionDarken(true, enemyGrids);
         UIManager.Instance.ShowGameMessageText("Select Monster to Sword-Charge");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is a valid move
@@ -72,8 +73,11 @@ public class Swordsman : HeroUnit
         }
         //increase targetMonster rage level
         yield return StartCoroutine(targetMonster.IncreaseRageLevel());
+
         Debug.Log("SwordCharged successful");
         //yield return new WaitForSeconds(1);
+        GridManager.Instance.ToggleActionDarken(false, enemyGrids);
+
         EndTurn();
     }
 }

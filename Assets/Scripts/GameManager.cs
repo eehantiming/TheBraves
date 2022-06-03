@@ -199,8 +199,10 @@ public class GameManager : MonoBehaviour
     public void PlayerLose()
     {
         Debug.Log("Player lost");
-        UIManager.Instance.ShowLoseText();
+        //UIManager.Instance.ShowLoseText();
         ChangeState(GameState.Nothingness); //TODO: stop processing game logic and prevent user input 
+        SceneLoader.Instance.GameOverScreen();
+
     }
 
     /// <summary>
@@ -226,7 +228,8 @@ public class GameManager : MonoBehaviour
     public void PlayerWin()
     {
         Debug.Log("Player won");
-        UIManager.Instance.ShowWinText();
+        //UIManager.Instance.ShowWinText();
         ChangeState(GameState.Nothingness);
+        SceneLoader.Instance.WinGameScreen();
     }
 }

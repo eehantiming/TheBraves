@@ -186,7 +186,10 @@ public class GridManager : MonoBehaviour
         while (confirmSelectedGrid == null)
         {
             if (cancellable && clickedOutside) // Player cancelled this action.
-                break;
+                {
+                    GridManager.Instance.ToggleActionDarken(false, grids);
+                    break;
+                }
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -243,6 +246,17 @@ public class GridManager : MonoBehaviour
         foreach(MapGrid grid in grids)
         {
             if (!grid.isHeroSpawnGrid)
+            {
+                grid.ToggleDarken(darken);
+            }
+        }
+    }
+
+    public void ToggleActionDarken(bool darken, List<MapGrid> inputGrids)
+    {
+        foreach(MapGrid grid in grids)
+        {
+            if (inputGrids.Contains(grid))
             {
                 grid.ToggleDarken(darken);
             }

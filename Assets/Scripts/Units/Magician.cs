@@ -34,6 +34,8 @@ public class Magician : HeroUnit
             yield break;
         }
         // TODO: Highlight valid grids
+        GridManager.Instance.ToggleActionDarken(true, validGrids);
+
         UIManager.Instance.ShowGameMessageText("Select Grid to Teleport to");
         yield return StartCoroutine(GridManager.Instance.WaitForGridSelection());
         // Check if selected grid is valid
@@ -50,6 +52,8 @@ public class Magician : HeroUnit
         }
         yield return StartCoroutine(MoveTo(GridManager.Instance.confirmSelectedGrid));
         //yield return new WaitForSeconds(1);
+        GridManager.Instance.ToggleActionDarken(false, validGrids);
+
         EndTurn();
     }
 }
