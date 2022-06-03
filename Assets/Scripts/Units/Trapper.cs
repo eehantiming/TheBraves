@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Trapper : HeroUnit
 {
+    [SerializeField] private int numOfTrapsLeft = 2; // TODO: add setter for this
+
     public void Start()
     {
         size = 0;
         extraText = "Skill: Builds traps that can stun monsters walking into it for 1 turn";
+        inventory = numOfTrapsLeft + "";
     }
 
-    [SerializeField] private int numOfTrapsLeft = 2; // TODO: add setter for this
     public int NumOfTrapsLeft
     {
         set
@@ -50,6 +52,7 @@ public class Trapper : HeroUnit
         }
         currentGrid.AddTrapToGrid();
         NumOfTrapsLeft--;
+        inventory = numOfTrapsLeft + "";
         yield return new WaitForSeconds(1);
         EndTurn();
     }

@@ -8,6 +8,8 @@ public class Magician : HeroUnit
     {
         size = 0;
         extraText = "Skill: Teleports to a grid 2 spaces away";
+        inventory = "";
+
     }
 
     public override void ActivateSkill()

@@ -8,6 +8,7 @@ public class Swordsman : HeroUnit
     {
         size = 0;
         extraText = "Skill: Sword Charge Skill can push a monster back 1 space";
+        inventory = "";
     }
     public override void ActivateSkill()
     {

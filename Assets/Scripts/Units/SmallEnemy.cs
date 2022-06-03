@@ -11,7 +11,7 @@ public class SmallEnemy : EnemyUnit
     {
         size = 1;
         extraText = "Small Enemy Extra Info";
-
+        inventory = "";
     }
 
     public IEnumerator MoveDown() // DEBUG

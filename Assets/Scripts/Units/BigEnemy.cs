@@ -11,6 +11,8 @@ public class BigEnemy : EnemyUnit
     {
         size = 2;
         extraText = "Big Enemy Extra Info";
+        inventory = "";
+
 
     }
     public override IEnumerator DecideMovement()

@@ -7,6 +7,7 @@ public class BaseUnit : MonoBehaviour
     public MapGrid currentGrid = null;
     public string unitName;
     public string extraText;
+    public string inventory;
     
     public Faction faction;
 

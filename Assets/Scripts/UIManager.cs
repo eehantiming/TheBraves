@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     [SerializeField] private TextMeshProUGUI mouseSelectionName;
     [SerializeField] private TextMeshProUGUI mouseSelectionExtra;
+    [SerializeField] private TextMeshProUGUI mouseSelectionInv;
     [SerializeField] private TextMeshProUGUI activeUnitText;
     [SerializeField] private TextMeshProUGUI gameMessageText;
     [SerializeField] private TextMeshProUGUI buttonHoverText;
@@ -47,6 +48,11 @@ public class UIManager : MonoBehaviour
     public void ShowMouseSelectionExtraInfo(string inputText)
     {
         mouseSelectionExtra.text = inputText;
+    }
+
+    public void ShowMouseSelectionInv(string inputText)
+    {
+        mouseSelectionInv.text = inputText;
     }
 
     public void ShowButtonHoverText(string inputText)

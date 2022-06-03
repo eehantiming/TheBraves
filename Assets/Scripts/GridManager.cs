@@ -54,7 +54,7 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log("Rolling for enemy spawn grid");
         int roll = DiceRoll.Instance.GenerateRoll();
-        int[] enemySpawnGrids = { 16, 20, 21, 22, 23, 19 };
+        int[] enemySpawnGrids = {16, 20, 21, 22, 23, 19};
         MapGrid spawnGrid = grids[enemySpawnGrids[roll-1]];
         counter = 0;
         while (spawnGrid.unitsOnGrid.Count > 0 && counter < countlimit)
@@ -129,22 +129,46 @@ public class GridManager : MonoBehaviour
         selectedGrid = grid;
         if (selectedGrid == null) return; // if input grid is null
         selectedGrid.ToggleOverlay(true);
+
+        string gridInfo = "";
+        string invInfo = "";
         if(grid.unitsOnGrid.Count == 0)
         {
+            if(grid.isTownGrid)
+            {
+                gridInfo = "Peaceful town: \nDo not let the monsters reach both towns";
+            }
+            else if(grid.isEnemySpawnGrid)
+            {
+                gridInfo = "Monster cave: \nMonsters spawns here base on dice roll";
+            }
+            else
+            {
+                gridInfo = "Nothing here";
+
+            }
             UIManager.Instance.ShowMouseSelectionText("Beautiful Empty Grid");
-            UIManager.Instance.ShowMouseSelectionExtraInfo("Nothing here");
+            UIManager.Instance.ShowMouseSelectionExtraInfo(gridInfo);
+            UIManager.Instance.ShowMouseSelectionInv(invInfo);
+
         }
         else
         {
             string names = "";
             string extraInfo = "";
+            string inventory = "";
             foreach(BaseUnit unit in grid.unitsOnGrid)
             {
                 names = names + unit.unitName + "\n";
                 extraInfo = extraInfo + unit.extraText + "\n";
+                if(unit.unitName == "Trapper")
+                {
+                    inventory = "Traps available: " + unit.inventory;
+                }
             }
             UIManager.Instance.ShowMouseSelectionText(names);
             UIManager.Instance.ShowMouseSelectionExtraInfo(extraInfo);
+            UIManager.Instance.ShowMouseSelectionInv(inventory);
 
         }
     }

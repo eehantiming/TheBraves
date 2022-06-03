@@ -11,6 +11,8 @@ public class GiantEnemy : EnemyUnit
     {
         size = 3;
         extraText = "Giant Enemy Extra Info";
+        inventory = "";
+
     }
 
 

@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         //check if previous activeUnit was defined - if yes then destroy the previous ActiveMarker
-        if(UnitManager.Instance.activeUnit)
+        if(UnitManager.Instance.activeUnit && UnitManager.Instance.activeUnit.transform.childCount > 0)
         {
             Destroy(UnitManager.Instance.activeUnit.transform.GetChild(0).gameObject);
         }
