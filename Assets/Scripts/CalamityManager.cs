@@ -28,7 +28,7 @@ public class CalamityManager : MonoBehaviour
             calamityCounter++;
             UIManager.Instance.ShowCalamityCount(calamityCounter);
             Debug.Log($"Calamity: {calamityCounter}");
-            if(calamityCounter < 16)
+            if(calamityCounter < 15)
             {
                 highlight.transform.position = calamityGrids[calamityCounter-1].transform.position;
 
@@ -45,7 +45,7 @@ public class CalamityManager : MonoBehaviour
                 yield return StartCoroutine(UnitManager.Instance.SpawnGiantEnemy());
                 //yield return StartCoroutine(UnitManager.Instance.SpawnHeart()); // DEBUG
             }
-            else if(calamityCounter == 16) // Fire Breath
+            else if(calamityCounter == 15) // Fire Breath
             {
                 UIManager.Instance.ShowGameMessageText("Giant Monster Fire Breath!");
                 //TODO: add animation for this
