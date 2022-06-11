@@ -49,6 +49,26 @@ public class UnitManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Spawns enemies on specified spawn grids for testing and debug purposes.
+    /// </summary>
+    public IEnumerator SpawnTestEnemy()
+    {
+        // small enemy
+        //yield return new WaitForSeconds(1);
+        //smallEnemyCount++;
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8], $"Small Monster 2")); // DEBUG
+        // Big enemy
+        yield return new WaitForSeconds(1);
+        //bigEnemy = (BigEnemy)SpawnUnit(bigEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid()); // TODO: add spawn animation
+        //bigEnemy = (BigEnemy)SpawnUnit(bigEnemyPrefab, GridManager.Instance.IndexToGrid[8]); // TODO: add spawn animation
+        giantEnemy = (GiantEnemy)SpawnUnit(giantEnemyPrefab, GridManager.Instance.IndexToGrid[8], "Godzilla"); // TODO: add spawn animation
+
+        //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
+        GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
+    }
+
+    /// <summary>
     /// Spawns a small enemy on an unoccupied enemy spawn grid and add it to the small enemies data structure.
     /// </summary>
     public IEnumerator SpawnSmallEnemy()

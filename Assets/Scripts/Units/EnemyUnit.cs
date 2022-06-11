@@ -122,7 +122,7 @@ public class EnemyUnit : BaseUnit
     }
 
     /// <summary>
-    /// Function to make enemy baited and move towards bait source on its next turn.
+    /// Function to make enemy baited which causes it to move towards the bait source on its next turn.
     /// </summary>
     /// <param name="baitSource">The MapGrid that the baited enemy will move towards.</param>
     public void TakeBait(MapGrid baitSource)
@@ -130,13 +130,24 @@ public class EnemyUnit : BaseUnit
         isBaited = true;
         baitedTo = baitSource;
 
-        LineRenderer lr = GetComponent<LineRenderer>();
-        lr.SetPosition(0, currentGrid.transform.position);
-        lr.SetPosition(1, baitSource.transform.position);
-
-        GetComponent<SpriteRenderer>().color = new Color(0.7294118f, 0.4941176f, 0.7490196f);
+        UpdateBaitLine(currentGrid.transform.position);
         UIManager.Instance.ShowGameMessageText($"{unitName} is baited!");
         Debug.Log($"{unitName} is baited to {baitedTo.IndexToVect()}");
+    }
+
+    /// <summary>
+    /// Function to visually update the line that connects baited monster to bait source (if baited).
+    /// </summary>
+    /// <param name="baitSource">The position which monster is baited to.</param>
+    public void UpdateBaitLine(Vector3 baitSource)
+    {
+        if (isBaited)
+        {
+            LineRenderer lr = GetComponent<LineRenderer>();
+            lr.SetPosition(0, baitSource);
+            lr.SetPosition(1, baitedTo.transform.position);
+            GetComponent<SpriteRenderer>().color = new Color(0.7294118f, 0.4941176f, 0.7490196f);
+        }
     }
 
     public void LoseBait() // TODO: make this protected?

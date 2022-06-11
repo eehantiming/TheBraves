@@ -27,6 +27,9 @@ public class BaseUnit : MonoBehaviour
         while (transform.position != finalPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, finalPos, 3 * Time.deltaTime);
+            // Update bait line continuously
+            if (faction == Faction.Enemy)
+                GetComponent<EnemyUnit>().UpdateBaitLine(transform.position);
             yield return null;
         }
         yield return new WaitForSeconds(0.5f); // pause briefly after moving
