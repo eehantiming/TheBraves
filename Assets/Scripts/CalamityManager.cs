@@ -34,9 +34,11 @@ public class CalamityManager : MonoBehaviour
 
             }
             // Check for calamity events
-            if (calamityCounter % 4 == 0) // Spawn small monster
+            if (calamityCounter % 3 == 0) // Spawn small monster
             {
-                UnitManager.Instance.SpawnSmallEnemy();
+                Debug.Log("Calamity: Spawning SmallMonster");
+                yield return StartCoroutine(UnitManager.Instance.SpawnSmallEnemyCalamity());
+                //UnitManager.Instance.SpawnSmallEnemy();
             }
             if(calamityCounter == 8) // Spawn Giant Monster
             //if(calamityCounter == 2) // DEBUG

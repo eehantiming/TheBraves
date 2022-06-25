@@ -10,8 +10,8 @@ public class SmallEnemy : EnemyUnit
     public void Start()
     {
         size = 1;
-        extraText = "Small Enemy Extra Info";
-        inventory = "";
+        extraText = "Info: Spawn a small monster when Calamity Counter counts a multiple of 3.";
+        inventory = rageLevel + "\nOn Next Rage: A Big Monster Appears! (works once)";
     }
 
     public IEnumerator MoveDown() // DEBUG
@@ -83,5 +83,16 @@ public class SmallEnemy : EnemyUnit
             rageLevel++; // TODO: add visualization
             yield return StartCoroutine(ActivateRage());
         }
+
+        if(rageLevel == 1)
+        {
+            inventory = rageLevel + "\nOn Next Rage: Small Monsters dies instead of increasing Rage when its Rage increases by 1";
+        }
+
+        if(rageLevel == 2)
+        {
+            inventory = rageLevel + " (max)" + "\nSmall Monsters dies instead of increasing Rage when its Rage increases by 1";
+        }
+
     }
 }

@@ -9,8 +9,8 @@ public class Trapper : HeroUnit
     public void Start()
     {
         size = 0;
-        extraText = "Skill: Builds traps that can stun monsters walking into it for 1 turn";
-        inventory = numOfTrapsLeft + "";
+        extraText = "Skill: Builds Trap - Place a trap on the current space. (Max of 2 traps on the field)";
+        inventory = numOfTrapsLeft + "\nMonster moving into a trap loses its next turn and increases its rage by 1";
     }
 
     public int NumOfTrapsLeft
@@ -52,7 +52,7 @@ public class Trapper : HeroUnit
         }
         currentGrid.AddTrapToGrid();
         NumOfTrapsLeft--;
-        inventory = numOfTrapsLeft + "";
+        inventory = numOfTrapsLeft + "\nMonster moving into a trap loses its next turn and increases its rage by 1";
         yield return new WaitForSeconds(1);
         EndTurn();
     }

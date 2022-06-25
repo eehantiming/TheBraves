@@ -10,8 +10,8 @@ public class GiantEnemy : EnemyUnit
     public void Start()
     {
         size = 3;
-        extraText = "Giant Enemy Extra Info";
-        inventory = "";
+        extraText = "Info: Defeated by players reaching the Monster's heart. \nMoves towards the Nearest Town when Rage is 0.";
+        inventory = rageLevel + "\nOn Next Rage: Monster's Heart Appears! (works once) and Giant Monster moves twice on its turn";
 
     }
 
@@ -84,6 +84,17 @@ public class GiantEnemy : EnemyUnit
             movesTwice = 0;
             CalamityManager.Instance.SpeedUp();
         }
+
+        if(rageLevel == 1)
+        {
+            inventory = rageLevel + "\nOn Next Rage: Calamity Counter increases by 1 extra count";
+        }
+
+        if(rageLevel == 2)
+        {
+            inventory = rageLevel + " (max)" + "\nCalamity Counter increases by 1 extra count";
+        }
+ 
         yield break;
     }
 }

@@ -7,7 +7,7 @@ public class Magician : HeroUnit
     public void Start()
     {
         size = 0;
-        extraText = "Skill: Teleports to a grid 2 spaces away";
+        extraText = "Skill: Teleport - Move 2 spaces in a direction";
         inventory = "";
 
     }

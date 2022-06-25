@@ -148,6 +148,17 @@ public class UnitManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameManager.GameState.SwordsmanPhase);
     }
 
+    public IEnumerator SpawnSmallEnemyCalamity()
+    {
+        UIManager.Instance.ShowGameMessageText("Small Monster Appears!");
+        yield return new WaitForSeconds(1);
+        smallEnemyCount++;
+        smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.GetEnemySpawnGrid(), $"Small Monster {smallEnemyCount}")); // TODO: add spawn animation
+        //smallEnemies.Add((SmallEnemy)SpawnUnit(smallEnemyPrefab, GridManager.Instance.IndexToGrid[8], $"Small Monster 2")); // DEBUG
+        //GameManager.Instance.ChangeState(GameManager.GameState.EnemyPhase); // DEBUG
+        //GameManager.Instance.ChangeState(GameManager.GameState.SetupSwordsman);
+    }
+
     public IEnumerator SpawnBigEnemy()
     {
         UIManager.Instance.ShowGameMessageText("Big Monster Appears!");
@@ -241,6 +252,10 @@ public class UnitManager : MonoBehaviour
                 SetActiveUnit(smallEnemy);
                 yield return StartCoroutine(smallEnemy.DecideMovement());
                 //yield return StartCoroutine(smallEnemy.MoveDown()); // DEBUG
+                
+                //remove activeUnit marker after each smallEnemy has moved
+                Destroy(UnitManager.Instance.activeUnit.transform.GetChild(0).gameObject);
+
             }
             else
             {

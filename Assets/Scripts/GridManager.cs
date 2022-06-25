@@ -165,6 +165,10 @@ public class GridManager : MonoBehaviour
                 {
                     inventory = "Traps available: " + unit.inventory;
                 }
+                if(unit.faction == Faction.Enemy)
+                {
+                    inventory = "Current Rage: " + unit.inventory;
+                }
             }
             UIManager.Instance.ShowMouseSelectionText(names);
             UIManager.Instance.ShowMouseSelectionExtraInfo(extraInfo);

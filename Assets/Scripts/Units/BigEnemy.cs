@@ -10,8 +10,8 @@ public class BigEnemy : EnemyUnit
     public void Start()
     {
         size = 2;
-        extraText = "Big Enemy Extra Info";
-        inventory = "";
+        extraText = "Info: Moves twice on its turn";
+        inventory = rageLevel + "\nOn Next Rage: Move towards the Nearest Player unless Baited";
 
 
     }
@@ -73,6 +73,17 @@ public class BigEnemy : EnemyUnit
             moveTowardsPlayer = false;
             moveTowardsSpawnPoint = true;
         }
+        if(rageLevel == 1)
+        {
+            inventory = rageLevel + "\nOn Next Rage: Move towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
+        }
+
+        if(rageLevel == 2)
+        {
+            inventory = rageLevel + " (max)" + "\nMove towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
+        }
+
+        
         yield break;
     }
 }
