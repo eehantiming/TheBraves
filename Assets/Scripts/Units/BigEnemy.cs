@@ -11,7 +11,7 @@ public class BigEnemy : EnemyUnit
     {
         size = 2;
         extraText = "Info: Moves twice on its turn";
-        inventory = rageLevel + "\nOn Next Rage: Move towards the Nearest Player unless Baited";
+        inventory = rageLevel + "\nNo Effect\n\nOn Next Rage: Move towards the Nearest Player unless Baited";
 
 
     }
@@ -76,12 +76,12 @@ public class BigEnemy : EnemyUnit
         }
         if(rageLevel == 1)
         {
-            inventory = rageLevel + "\nOn Next Rage: Move towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
+            inventory = rageLevel + "\nMove towards the Nearest Player unless Baited\nOn Next Rage: Move towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
         }
 
         if(rageLevel == 2)
         {
-            inventory = rageLevel + " (max)" + "\nMove towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
+            inventory = rageLevel + " (max)" + "\n\nMove towards Monster Spawn point. Rage returns to 0 after reaching a Monster Spawn Point";
         }
 
         

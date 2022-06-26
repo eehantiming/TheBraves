@@ -10,8 +10,8 @@ public class GiantEnemy : EnemyUnit
     public void Start()
     {
         size = 3;
-        extraText = "Info: Defeated by players reaching the Monster's heart. \nMoves towards the Nearest Town when Rage is 0.";
-        inventory = rageLevel + "\nOn Next Rage: Monster's Heart Appears! (works once) and Giant Monster moves twice on its turn";
+        extraText = "Info: Defeated by players reaching the Monster's heart.";
+        inventory = rageLevel + "\nMove towards the Nearest Town\n\nOn Next Rage: Monster's Heart Appears! (works once) and Giant Monster moves twice on its turn";
 
     }
 
@@ -87,7 +87,7 @@ public class GiantEnemy : EnemyUnit
 
         if(rageLevel == 1)
         {
-            inventory = rageLevel + "\nOn Next Rage: Calamity Counter increases by 1 extra count";
+            inventory = rageLevel + "\nMonster's Heart Appears! (works once) and Giant Monster moves twice on its turn\n\nOn Next Rage: Calamity Counter increases by 1 extra count";
         }
 
         if(rageLevel == 2)

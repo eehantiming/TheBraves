@@ -100,7 +100,7 @@ public class UIManager : MonoBehaviour
     public void ShowCalamityCount(int currentCount)
     {
         // TODO: animation to move counter
-        calamityCounterText.text = $"Calamity: {currentCount}";
+        calamityCounterText.text = $"Calamity Counter: {currentCount}";
     }
 
     /// <summary>

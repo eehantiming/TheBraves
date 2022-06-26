@@ -300,10 +300,20 @@ public class UnitManager : MonoBehaviour
         {
             // Sets a flag to remove small enemy from the list later
             unit.GetComponent<SmallEnemy>().isAlive = false;
+            // remove the destroyed Monster from the mapgrid as well
+            var current = unit.currentGrid;
+            EnemyUnit targetUnit = unit as EnemyUnit;
+            current.enemiesOnGrid.Remove(targetUnit);
+            current.unitsOnGrid.Remove(targetUnit);
         }
         else if(unit.GetComponent<BigEnemy>())
         {
             bigEnemy = null;
+            //remove the destroyed Monster from the mapgrid
+            var current = unit.currentGrid;
+            EnemyUnit targetUnit = unit as EnemyUnit;
+            current.enemiesOnGrid.Remove(targetUnit);
+            current.unitsOnGrid.Remove(targetUnit);
         }
         else if (unit.GetComponent<BigEnemy>())
         {
