@@ -44,6 +44,7 @@ public class BigEnemy : EnemyUnit
                 if(this.currentGrid.isEnemySpawnGrid)
                 {
                     rageLevel = 0;
+                    inventory = rageLevel + "\nOn Next Rage: Move towards the Nearest Player unless Baited";
                     moveTowardsPlayer = false;
                     moveTowardsSpawnPoint = false;
                 }

@@ -191,5 +191,7 @@ public class MapGrid : MonoBehaviour
         Destroy(trap);
         isHoldingTrap = false;
         UnitManager.Instance.trapper.NumOfTrapsLeft++;
+        UnitManager.Instance.trapper.inventory = UnitManager.Instance.trapper.NumOfTrapsLeft + "\nMonster moving into a trap loses its next turn and increases its rage by 1";
+
     }
 }
