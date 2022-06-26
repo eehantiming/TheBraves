@@ -7478,6 +7478,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
+      propertyPath: isHoldingHeart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271494204168817726, guid: 4d3aeb316d570d44aa69e0ef2862fecb, type: 3}
       propertyPath: isEnemySpawnGrid
       value: 1
       objectReference: {fileID: 0}

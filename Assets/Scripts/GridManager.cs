@@ -138,6 +138,10 @@ public class GridManager : MonoBehaviour
             {
                 gridInfo = "Peaceful town: \nDo not let the monsters reach both towns";
             }
+            else if(grid.isHoldingHeart)
+            {
+                gridInfo = "Monster's Heart: \nReach here to defeat the Giant Monster!!\nMonster cave: \nMonsters spawns here base on dice roll";
+            }
             else if(grid.isEnemySpawnGrid)
             {
                 gridInfo = "Monster cave: \nMonsters spawns here base on dice roll";
